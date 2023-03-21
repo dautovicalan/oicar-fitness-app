@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8pObo3DSMIJNvo3EIdkrmySeZoi2SI8gQWk7LSZ/g4Yec8yzozoAN1sPlMKL5E3yvnEV8ybFuBsrmUKaiU+V3A==",
+  "dgSpecHash": "j953hNT2TTOUZcXCLZbkEBv7y/EPFC0VTbEBx/HPnGsza2FnEL5Rw7YhjSUl9h+Fxln1zAapmPxny1EgJy8oRA==",
   "success": true,
-  "projectFilePath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-FitPal\\oicar-ApiServices\\oicar-ApiServices.csproj",
+  "projectFilePath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.3\\microsoft.aspnetcore.openapi.7.0.3.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",

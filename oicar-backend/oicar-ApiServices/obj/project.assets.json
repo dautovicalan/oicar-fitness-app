@@ -465,11 +465,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-FitPal\\oicar-ApiServices\\oicar-ApiServices.csproj",
+      "projectUniqueName": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj",
       "projectName": "oicar-ApiServices",
-      "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-FitPal\\oicar-ApiServices\\oicar-ApiServices.csproj",
+      "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-FitPal\\oicar-ApiServices\\obj\\",
+      "outputPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
