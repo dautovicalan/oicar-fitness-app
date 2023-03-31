@@ -7,43 +7,18 @@ import {
   TextInput,
 } from "react-native-paper";
 import { InitialView } from "./views/InitialView";
+import LoginView from "./views/LoginView";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import RegisterView from "./views/RegisterView";
+import AuthStack from "./navigation/AuthStack";
 
 export default function App() {
-  const [email, setEmail] = useState("");
-
   return (
-    <PaperProvider>
-      <View style={styles.container}>
-        <TextInput
-          label={"Email"}
-          value={email}
-          style={{ width: "90%" }}
-          onChangeText={(e) => {
-            setEmail(e);
-          }}
-        />
-        <Button
-          raised
-          theme={{ roundness: 3 }}
-          onPress={() => {
-            console.log(email);
-          }}
-        >
-          Test
-        </Button>
-        <Text>Open up App.js to start working on your app!</Text>
-        <StatusBar style="auto" />
-        <InitialView />
-      </View>
-    </PaperProvider>
+    <NavigationContainer>
+      <PaperProvider>
+        <AuthStack />
+      </PaperProvider>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
