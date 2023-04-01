@@ -1,9 +1,10 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj": {}
+    "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/oicar-ApiServices.csproj": {}
   },
   "projects": {
+<<<<<<< Updated upstream
     "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -12,16 +13,24 @@
         "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
         "outputPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\obj\\",
+=======
+    "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/oicar-ApiServices.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/oicar-ApiServices.csproj",
+        "projectName": "oicar-ApiServices",
+        "projectPath": "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/oicar-ApiServices.csproj",
+        "packagesPath": "/Users/alandautovic/.nuget/packages/",
+        "outputPath": "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/obj/",
+>>>>>>> Stashed changes
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/alandautovic/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -227,6 +236,7 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< Updated upstream
           "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
@@ -290,6 +300,9 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+>>>>>>> Stashed changes
         }
       }
     }
