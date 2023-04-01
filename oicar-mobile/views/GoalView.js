@@ -1,8 +1,13 @@
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, Alert } from "react-native";
 import React from "react";
 import { Text } from "react-native-paper";
+import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 
 export default function GoalView({ navigation }) {
+  const { currentNewUser } = useRegistrationProcess();
+
+  Alert.alert(currentNewUser);
+
   return (
     <View style={style.container}>
       <Pressable onPress={() => navigation.navigate("Workouts")}>

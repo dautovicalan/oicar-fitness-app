@@ -9,33 +9,54 @@ import WeightPicker from "../components/WeightPicker";
 export default function AboutYouView({ navigation }) {
   const { setAboutYouInfo } = useRegistrationProcess();
 
-  const [birthday, setBirthday] = useState();
+  const [birthday, setBirthday] = useState(new Date());
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
 
+  const handleDateChange = (date) => {
+    setBirthday(date);
+  };
+
+  const handleHeightChange = (height) => {
+    setHeight(height);
+  };
+
+  const handleWeightChange = (weight) => {
+    setWeight(weight);
+  };
+
   const handleClick = () => {
     setAboutYouInfo({
-      birthday,
+      birthday: new Date(),
       height,
       weight,
     });
 
-    navigation.navigate("Goal");
+    return navigation.navigate("Goal");
   };
 
   return (
     <SafeAreaView style={style.container}>
       <View style={style.row}>
         <Text>Birthday</Text>
-        <BirthdayDatePicker />
+        <BirthdayDatePicker
+          selectedDate={birthday}
+          onDateChange={handleDateChange}
+        />
       </View>
       <View style={style.row}>
         <Text>Height</Text>
-        <HeightPicker />
+        <HeightPicker
+          selectedHeight={height}
+          onHeightChange={handleHeightChange}
+        />
       </View>
       <View style={style.row}>
         <Text>Weight</Text>
-        <WeightPicker />
+        <WeightPicker
+          selectedWeight={weight}
+          onWeightChange={handleWeightChange}
+        />
       </View>
       <Button mode="contained" style={{ width: "80%" }} onPress={handleClick}>
         Next
