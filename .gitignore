@@ -22,6 +22,8 @@ dist-ssr
 *.njsproj
 *.sw?
 *.vs
+*.cache
+*.dll
 package-lock.json
 
 # From .NET Core 3.0 you can use the command: `dotnet new gitignore` to generate a customizable .gitignore file
@@ -51,7 +53,9 @@ x86/
 build/
 bld/
 bin/
+bin/Debug/net7.0
 obj/
+obj/Debug/net7.0
 msbuild.log
 msbuild.err
 msbuild.wrn
