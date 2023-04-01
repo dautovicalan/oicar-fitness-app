@@ -4233,11 +4233,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj": {
-              "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj"
+            "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/Domain/Domain.csproj": {
+              "projectPath": "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/Domain/Domain.csproj"
             },
-            "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Repository\\Repository.csproj": {
-              "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Repository\\Repository.csproj"
+            "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/Repository/Repository.csproj": {
+              "projectPath": "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/Repository/Repository.csproj"
             }
           }
         }
@@ -4304,11 +4304,7 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< Updated upstream
-        "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
-=======
         "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
->>>>>>> Stashed changes
       }
     }
   }
