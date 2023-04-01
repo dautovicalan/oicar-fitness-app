@@ -6,7 +6,7 @@ import GoalView from "../views/GoalView";
 import UserInformationView from "../views/UserInformationView";
 import WorkoutPerWeekSelectionView from "../views/WorkoutPerWeekSelectionView";
 import NewsletterView from "../views/NewsletterView";
-import NavigationBottomBar from "./NavigationBottomBar";
+import MainAppStack from "./MainAppStack";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +24,7 @@ export default function RegistrationProcessStack() {
       <Stack.Screen name="Goal" component={GoalView} />
       <Stack.Screen name="Workouts" component={WorkoutPerWeekSelectionView} />
       <Stack.Screen name="Newsletter" component={NewsletterView} />
-      <Stack.Screen name="MainApp" component={NavigationBottomBar} />
+      <Stack.Screen name="MainApp" component={MainAppStack} />
     </Stack.Navigator>
   );
 }
