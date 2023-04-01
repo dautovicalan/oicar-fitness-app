@@ -13,8 +13,8 @@ export default function AboutYouView({ navigation }) {
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
 
-  const handleDateChange = (date) => {
-    setBirthday(date);
+  const handleDateChange = (newDate) => {
+    setBirthday(newDate);
   };
 
   const handleHeightChange = (height) => {
@@ -27,7 +27,7 @@ export default function AboutYouView({ navigation }) {
 
   const handleClick = () => {
     setAboutYouInfo({
-      birthday: new Date(),
+      birthday: birthday,
       height: height,
       weight: weight,
     });
@@ -40,7 +40,7 @@ export default function AboutYouView({ navigation }) {
       <View style={style.row}>
         <Text>Birthday</Text>
         <BirthdayDatePicker
-          selectedDate={birthday}
+          userBirthday={birthday}
           onDateChange={handleDateChange}
         />
       </View>

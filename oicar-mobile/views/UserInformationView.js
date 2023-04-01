@@ -1,4 +1,13 @@
-import { View, SafeAreaView, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  Alert,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
+} from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { formValid } from "../utils/FormValidatonUtils";
@@ -27,52 +36,59 @@ export default function UserInformationView({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={style.container}>
-      <Text variant="displaySmall">Tell Us About You</Text>
-      <View style={style.formContainer}>
-        <TextInput
-          label={"Name"}
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-        <TextInput
-          label={"Surname"}
-          value={surname}
-          onChangeText={(text) => setSurname(text)}
-        />
-        <TextInput
-          label={"E-Mail"}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-        <TextInput
-          label={"Password"}
-          value={password}
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-        />
-        <TextInput
-          label={"Repeat Password"}
-          value={passwordRepeat}
-          secureTextEntry={true}
-          onChangeText={(text) => setPasswordRepeat(text)}
-        />
-        <Button mode="contained" onPress={handleClick}>
-          Next
-        </Button>
-      </View>
-    </SafeAreaView>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={style.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={style.innerContainer}>
+          <Text variant="displaySmall" style={{ textAlign: "center" }}>
+            Tell Us About You
+          </Text>
+          <TextInput
+            label={"Name"}
+            value={name}
+            onChangeText={(text) => setName(text)}
+          />
+          <TextInput
+            label={"Surname"}
+            value={surname}
+            onChangeText={(text) => setSurname(text)}
+          />
+          <TextInput
+            label={"E-Mail"}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+          />
+          <TextInput
+            label={"Password"}
+            value={password}
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
+          />
+          <TextInput
+            label={"Repeat Password"}
+            value={passwordRepeat}
+            secureTextEntry={true}
+            onChangeText={(text) => setPasswordRepeat(text)}
+          />
+          <Button mode="contained" onPress={handleClick}>
+            Next
+          </Button>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  formContainer: {
-    width: "80%",
-    gap: 20,
+  innerContainer: {
+    padding: 20,
+    flex: 1,
+    justifyContent: "flex-start",
+    gap: 10,
   },
 });
