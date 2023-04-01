@@ -1,26 +1,42 @@
 import { View, StyleSheet, Pressable } from "react-native";
 import React, { useState } from "react";
-import { Text } from "react-native-paper";
+import { Text, Button } from "react-native-paper";
+import { workoutsPerWeek } from "../data/FitnessData";
 
-export default function WorkoutPerWeekSelectionView() {
-  const handleClick = () => {};
+export default function WorkoutPerWeekSelectionView({ navigation }) {
+  const [selectedWorkout, setSelectedWorkout] = useState();
+
+  const handleClick = () => {
+    if (selectedWorkout) {
+      return;
+    }
+
+    return navigation.navigate();
+  };
 
   return (
     <View style={style.container}>
-      <Pressable onPress={() => console.log("Mario je gay")}>
-        <Text variant="displayMedium" style={style.textBorder}>
-          2 - 3
-        </Text>
-      </Pressable>
-      <Text variant="displayMedium" style={style.textBorder}>
-        3 - 4
-      </Text>
-      <Text variant="displayMedium" style={style.textBorder}>
-        4 - 5
-      </Text>
-      <Text variant="displayMedium" style={style.textBorder}>
-        5+
-      </Text>
+      {workoutsPerWeek.map((workout) => {
+        return (
+          <Pressable
+            key={workout.id}
+            onPress={() => setSelectedWorkout(workout.id)}
+          >
+            <Text
+              variant="displayMedium"
+              style={Array.of(
+                style.textBorder,
+                workout.id === selectedWorkout ? style.selectedBorder : null
+              )}
+            >
+              {workout.text}
+            </Text>
+          </Pressable>
+        );
+      })}
+      <Button mode="contained" style={{ width: "80%" }} onPress={handleClick}>
+        Next
+      </Button>
     </View>
   );
 }
@@ -32,9 +48,12 @@ const style = StyleSheet.create({
     alignItems: "center",
   },
   textBorder: {
-    borderColor: "red",
+    borderColor: "grey",
     borderWidth: 2,
     borderRadius: 20,
     padding: 5,
+  },
+  selectedBorder: {
+    borderColor: "red",
   },
 });

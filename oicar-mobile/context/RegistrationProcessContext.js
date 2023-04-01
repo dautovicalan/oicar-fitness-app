@@ -41,8 +41,8 @@ export const RegistrationProcessContextProvider = ({ children }) => {
       return {
         ...prevVal,
         birthday: aboutYouInfo.birthday,
-        height: Number.parseInt(aboutYouInfo.height),
-        weight: Number.parseInt(aboutYouInfo.weight),
+        height: aboutYouInfo.height,
+        weight: aboutYouInfo.weight,
       };
     });
   };
@@ -50,7 +50,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     setCurrentNewUser((prevVal) => {
       return {
         ...prevVal,
-        goal: goalInfo.goal,
+        goal: goalInfo,
       };
     });
   };
@@ -58,7 +58,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     setCurrentNewUser((prevVal) => {
       return {
         ...prevVal,
-        workoutsNumber: workoutsInfo.workoutsNumber,
+        workoutsNumber: workoutsInfo,
       };
     });
   };

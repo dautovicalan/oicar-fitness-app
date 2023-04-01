@@ -33,8 +33,6 @@ export default function HeightPicker({ selectedHeight, onHeightChange }) {
     setIsFeet((prevVal) => !prevVal);
   };
 
-  console.log(isFeet);
-
   return (
     <View style={{ width: "50%" }}>
       <TabSelector tabs={Array.of("CM", "FEET")} onChange={handleChange} />

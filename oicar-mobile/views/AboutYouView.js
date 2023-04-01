@@ -28,8 +28,8 @@ export default function AboutYouView({ navigation }) {
   const handleClick = () => {
     setAboutYouInfo({
       birthday: new Date(),
-      height,
-      weight,
+      height: height,
+      weight: weight,
     });
 
     return navigation.navigate("Goal");

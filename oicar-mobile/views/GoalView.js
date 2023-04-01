@@ -1,24 +1,42 @@
 import { View, StyleSheet, Pressable, Alert } from "react-native";
-import React from "react";
-import { Text } from "react-native-paper";
+import React, { useState } from "react";
+import { Text, Button } from "react-native-paper";
 import { useRegistrationProcess } from "../context/RegistrationProcessContext";
+import { fitnessGoals } from "../data/FitnessData";
 
 export default function GoalView({ navigation }) {
-  const { currentNewUser } = useRegistrationProcess();
+  const { currentNewUser, setGoal } = useRegistrationProcess();
+  const [selectedGoal, setSelectedGoal] = useState();
 
-  Alert.alert(currentNewUser);
+  const handleClick = () => {
+    if (!selectedGoal) {
+      return;
+    }
+    setGoal(selectedGoal);
+
+    return navigation.navigate("Workouts");
+  };
 
   return (
     <View style={style.container}>
-      <Pressable onPress={() => navigation.navigate("Workouts")}>
-        <Text variant="displayMedium" style={style.textBorder}>
-          Be more active
-        </Text>
-      </Pressable>
-      <Text variant="displayMedium">Lose weight</Text>
-      <Text variant="displayMedium">Stay toned</Text>
-      <Text variant="displayMedium">Build muscle</Text>
-      <Text variant="displayMedium">Reduce stress</Text>
+      {fitnessGoals.map((goal) => {
+        return (
+          <Pressable key={goal.id} onPress={() => setSelectedGoal(goal.id)}>
+            <Text
+              variant="displayMedium"
+              style={Array.of(
+                style.textBorder,
+                goal.id === selectedGoal ? style.selectedBorder : null
+              )}
+            >
+              {goal.text}
+            </Text>
+          </Pressable>
+        );
+      })}
+      <Button mode="contained" style={{ width: "80%" }} onPress={handleClick}>
+        Next
+      </Button>
     </View>
   );
 }
@@ -30,9 +48,12 @@ const style = StyleSheet.create({
     alignItems: "center",
   },
   textBorder: {
-    borderColor: "red",
+    borderColor: "grey",
     borderWidth: 2,
     borderRadius: 20,
     padding: 5,
+  },
+  selectedBorder: {
+    borderColor: "red",
   },
 });
