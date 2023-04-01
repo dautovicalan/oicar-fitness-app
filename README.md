@@ -4,19 +4,19 @@ This is a fitness tracking application developed using React, React Native, and 
 
 ## Features
 
-* User authentication and authorization
-* Create, view, and delete workouts
-* View workout history
-* Track progress over time
-* Set fitness goals and monitor progress towards those goals
-* Many more
+- User authentication and authorization
+- Create, view, and delete workouts
+- View workout history
+- Track progress over time
+- Set fitness goals and monitor progress towards those goals
+- Many more
 
 ## Technologies Used
 
-* React
-* React Native
-* ASP.NET Web API Core
-* Microsoft SQL Server
+- React
+- React Native
+- ASP.NET Web API Core
+- Microsoft SQL Server
 
 ## Installation
 
@@ -53,10 +53,11 @@ The API documentation can be found at <base-url>/swagger. This documentation pro
 ## Contributing
 
 Contributors for this project are
-  1. Alan Dautovic
-  2. Mario Poljakovic
-  3. Karlo Hruskovec
-  4. Karlo Marosini
+
+1. Alan Dautovic
+2. Mario Poljakovic
+3. Karlo Hruskovec
+4. Karlo Marosini
 
 ## License
 
