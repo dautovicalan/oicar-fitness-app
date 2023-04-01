@@ -1,17 +1,99 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj": {}
+    "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/oicar-ApiServices.csproj": {}
   },
   "projects": {
-    "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj": {
+<<<<<<< Updated upstream
+    "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj",
-        "projectName": "oicar-ApiServices",
-        "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj",
+        "projectUniqueName": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\obj\\",
+        "outputPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\obj\\",
+=======
+    "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/oicar-ApiServices.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/oicar-ApiServices.csproj",
+        "projectName": "oicar-ApiServices",
+        "projectPath": "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/oicar-ApiServices.csproj",
+        "packagesPath": "/Users/alandautovic/.nuget/packages/",
+        "outputPath": "/Users/alandautovic/development/uni_projects/oicar-fitness-app/oicar-backend/oicar-ApiServices/obj/",
+>>>>>>> Stashed changes
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/alandautovic/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\FitPal-Models\\FitPal-Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\FitPal-Models\\FitPal-Models.csproj",
+        "projectName": "FitPal-Models",
+        "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\FitPal-Models\\FitPal-Models.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\FitPal-Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,10 +121,96 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj",
+        "projectName": "oicar-ApiServices",
+        "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\oicar-ApiServices.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\oicar-ApiServices\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj"
+              },
+              "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Repository\\Repository.csproj": {
+                "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Repository\\Repository.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -68,7 +236,73 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+<<<<<<< Updated upstream
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Repository\\Repository.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Repository\\Repository.csproj",
+        "projectName": "Repository",
+        "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Repository\\Repository.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Repository\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\Domain\\Domain.csproj"
+              },
+              "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\FitPal-Models\\FitPal-Models.csproj": {
+                "projectPath": "D:\\ALGEBRA\\6. semestar\\OICAR\\oicar-fitness-app\\oicar-backend\\FitPal-Models\\FitPal-Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+>>>>>>> Stashed changes
         }
       }
     }
