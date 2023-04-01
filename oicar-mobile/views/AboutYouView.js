@@ -1,27 +1,43 @@
 import { View, SafeAreaView, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Text } from "react-native-paper";
+import { useRegistrationProcess } from "../context/RegistrationProcessContext";
+import BirthdayDatePicker from "../components/BirthdayDatePicker";
+import HeightPicker from "../components/HeightPicker";
+import WeightPicker from "../components/WeightPicker";
 
 export default function AboutYouView({ navigation }) {
+  const { setAboutYouInfo } = useRegistrationProcess();
+
+  const [birthday, setBirthday] = useState();
+  const [height, setHeight] = useState();
+  const [weight, setWeight] = useState();
+
+  const handleClick = () => {
+    setAboutYouInfo({
+      birthday,
+      height,
+      weight,
+    });
+
+    navigation.navigate("Goal");
+  };
+
   return (
     <SafeAreaView style={style.container}>
       <View style={style.row}>
-        <Text>Your Birthday</Text>
-        <Button mode="contained">Select Date</Button>
+        <Text>Birthday</Text>
+        <BirthdayDatePicker />
       </View>
       <View style={style.row}>
-        <Text>Your Height</Text>
-        <Button mode="contained">Select Date</Button>
+        <Text>Height</Text>
+        <HeightPicker />
       </View>
       <View style={style.row}>
         <Text>Weight</Text>
-        <Button mode="contained">Select Date</Button>
+        <WeightPicker />
       </View>
-      <Button
-        mode="contained"
-        style={{ width: "80%" }}
-        onPress={() => navigation.navigate("Goal")}
-      >
+      <Button mode="contained" style={{ width: "80%" }} onPress={handleClick}>
         Next
       </Button>
     </SafeAreaView>

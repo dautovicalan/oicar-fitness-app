@@ -1,15 +1,22 @@
 import { View, StyleSheet, Alert, SafeAreaView } from "react-native";
 import React, { useState } from "react";
 import { TextInput, Text, Button } from "react-native-paper";
+import { emailValid, formValid } from "../utils/FormValidatonUtils";
 
-export default function LoginView() {
+export default function LoginView({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
-    if (email.trim().length == 0) {
-      return Alert.alert("Email emptry");
+  const handleLogin = () => {
+    if (!formValid(Array.of(email, password)) && !emailValid(email)) {
+      return Alert.alert("Form not valid");
     }
+
+    // call API for login
+
+    // set User Context for a application
+
+    // navigate to home
 
     console.log("login");
   };
@@ -28,7 +35,7 @@ export default function LoginView() {
         <TextInput
           label={"Password"}
           value={password}
-          caretHidden
+          secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
         />
         <Button mode="contained" onPress={handleLogin}>

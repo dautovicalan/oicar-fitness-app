@@ -12,13 +12,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RegisterView from "./views/RegisterView";
 import AuthStack from "./navigation/AuthStack";
+import { RegistrationProcessContextProvider } from "./context/RegistrationProcessContext";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <PaperProvider>
-        <AuthStack />
-      </PaperProvider>
-    </NavigationContainer>
+    <RegistrationProcessContextProvider>
+      <NavigationContainer>
+        <PaperProvider>
+          <AuthStack />
+        </PaperProvider>
+      </NavigationContainer>
+    </RegistrationProcessContextProvider>
   );
 }
