@@ -1,4 +1,4 @@
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, Alert } from "react-native";
 import React, { useState } from "react";
 import { Text, Button } from "react-native-paper";
 import { workoutsPerWeek } from "../data/FitnessData";
@@ -7,11 +7,11 @@ export default function WorkoutPerWeekSelectionView({ navigation }) {
   const [selectedWorkout, setSelectedWorkout] = useState();
 
   const handleClick = () => {
-    if (selectedWorkout) {
-      return;
+    if (!selectedWorkout) {
+      return Alert.alert("Please select workout");
     }
 
-    return navigation.navigate();
+    return navigation.navigate("Newsletter");
   };
 
   return (

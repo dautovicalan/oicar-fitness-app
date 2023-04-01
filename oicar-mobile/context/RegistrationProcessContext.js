@@ -6,6 +6,7 @@ export const RegistrationProcessContext = React.createContext({
   setAboutYouInfo: (aboutYouInfo) => {},
   setGoal: (goalInfo) => {},
   setNumberOfWorkouts: (workoutsInfo) => {},
+  setEnableNewsletter: (enableNewsletter) => {},
 });
 
 export const useRegistrationProcess = () => {
@@ -22,6 +23,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     weight: 0,
     goal: "",
     workoutsNumber: 0,
+    newsletter: true,
   });
 
   const setBasicInfo = (userBasicInfo) => {
@@ -62,6 +64,14 @@ export const RegistrationProcessContextProvider = ({ children }) => {
       };
     });
   };
+  const setEnableNewsletter = (enableNewsletter) => {
+    setCurrentNewUser((prevVal) => {
+      return {
+        ...prevVal,
+        newsletter: enableNewsletter,
+      };
+    });
+  };
 
   const value = {
     currentNewUser,
@@ -69,6 +79,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     setAboutYouInfo,
     setGoal,
     setNumberOfWorkouts,
+    setEnableNewsletter,
   };
 
   return (

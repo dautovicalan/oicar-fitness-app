@@ -18,7 +18,10 @@ export default function LoginView({ navigation }) {
 
     // navigate to home
 
-    console.log("login");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "MainApp" }],
+    });
   };
 
   return (
