@@ -23,9 +23,9 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(UserLoginInput userLogin)
         {
-            if (await _repository.User.CheckLogin(email, password))
+            if (await _repository.User.CheckLogin(userLogin.Email, userLogin.Password))
                 return Ok();
 
             return Forbid();
@@ -44,8 +44,7 @@ namespace oicar_ApiServices.Controllers
             return Ok(user);
         }
 
-        [HttpPut("Register")]
-
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(UserRegisterInput userInput)
         {
             var newUser = await _repository.User.RegisterUser(userInput);
