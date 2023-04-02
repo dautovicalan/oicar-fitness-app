@@ -1,6 +1,6 @@
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import React, { useState } from "react";
-import { Button, Text } from "react-native-paper";
+import { Button, Text, Divider } from "react-native-paper";
 import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 import BirthdayDatePicker from "../components/BirthdayDatePicker";
 import HeightPicker from "../components/HeightPicker";
@@ -37,28 +37,39 @@ export default function AboutYouView({ navigation }) {
 
   return (
     <SafeAreaView style={style.container}>
-      <View style={style.row}>
-        <Text>Birthday</Text>
+      <View style={Array.of(style.row, { gap: 27 })}>
+        <Text variant="headlineSmall" style={style.rowText}>
+          Birthday
+        </Text>
         <BirthdayDatePicker
           userBirthday={birthday}
           onDateChange={handleDateChange}
         />
       </View>
       <View style={style.row}>
-        <Text>Height</Text>
+        <Text variant="headlineSmall" style={style.rowText}>
+          Height
+        </Text>
         <HeightPicker
           selectedHeight={height}
           onHeightChange={handleHeightChange}
         />
       </View>
       <View style={style.row}>
-        <Text>Weight</Text>
+        <Text variant="headlineSmall" style={style.rowText}>
+          Weight
+        </Text>
         <WeightPicker
           selectedWeight={weight}
           onWeightChange={handleWeightChange}
         />
       </View>
-      <Button mode="contained" style={{ width: "80%" }} onPress={handleClick}>
+      <Button
+        mode="contained"
+        style={{ width: "80%" }}
+        onPress={handleClick}
+        icon="rocket-launch"
+      >
         Next
       </Button>
     </SafeAreaView>
@@ -76,6 +87,13 @@ const style = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 20,
+    justifyContent: "space-around",
+    width: "90%",
+    borderColor: "black",
+    borderBottomWidth: 2,
+    padding: 2,
+  },
+  rowText: {
+    fontWeight: "bold",
   },
 });

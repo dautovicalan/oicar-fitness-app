@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, SafeAreaView, Image } from "react-native";
 import { Button, Text } from "react-native-paper";
 
 export const InitialView = ({ navigation }) => {
@@ -13,13 +13,22 @@ export const InitialView = ({ navigation }) => {
 
   return (
     <SafeAreaView style={stlyes.container}>
-      <Text variant="displayLarge" style={{ textAlign: "center" }}>
-        FitPal
-      </Text>
-      <Button mode="contained" onPress={handleGetStartedClick}>
+      <Image
+        source={require("../assets/fitpal.png")}
+        style={{ width: 200, height: 200 }}
+      />
+      <Button
+        mode="contained"
+        onPress={handleGetStartedClick}
+        icon="rocket-launch"
+      >
         Get Started
       </Button>
-      <Button mode="contained" onPress={handleAlreadyHaveAnAccountClick}>
+      <Button
+        mode="contained"
+        onPress={handleAlreadyHaveAnAccountClick}
+        icon="account"
+      >
         I Already Have An Account
       </Button>
     </SafeAreaView>

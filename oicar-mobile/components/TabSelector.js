@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
   },
   tabSelected: {
-    backgroundColor: "red",
+    backgroundColor: "black",
   },
   tabText: {
     color: "#000",

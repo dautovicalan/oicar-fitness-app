@@ -34,7 +34,12 @@ export default function WorkoutPerWeekSelectionView({ navigation }) {
           </Pressable>
         );
       })}
-      <Button mode="contained" style={{ width: "80%" }} onPress={handleClick}>
+      <Button
+        mode="contained"
+        style={{ width: "80%" }}
+        onPress={handleClick}
+        icon="rocket-launch"
+      >
         Next
       </Button>
     </View>

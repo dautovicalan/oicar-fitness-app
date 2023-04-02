@@ -22,14 +22,14 @@ export default function NewsletterView({ navigation }) {
 
   return (
     <View style={style.container}>
-      <Text variant="displayMedium">
-        Stay Motivated With Our Weekly Newsletter
-      </Text>
+      <Text variant="displaySmall">Stay Motivated With Newsletter</Text>
       <Switch
         value={newsletter}
         onChange={() => setNewsletter((prevVal) => !prevVal)}
       />
-      <Button mode="contained">Finish Profile Creation</Button>
+      <Button mode="contained" icon="rocket">
+        Finish Profile Creation
+      </Button>
     </View>
   );
 }

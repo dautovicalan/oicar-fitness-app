@@ -7,6 +7,7 @@ import UserInformationView from "../views/UserInformationView";
 import WorkoutPerWeekSelectionView from "../views/WorkoutPerWeekSelectionView";
 import NewsletterView from "../views/NewsletterView";
 import MainAppStack from "./MainAppStack";
+import CustomBackButton from "../components/CustomBackButton";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,14 +17,53 @@ export default function RegistrationProcessStack() {
       <Stack.Screen
         name="Basic Info"
         component={UserInformationView}
-        options={{
-          title: "Basic Info",
-        }}
+        options={({ navigation, route }) => ({
+          title: "Account Information",
+          headerLeft: (props) => (
+            <CustomBackButton {...props} onPress={() => navigation.goBack()} />
+          ),
+        })}
       />
-      <Stack.Screen name="About You" component={AboutYouView} />
-      <Stack.Screen name="Goal" component={GoalView} />
-      <Stack.Screen name="Workouts" component={WorkoutPerWeekSelectionView} />
-      <Stack.Screen name="Newsletter" component={NewsletterView} />
+      <Stack.Screen
+        name="About You"
+        component={AboutYouView}
+        options={({ navigation, route }) => ({
+          title: "About you",
+          headerLeft: (props) => (
+            <CustomBackButton {...props} onPress={() => navigation.goBack()} />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="Goal"
+        component={GoalView}
+        options={({ navigation, route }) => ({
+          title: "Your goals",
+          headerLeft: (props) => (
+            <CustomBackButton {...props} onPress={() => navigation.goBack()} />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="Workouts"
+        component={WorkoutPerWeekSelectionView}
+        options={({ navigation, route }) => ({
+          title: "Your workouts",
+          headerLeft: (props) => (
+            <CustomBackButton {...props} onPress={() => navigation.goBack()} />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="Newsletter"
+        component={NewsletterView}
+        options={({ navigation, route }) => ({
+          title: "Subscribe To Newsletter",
+          headerLeft: (props) => (
+            <CustomBackButton {...props} onPress={() => navigation.goBack()} />
+          ),
+        })}
+      />
       <Stack.Screen name="MainApp" component={MainAppStack} />
     </Stack.Navigator>
   );

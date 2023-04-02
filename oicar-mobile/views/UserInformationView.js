@@ -9,8 +9,12 @@ import {
   Platform,
 } from "react-native";
 import React, { useState } from "react";
-import { Button, TextInput } from "react-native-paper";
-import { formValid } from "../utils/FormValidatonUtils";
+import { Button, HelperText, TextInput } from "react-native-paper";
+import {
+  emailValid,
+  formValid,
+  isPasswordMatch,
+} from "../utils/FormValidatonUtils";
 import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 import { Text } from "react-native-paper";
 
@@ -42,37 +46,59 @@ export default function UserInformationView({ navigation }) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={style.innerContainer}>
-          <Text variant="displaySmall" style={{ textAlign: "center" }}>
-            Tell Us About You
-          </Text>
-          <TextInput
-            label={"Name"}
-            value={name}
-            onChangeText={(text) => setName(text)}
-          />
-          <TextInput
-            label={"Surname"}
-            value={surname}
-            onChangeText={(text) => setSurname(text)}
-          />
-          <TextInput
-            label={"E-Mail"}
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-          <TextInput
-            label={"Password"}
-            value={password}
-            secureTextEntry={true}
-            onChangeText={(text) => setPassword(text)}
-          />
-          <TextInput
-            label={"Repeat Password"}
-            value={passwordRepeat}
-            secureTextEntry={true}
-            onChangeText={(text) => setPasswordRepeat(text)}
-          />
-          <Button mode="contained" onPress={handleClick}>
+          <View style={style.combinedFields}>
+            <TextInput
+              label={"Name"}
+              value={name}
+              onChangeText={(text) => setName(text)}
+              style={{ width: "45%" }}
+              left={<TextInput.Icon icon="account" />}
+            />
+            <TextInput
+              label={"Surname"}
+              value={surname}
+              onChangeText={(text) => setSurname(text)}
+              style={{ width: "45%" }}
+              left={<TextInput.Icon icon="account" />}
+            />
+          </View>
+
+          <View>
+            <TextInput
+              label={"E-Mail"}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              left={<TextInput.Icon icon="email" />}
+            />
+            <HelperText type="error" visible={!emailValid(email)}>
+              Email address is invalid
+            </HelperText>
+          </View>
+          <View style={{ backgroundColor: "red" }}>
+            <TextInput
+              label={"Password"}
+              value={password}
+              secureTextEntry={true}
+              onChangeText={(text) => setPassword(text)}
+              left={<TextInput.Icon icon="lock" />}
+            />
+          </View>
+          <View>
+            <TextInput
+              label={"Repeat Password"}
+              value={passwordRepeat}
+              secureTextEntry={true}
+              onChangeText={(text) => setPasswordRepeat(text)}
+              left={<TextInput.Icon icon="lock" />}
+            />
+            <HelperText
+              type="error"
+              visible={!isPasswordMatch(password, passwordRepeat)}
+            >
+              Passwords do not match
+            </HelperText>
+          </View>
+          <Button mode="contained" onPress={handleClick} icon="rocket-launch">
             Next
           </Button>
         </View>
@@ -84,11 +110,17 @@ export default function UserInformationView({ navigation }) {
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   innerContainer: {
-    padding: 20,
+    marginTop: 20,
     flex: 1,
     justifyContent: "flex-start",
     gap: 10,
+  },
+  combinedFields: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });

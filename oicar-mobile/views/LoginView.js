@@ -1,4 +1,14 @@
-import { View, StyleSheet, Alert, SafeAreaView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Alert,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
 import { TextInput, Text, Button } from "react-native-paper";
 import { emailValid, formValid } from "../utils/FormValidatonUtils";
@@ -6,6 +16,7 @@ import { emailValid, formValid } from "../utils/FormValidatonUtils";
 export default function LoginView({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const handleLogin = () => {
     if (!formValid(Array.of(email, password)) && !emailValid(email)) {
@@ -25,27 +36,42 @@ export default function LoginView({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.innerContainer}>
-        <Text variant="displayLarge" style={{ textAlign: "center" }}>
-          Login
-        </Text>
-        <TextInput
-          label={"Email"}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-        <TextInput
-          label={"Password"}
-          value={password}
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-        />
-        <Button mode="contained" onPress={handleLogin}>
-          Login
-        </Button>
-      </View>
-    </SafeAreaView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <View style={styles.innerContainer}>
+          <Text variant="displayLarge" style={{ textAlign: "center" }}>
+            Login
+          </Text>
+          <TextInput
+            label={"Email"}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            left={<TextInput.Icon icon="email" />}
+          />
+          <TextInput
+            label={"Password"}
+            value={password}
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
+            left={<TextInput.Icon icon="onepassword" />}
+          />
+          {error && <Text>{error}</Text>}
+          <Button mode="contained" onPress={handleLogin} icon="lock-open">
+            Login
+          </Button>
+          <View>
+            <Text>Or login with...</Text>
+            <View>
+              <Text>Google</Text>
+              <Text>Facebook</Text>
+            </View>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -56,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   innerContainer: {
-    width: "90%",
+    width: "100%",
     gap: 10,
     flexDirection: "column",
     justifyContent: "center",
