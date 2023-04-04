@@ -3,7 +3,6 @@ using Domain.ErrorModel;
 using Domain.Models;
 using FitPal_Models.Dto;
 using FitPal_Models.JsonModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 
@@ -37,16 +36,18 @@ namespace oicar_ApiServices.Controllers
 
             User? user = await _repository.User.GetUser(id);
 
-            if (user == null)
+            if (user is null)
                 return NotFound(new HttpError("Korisnik ne postoji"));
             
-
             return Ok(user);
         }
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserRegisterInput userInput)
         {
+            if (await _repository.User.IsEmailExist(userInput.Email))
+                return BadRequest(new HttpError("Email already exist"));
+
             var newUser = await _repository.User.RegisterUser(userInput);
 
             var newUserDto = _mapper.Map<UserDto>(newUser);
