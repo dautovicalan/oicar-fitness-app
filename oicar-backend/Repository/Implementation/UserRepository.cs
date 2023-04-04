@@ -32,7 +32,9 @@ namespace Repository.Implementation
                 Name = user.Name,
                 Surname = user.Surname,
                 Newsletter = user.Newsletter,
-                RoleId = role.Id
+                RoleId = role.Id,
+                Deleted = false,
+                IsRegister = true
             };
 
             Create(newUser);
