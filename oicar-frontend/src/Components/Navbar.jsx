@@ -13,13 +13,25 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import LandingPage from "./LandingPage";
+import LoginForm from "./LoginForm";
+import RegistrationForm from "./RegistrationForm";
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+
+import { useState } from 'react';
+
+const pages = ['Home', 'Sign In'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [redirectPath, setRedirectPath] = useState('/');
+  
+  // Za sad okej, ako treba samo unhide => true
+  const showBox = false;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -36,7 +48,9 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
+
   return (
+    <>
     <AppBar style={{background: '#2E3B55'}} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -113,19 +127,35 @@ function Navbar() {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+          <Box sx={{ flexGrow: 1,
+             display: { xs: 'none', md: 'flex' }, 
+             justifyContent: 'space-between'
+             }}>
+            
               <Button
-                key={page}
+                key={pages[0]}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                
+                href='/'
               >
-                {page}
+                {pages[0]}
               </Button>
-            ))}
+           
+              <Button 
+                key={pages[1]}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                
+                href='/login'
+              >
+                {pages[1]}
+              </Button>
+            
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
+          <div>
+          {showBox&&(
+          <Box sx={{ flexGrow: 0 }}  >
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -154,9 +184,12 @@ function Navbar() {
               ))}
             </Menu>
           </Box>
+          )}</div>
         </Toolbar>
       </Container>
     </AppBar>
+    </>
+    
   );
 }
 export default Navbar;
