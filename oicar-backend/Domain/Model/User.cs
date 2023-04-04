@@ -24,7 +24,7 @@ public partial class User
     public bool? Deleted { get; set; }
 
     public int? RoleId { get; set; }
-    public string? test { get; set; }
+    public bool IsRegister { get; set; }
 
     public virtual Role? Role { get; set; }
 }
