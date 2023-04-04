@@ -8,5 +8,6 @@ namespace Repository.Contracts
         Task<bool> CheckLogin(string email, string password);
         Task<User?> GetUser(int id);
         Task<User> RegisterUser(UserRegisterInput user);
+        Task<bool> IsEmailExist(string email);
     }
 }

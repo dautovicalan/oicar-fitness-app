@@ -47,6 +47,9 @@ namespace oicar_ApiServices.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserRegisterInput userInput)
         {
+            if (await _repository.User.IsEmailExist(userInput.Email))
+                return BadRequest(new HttpError("Email already exist"));
+
             var newUser = await _repository.User.RegisterUser(userInput);
 
             var newUserDto = _mapper.Map<UserDto>(newUser);
