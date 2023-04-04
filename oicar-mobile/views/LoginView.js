@@ -15,16 +15,27 @@ import { emailValid, formValid } from "../utils/FormValidatonUtils";
 import EmailTextInput from "../components/EmailTextInput";
 import * as Google from "expo-auth-session/providers/google";
 import GoogleLogin from "../components/GoogleLogin";
+import { userValidationSchema } from "../schema/ValidationSchemas";
 
 export default function LoginView({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState(null);
 
   const handleLogin = () => {
-    if (!formValid(Array.of(email, password))) {
-      return Alert.alert("Form not valid");
-    }
+    userValidationSchema
+      .validate({ email, password }, { abortEarly: false })
+      .then(() => {
+        // rest
+        Alert.alert("Success");
+      })
+      .catch((err) => {
+        const tempErrors = {};
+        err.inner.forEach((e) => {
+          tempErrors[e.path] = e.message;
+        });
+        setErrors(tempErrors);
+      });
 
     // call API for login
 
@@ -48,15 +59,21 @@ export default function LoginView({ navigation }) {
           <Text variant="displayLarge" style={{ textAlign: "center" }}>
             Login
           </Text>
-          <EmailTextInput email={email} setEmail={setEmail} />
+          <TextInput
+            label={"Email"}
+            value={email}
+            error={errors?.email}
+            onChangeText={(text) => setEmail(text)}
+            left={<TextInput.Icon icon="email" />}
+          />
           <TextInput
             label={"Password"}
             value={password}
             secureTextEntry={true}
+            error={errors?.password}
             onChangeText={(text) => setPassword(text)}
             left={<TextInput.Icon icon="onepassword" />}
           />
-          {error && <Text>{error}</Text>}
           <Button mode="contained" onPress={handleLogin} icon="lock-open">
             Login
           </Button>

@@ -19,6 +19,7 @@ import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 import { Text } from "react-native-paper";
 import EmailTextInput from "../components/EmailTextInput";
 import GoogleLogin from "../components/GoogleLogin";
+import { userValidationSchema } from "../schema/ValidationSchemas";
 
 export default function UserInformationView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
@@ -29,28 +30,50 @@ export default function UserInformationView({ navigation }) {
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
 
+  const [errors, setErrors] = useState(null);
+
   const handleClick = async () => {
-    if (!formValid(Array.of(name, email, password, passwordRepeat))) {
-      Alert.alert("Please fill form");
-    }
+    userValidationSchema
+      .validate(
+        { name, surname, email, password, passwordRepeat },
+        { abortEarly: false }
+      )
+      .then(() => {
+        // do the rest
+        Alert.alert("Success");
+      })
+      .catch((err) => {
+        const tempErrors = {};
+        err.inner.forEach((e) => {
+          tempErrors[e.path] = e.message;
+        });
+        setErrors(tempErrors);
+      });
 
     // call API
-    try {
-      const response = await fetch(
-        "http://localhost:5280/api/Account/Register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name, surname, email, password }),
-        }
-      );
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   const response = await fetch(
+    //     "http://localhost:5280/api/Account/Register",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ name, surname, email, password }),
+    //     }
+    //   );
+    //   const result = await response.json();
+    //   setBasicInfo({
+    //     name: result.name,
+    //     surname: result.surname,
+    //     email: result.email,
+    //   });
+
+    //   return navigation.navigate("About You");
+    // } catch (error) {
+    //   console.error(error);
+    //   setError(error.message);
+    // }
 
     // setBasicInfo({ name, surname, email, password });
 
@@ -68,32 +91,35 @@ export default function UserInformationView({ navigation }) {
             <TextInput
               label={"Name"}
               value={name}
+              error={errors?.name}
               onChangeText={(text) => setName(text)}
               left={<TextInput.Icon icon="account" />}
             />
-            <HelperText type="error" visible={!formValid(Array.of(name))}>
-              Cannot be empty
-            </HelperText>
           </View>
           <View>
             <TextInput
               label={"Surname"}
               value={surname}
+              error={errors?.surname}
               onChangeText={(text) => setSurname(text)}
               left={<TextInput.Icon icon="account" />}
             />
-            <HelperText type="error" visible={!formValid(Array.of(surname))}>
-              Cannot be empty
-            </HelperText>
           </View>
           <View>
-            <EmailTextInput email={email} setEmail={setEmail} />
+            <TextInput
+              label={"Email"}
+              value={email}
+              error={errors?.email}
+              onChangeText={(text) => setEmail(text)}
+              left={<TextInput.Icon icon="email" />}
+            />
           </View>
           <View>
             <TextInput
               label={"Password"}
               value={password}
               secureTextEntry={true}
+              error={errors?.password}
               onChangeText={(text) => setPassword(text)}
               left={<TextInput.Icon icon="lock" />}
             />
@@ -103,15 +129,10 @@ export default function UserInformationView({ navigation }) {
               label={"Repeat Password"}
               value={passwordRepeat}
               secureTextEntry={true}
+              error={errors?.passwordRepeat}
               onChangeText={(text) => setPasswordRepeat(text)}
               left={<TextInput.Icon icon="lock" />}
             />
-            <HelperText
-              type="error"
-              visible={!isPasswordMatch(password, passwordRepeat)}
-            >
-              Passwords do not match
-            </HelperText>
           </View>
           <View style={style.oauthConatiner}>
             <Text variant="titleMedium">Or Register With...</Text>
