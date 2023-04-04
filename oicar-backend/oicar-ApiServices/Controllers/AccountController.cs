@@ -33,7 +33,6 @@ namespace oicar_ApiServices.Controllers
         [HttpGet("GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
-
             User? user = await _repository.User.GetUser(id);
 
             if (user is null)
@@ -49,7 +48,6 @@ namespace oicar_ApiServices.Controllers
                 return BadRequest(new HttpError("Email already exist"));
 
             var newUser = await _repository.User.RegisterUser(userInput);
-
             var newUserDto = _mapper.Map<UserDto>(newUser);
 
             return Ok(newUserDto);

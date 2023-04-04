@@ -14,15 +14,17 @@ namespace Repository
         private readonly RepositoryContext _repositoryContext;
 
         private readonly Lazy<IUserRepository> _userRepository;
+        private readonly Lazy<IUserPreferencesRepository> _userPreferencesRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
+            _userPreferencesRepository = new Lazy<IUserPreferencesRepository>(()=> new UserPreferencesRepository(repositoryContext));
         }
 
         public IUserRepository User => _userRepository.Value;
-
+        public IUserPreferencesRepository UserPreferences => _userPreferencesRepository.Value;
         public void Save() => _repositoryContext.SaveChanges();
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }

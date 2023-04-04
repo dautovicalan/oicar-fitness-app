@@ -15,8 +15,6 @@ public partial class User
 
     public string? Surname { get; set; }
 
-    public bool? Newsletter { get; set; }
-
     public DateTime? CreateDate { get; set; }
 
     public DateTime? UpdateDate { get; set; }

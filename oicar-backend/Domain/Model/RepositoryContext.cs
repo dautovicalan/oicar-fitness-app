@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Models;
@@ -18,6 +19,7 @@ public partial class RepositoryContext : DbContext
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<UserPreferences> UserPreferences { get; set; }
     
  
     protected override void OnModelCreating(ModelBuilder modelBuilder)

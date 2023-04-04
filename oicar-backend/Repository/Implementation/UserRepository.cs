@@ -31,7 +31,6 @@ namespace Repository.Implementation
                 Password = user.Password.SHA512Hash(),
                 Name = user.Name,
                 Surname = user.Surname,
-                Newsletter = user.Newsletter,
                 RoleId = role.Id,
                 Deleted = false,
                 IsRegister = true
