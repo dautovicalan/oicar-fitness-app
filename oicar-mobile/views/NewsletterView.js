@@ -11,7 +11,9 @@ export default function NewsletterView({ navigation }) {
     // call API
 
     try {
-      const response = await fetch("");
+      const response = await fetch(
+        "http://localhost:5280/api/Account/Register"
+      );
       const result = response.json();
       console.log(result);
     } catch (error) {
