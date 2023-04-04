@@ -9,5 +9,6 @@
         public bool? Newsletter { get; set; }
         public bool? Deleted { get; set; }
         public int? RoleId { get; set; }
+        public bool IsRegister { get; set; }
     }
 }
