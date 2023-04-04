@@ -2,16 +2,19 @@ import {
   View,
   StyleSheet,
   Alert,
-  SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextInput, Text, Button } from "react-native-paper";
 import { emailValid, formValid } from "../utils/FormValidatonUtils";
+import EmailTextInput from "../components/EmailTextInput";
+import * as Google from "expo-auth-session/providers/google";
+import GoogleLogin from "../components/GoogleLogin";
 
 export default function LoginView({ navigation }) {
   const [email, setEmail] = useState("");
@@ -19,7 +22,7 @@ export default function LoginView({ navigation }) {
   const [error, setError] = useState(null);
 
   const handleLogin = () => {
-    if (!formValid(Array.of(email, password)) && !emailValid(email)) {
+    if (!formValid(Array.of(email, password))) {
       return Alert.alert("Form not valid");
     }
 
@@ -45,12 +48,7 @@ export default function LoginView({ navigation }) {
           <Text variant="displayLarge" style={{ textAlign: "center" }}>
             Login
           </Text>
-          <TextInput
-            label={"Email"}
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            left={<TextInput.Icon icon="email" />}
-          />
+          <EmailTextInput email={email} setEmail={setEmail} />
           <TextInput
             label={"Password"}
             value={password}
@@ -62,11 +60,12 @@ export default function LoginView({ navigation }) {
           <Button mode="contained" onPress={handleLogin} icon="lock-open">
             Login
           </Button>
-          <View>
-            <Text>Or login with...</Text>
-            <View>
-              <Text>Google</Text>
-              <Text>Facebook</Text>
+          <View style={styles.oauthContainer}>
+            <Text variant="titleMedium" style={{ textAlign: "center" }}>
+              Or login with...
+            </Text>
+            <View style={styles.pictureContainer}>
+              <GoogleLogin />
             </View>
           </View>
         </View>
@@ -82,9 +81,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   innerContainer: {
-    width: "100%",
+    width: "90%",
     gap: 10,
     flexDirection: "column",
     justifyContent: "center",
+  },
+  oauthContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

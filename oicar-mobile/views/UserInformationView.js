@@ -17,26 +17,39 @@ import {
 } from "../utils/FormValidatonUtils";
 import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 import { Text } from "react-native-paper";
+import EmailTextInput from "../components/EmailTextInput";
+import GoogleLogin from "../components/GoogleLogin";
 
 export default function UserInformationView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
 
   const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
 
   const handleClick = async () => {
-    if (!formValid(Array.of(name, surname, email, password, passwordRepeat))) {
+    if (!formValid(Array.of(name, email, password, passwordRepeat))) {
       Alert.alert("Please fill form");
     }
 
     // call API
+    try {
+      const response = await fetch("", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, surname: "Test", email, password }),
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
 
     setBasicInfo({ name, surname, email, password });
 
-    return navigation.navigate("About You");
+    //return navigation.navigate("About You");
   };
 
   return (
@@ -46,35 +59,21 @@ export default function UserInformationView({ navigation }) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={style.innerContainer}>
-          <View style={style.combinedFields}>
-            <TextInput
-              label={"Name"}
-              value={name}
-              onChangeText={(text) => setName(text)}
-              style={{ width: "45%" }}
-              left={<TextInput.Icon icon="account" />}
-            />
-            <TextInput
-              label={"Surname"}
-              value={surname}
-              onChangeText={(text) => setSurname(text)}
-              style={{ width: "45%" }}
-              left={<TextInput.Icon icon="account" />}
-            />
-          </View>
-
           <View>
             <TextInput
-              label={"E-Mail"}
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              left={<TextInput.Icon icon="email" />}
+              label={"Full name"}
+              value={name}
+              onChangeText={(text) => setName(text)}
+              left={<TextInput.Icon icon="account" />}
             />
-            <HelperText type="error" visible={!emailValid(email)}>
-              Email address is invalid
+            <HelperText type="error" visible={!formValid(Array.of(name))}>
+              Cannot be empty
             </HelperText>
           </View>
-          <View style={{ backgroundColor: "red" }}>
+          <View>
+            <EmailTextInput email={email} setEmail={setEmail} />
+          </View>
+          <View>
             <TextInput
               label={"Password"}
               value={password}
@@ -98,6 +97,10 @@ export default function UserInformationView({ navigation }) {
               Passwords do not match
             </HelperText>
           </View>
+          <View style={style.oauthConatiner}>
+            <Text variant="titleMedium">Or Register With...</Text>
+            <GoogleLogin />
+          </View>
           <Button mode="contained" onPress={handleClick} icon="rocket-launch">
             Next
           </Button>
@@ -117,7 +120,12 @@ const style = StyleSheet.create({
     marginTop: 20,
     flex: 1,
     justifyContent: "flex-start",
+    width: "90%",
     gap: 10,
+  },
+  oauthConatiner: {
+    justifyContent: "center",
+    alignItems: "center",
   },
   combinedFields: {
     flexDirection: "row",

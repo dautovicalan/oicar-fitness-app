@@ -21,11 +21,12 @@ export default function WorkoutPerWeekSelectionView({ navigation }) {
           <Pressable
             key={workout.id}
             onPress={() => setSelectedWorkout(workout.id)}
+            style={style.innerItem}
           >
             <Text
               variant="displayMedium"
               style={Array.of(
-                style.textBorder,
+                style.itemText,
                 workout.id === selectedWorkout ? style.selectedBorder : null
               )}
             >
@@ -52,13 +53,17 @@ const style = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
   },
-  textBorder: {
+  innerItem: {
+    width: "90%",
+  },
+  itemText: {
+    textAlign: "center",
     borderColor: "grey",
     borderWidth: 2,
     borderRadius: 20,
     padding: 5,
   },
   selectedBorder: {
-    borderColor: "red",
+    borderColor: "purple",
   },
 });
