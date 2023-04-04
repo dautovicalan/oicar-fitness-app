@@ -12,5 +12,10 @@ export const formValid = (inputFields) => {
 
 export const emailValid = (email) => {
   const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  console.log(re.test(String(email).toLowerCase()));
   return re.test(String(email).toLowerCase());
+};
+
+export const isPasswordMatch = (password, repeatPassword) => {
+  return password === repeatPassword;
 };

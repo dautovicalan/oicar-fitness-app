@@ -1,19 +1,51 @@
-import { View, StyleSheet, Pressable } from "react-native";
-import React from "react";
-import { Text } from "react-native-paper";
+import { View, StyleSheet, Pressable, Alert } from "react-native";
+import React, { useState } from "react";
+import { Text, Button } from "react-native-paper";
+import { useRegistrationProcess } from "../context/RegistrationProcessContext";
+import { fitnessGoals } from "../data/FitnessData";
 
 export default function GoalView({ navigation }) {
+  const { currentNewUser, setGoal } = useRegistrationProcess();
+  const [selectedGoal, setSelectedGoal] = useState();
+
+  const handleClick = () => {
+    if (!selectedGoal) {
+      return;
+    }
+    setGoal(selectedGoal);
+
+    return navigation.navigate("Workouts");
+  };
+
   return (
     <View style={style.container}>
-      <Pressable onPress={() => navigation.navigate("Workouts")}>
-        <Text variant="displayMedium" style={style.textBorder}>
-          Be more active
-        </Text>
-      </Pressable>
-      <Text variant="displayMedium">Lose weight</Text>
-      <Text variant="displayMedium">Stay toned</Text>
-      <Text variant="displayMedium">Build muscle</Text>
-      <Text variant="displayMedium">Reduce stress</Text>
+      {fitnessGoals.map((goal) => {
+        return (
+          <Pressable
+            key={goal.id}
+            onPress={() => setSelectedGoal(goal.id)}
+            style={style.innerItem}
+          >
+            <Text
+              variant="displayMedium"
+              style={Array.of(
+                style.itemText,
+                goal.id === selectedGoal ? style.selectedBorder : null
+              )}
+            >
+              {goal.text}
+            </Text>
+          </Pressable>
+        );
+      })}
+      <Button
+        mode="contained"
+        style={{ width: "80%" }}
+        onPress={handleClick}
+        icon="rocket-launch"
+      >
+        Next
+      </Button>
     </View>
   );
 }
@@ -24,10 +56,17 @@ const style = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
   },
-  textBorder: {
-    borderColor: "red",
+  innerItem: {
+    width: "90%",
+  },
+  itemText: {
+    textAlign: "center",
+    borderColor: "grey",
     borderWidth: 2,
     borderRadius: 20,
     padding: 5,
+  },
+  selectedBorder: {
+    borderColor: "purple",
   },
 });
