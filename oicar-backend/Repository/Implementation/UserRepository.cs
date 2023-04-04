@@ -19,6 +19,8 @@ namespace Repository.Implementation
         public async Task<bool> CheckLogin(string email, string password) => await Any(u => u.Email.Equals(email) && u.Password.Equals(password.SHA512Hash()) && u.Deleted == false);
         public Task<User?> GetUser(int id) => _repositoryContext.Users.FirstOrDefaultAsync(u => u.Id == id);
 
+        public async Task<bool> IsEmailExist(string email) => await Any(u=> u.Email.Equals(email));
+
         public async Task<User> RegisterUser(UserRegisterInput user)
         {
             Role role = await _repositoryContext.Roles.FirstAsync(r => r.Name.ToLower().Equals("user"));
