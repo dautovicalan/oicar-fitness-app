@@ -24,6 +24,7 @@ export default function UserInformationView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
 
   const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -35,19 +36,23 @@ export default function UserInformationView({ navigation }) {
 
     // call API
     try {
-      const response = await fetch("", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, surname: "Test", email, password }),
-      });
+      const response = await fetch(
+        "http://localhost:5280/api/Account/Register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, surname, email, password }),
+        }
+      );
       const result = await response.json();
       console.log(result);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
 
-    setBasicInfo({ name, surname, email, password });
+    // setBasicInfo({ name, surname, email, password });
 
     //return navigation.navigate("About You");
   };
@@ -61,12 +66,23 @@ export default function UserInformationView({ navigation }) {
         <View style={style.innerContainer}>
           <View>
             <TextInput
-              label={"Full name"}
+              label={"Name"}
               value={name}
               onChangeText={(text) => setName(text)}
               left={<TextInput.Icon icon="account" />}
             />
             <HelperText type="error" visible={!formValid(Array.of(name))}>
+              Cannot be empty
+            </HelperText>
+          </View>
+          <View>
+            <TextInput
+              label={"Surname"}
+              value={surname}
+              onChangeText={(text) => setSurname(text)}
+              left={<TextInput.Icon icon="account" />}
+            />
+            <HelperText type="error" visible={!formValid(Array.of(surname))}>
               Cannot be empty
             </HelperText>
           </View>
