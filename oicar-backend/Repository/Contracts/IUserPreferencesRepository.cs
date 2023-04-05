@@ -8,6 +8,6 @@ namespace Repository.Contracts
     {
         Task<UserPreferences?> GetUserPreferences(int id);
         Task<bool> UserHasPreferences(int id);
-        Task RegisterUserPreferences(UserPreferencesRegistrationInput registrationInput);
+        Task<UserPreferences> RegisterUserPreferences(UserPreferencesRegistrationInput registrationInput);
     }
 }

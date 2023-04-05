@@ -41,9 +41,17 @@ namespace oicar_ApiServices.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterUserPreferences(UserPreferencesRegistrationInput input)
         {
-            await _repository.UserPreferences.RegisterUserPreferences(input);
+            try
+            {
+                var newUserPreferences = await _repository.UserPreferences.RegisterUserPreferences(input);
 
-            return Ok();
+                return Ok(newUserPreferences);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

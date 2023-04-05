@@ -18,7 +18,7 @@ namespace Repository.Implementation
         }
         public async Task<UserPreferences?> GetUserPreferences(int id) => await _repositoryContext.UserPreferences.FirstOrDefaultAsync(up => up.UserId == id);
 
-        public async Task RegisterUserPreferences(UserPreferencesRegistrationInput registrationInput)
+        public async Task<UserPreferences> RegisterUserPreferences(UserPreferencesRegistrationInput registrationInput)
         {
             UserPreferences userPreferences = new()
             {
@@ -32,6 +32,8 @@ namespace Repository.Implementation
 
             Create(userPreferences);
             await _repositoryContext.SaveChangesAsync();
+
+            return userPreferences;
         }
         public Task<bool> UserHasPreferences(int id) => Any(up => up.UserId == id);
     }
