@@ -34,8 +34,7 @@ namespace Repository.Implementation
                 Name = user.Name,
                 Surname = user.Surname,
                 RoleId = role.Id,
-                Deleted = false,
-                IsRegister = true
+                Deleted = false
             };
 
             Create(newUser);

@@ -20,6 +20,8 @@ namespace Repository.Implementation
 
         public async Task<UserPreferences> RegisterUserPreferences(UserPreferencesRegistrationInput registrationInput)
         {
+            User? user = await _repositoryContext.Users.FirstOrDefaultAsync(u => u.Id == registrationInput.UserId);
+
             UserPreferences userPreferences = new()
             {
                 UserId = registrationInput.UserId,
@@ -31,9 +33,13 @@ namespace Repository.Implementation
             };
 
             Create(userPreferences);
-            await _repositoryContext.SaveChangesAsync();
 
-            return userPreferences;
+            // Set flag that user is full registered
+            if (user is not null)
+                user.IsRegister = true;
+            
+            await _repositoryContext.SaveChangesAsync();
+            return userPreferences;   
         }
         public Task<bool> UserHasPreferences(int id) => Any(up => up.UserId == id);
     }
