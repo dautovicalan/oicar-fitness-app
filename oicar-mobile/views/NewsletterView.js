@@ -23,7 +23,7 @@ export default function NewsletterView({ navigation }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userId: currentNewUser.id,
+            userId: 20,
             weight: currentNewUser.weight,
             height: currentNewUser.height,
             goal: currentNewUser.goal,
@@ -36,8 +36,6 @@ export default function NewsletterView({ navigation }) {
       if (!response.ok) {
         return Alert.alert("Something went wrong");
       }
-
-      console.log(result);
       //set main context
 
       // start main app
