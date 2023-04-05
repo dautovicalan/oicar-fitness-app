@@ -15,6 +15,8 @@ export default function UserInformationView({ navigation }) {
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const [errors, setErrors] = useState(null);
 
   const handleClick = async () => {
@@ -25,6 +27,7 @@ export default function UserInformationView({ navigation }) {
       )
       .then(async () => {
         try {
+          setLoading(true);
           const response = await fetch(
             "http://localhost:5280/api/Account/Register",
             {
@@ -45,10 +48,20 @@ export default function UserInformationView({ navigation }) {
             surname: result.surname,
             email: result.email,
           });
-          navigation.navigate("About You");
+
+          reactNative.Alert.alert(
+            "Thank you for creating account. Continue with creating your preferances"
+          );
+
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "About You" }],
+          });
         } catch (error) {
           console.log(error);
           reactNative.Alert.alert("Something went wrong. Please try again");
+        } finally {
+          setLoading(false);
         }
       })
       .catch((err) => {
@@ -120,7 +133,12 @@ export default function UserInformationView({ navigation }) {
             <Text variant="titleMedium">Or Register With...</Text>
             <GoogleLogin />
           </reactNative.View>
-          <Button mode="contained" onPress={handleClick} icon="rocket-launch">
+          <Button
+            mode="contained"
+            onPress={handleClick}
+            icon="rocket-launch"
+            disabled={loading}
+          >
             Next
           </Button>
         </reactNative.View>

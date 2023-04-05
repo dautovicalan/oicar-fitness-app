@@ -8,11 +8,9 @@ export default function NewsletterView({ navigation }) {
   const [newsletter, setNewsletter] = useState(true);
 
   const handleClick = async () => {
-    if (!currentNewUser) {
+    if (!currentNewUser || currentNewUser.id === 0) {
       return Alert.alert("Something went wrong with user");
     }
-
-    console.log(currentNewUser);
 
     try {
       const response = await fetch(
@@ -23,7 +21,7 @@ export default function NewsletterView({ navigation }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userId: 20,
+            userId: currentNewUser.id,
             weight: currentNewUser.weight,
             height: currentNewUser.height,
             goal: currentNewUser.goal,
@@ -32,17 +30,18 @@ export default function NewsletterView({ navigation }) {
           }),
         }
       );
-      const result = response.json();
+      const result = await response.json();
       if (!response.ok) {
         return Alert.alert("Something went wrong");
       }
+      console.log(result);
+
       //set main context
 
-      // start main app
-      // navigation.reset({
-      //   index: 0,
-      //   routes: [{ name: "MainApp" }],
-      // });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "MainApp" }],
+      });
     } catch (error) {
       console.log(error);
     }
