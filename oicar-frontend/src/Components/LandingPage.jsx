@@ -13,7 +13,6 @@ const LandingPage = () => {
 
   return (
     <>
-      <Navbar/>
         <div className="page">
       <div className="content">
         <img src="https://cdn.discordapp.com/attachments/902664614507065375/1092037281923211374/logo-fitpal.png" alt="FitPal" className="image" />
@@ -25,7 +24,6 @@ const LandingPage = () => {
         <button className="button">Sign Up with Google<GoogleIcon id="google-icon"/></button> */}
       </div>
     </div>
-      <Footer/>
     </>
   )
 }

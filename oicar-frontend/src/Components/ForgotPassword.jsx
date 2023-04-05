@@ -13,7 +13,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import GoogleIcon from '@mui/icons-material/Google';
 
 import { emailValid } from "../Utils/FormValidation";
 
@@ -100,13 +99,13 @@ export default function LoginForm() {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign in
+                Recover account
               </Typography>
               <Box
                 component="form"
                 onSubmit={handleSubmit}
                 noValidate
-                sx={{ mt: 1, width: '100%' }}
+                sx={{ mt: 1, width: '100%'}}
               >
                 <TextField
                   margin="normal"
@@ -121,19 +120,7 @@ export default function LoginForm() {
                   onChange={handleChange}
                 />
                 <p style={{ color: "red" }}>{errors.email}</p>
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={formValues.password}
-                  onChange={handleChange}
-                />
-                <p style={{ color: "red" }}>{errors.password}</p>
+
 
                 {/* <FormControlLabel
                        control={<Checkbox value="remember" color="primary" />}
@@ -143,19 +130,15 @@ export default function LoginForm() {
                   type="submit"
                   fullWidth
                   variant="contained"
+                  
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign In
+                  Send recovery link
                 </Button>
                 <Grid container>
-                  <Grid item xs>
-                    <Link href="/forgotpassword" variant="body2">
-                      {"Forgot password?"}
-                    </Link>
-                  </Grid>
                   <Grid item>
-                    <Link href="/register" variant="body2">
-                      {"Don't have an account? Sign Up"}
+                    <Link href="/login" variant="body2">
+                      {"Back to login"}
                     </Link>
                   </Grid>
                 </Grid>

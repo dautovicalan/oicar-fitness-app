@@ -12,9 +12,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import AboutYou from "./AboutYou";
 import { useState, useEffect } from "react";
+import GoogleIcon from '@mui/icons-material/Google';
+import RegistrationStepper from "./RegistrationStepper";
+import WhatsYourGoal from "./WhatsYourGoal";
 
 function Copyright(props) {
   return (
@@ -86,6 +88,8 @@ export default function SignUp() {
     }
     if (!values.repeatpassword) {
       errors.repeatpassword = "Repeat Password is required!";
+    } else if (values.repeatpassword!=values.password) {
+      errors.repeatpassword = "Passwords must match!";
     }
 
     return errors;
@@ -93,7 +97,7 @@ export default function SignUp() {
 
   return (
     <>
-      <Navbar />
+
       <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
@@ -183,11 +187,10 @@ export default function SignUp() {
                       label="Repeat Password"
                       type="password"
                       id="repeatpassword"
-                      autoComplete="new-password"
                       value={formValues.repeatpassword}
                       onChange={handleChange}
                     />
-                    <p style={{ color: "red" }}>{errors.repeatPassword}</p>
+                    <p style={{ color: "red" }}>{errors.repeatpassword}</p>
                   </Grid>
                   <Grid item xs={12}>
                     <FormControlLabel
@@ -199,12 +202,12 @@ export default function SignUp() {
                   </Grid>
                 </Grid>
                 <Button
-                  type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  
+                  sx={{ mt: 3, mb: 2, backgroundColor:'gray' }}
                 >
-                  Sign Up
+                  Continue with Google <GoogleIcon id="google-icon"/>
                 </Button>
                 <Grid container justifyContent="flex-end">
                   <Grid item>
@@ -215,11 +218,12 @@ export default function SignUp() {
                 </Grid>
               </Box>
             </Box>
-            <Copyright sx={{ mt: 5 }} />
           </Box>
+
         </Container>
+        <Container maxWidth="md"><RegistrationStepper/></Container>         
       </ThemeProvider>
-      <Footer />
+
     </>
   );
 }

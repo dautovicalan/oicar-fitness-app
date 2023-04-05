@@ -15,6 +15,7 @@ import "./Styles/App.css";
 import React from "react";
 import SignUp from "./Components/RegistrationForm";
 import { useState } from "react";
+import ForgotPassword from "./Components/ForgotPassword";
 
 function App() {
 
@@ -25,15 +26,19 @@ function App() {
     <div>
       <Router>
         <UserContext.Provider value={{user, setUser}}>
+        <Navbar/>
           <Routes>
+
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegistrationForm />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
           </Routes>
+          <Footer/>
         </UserContext.Provider>
       </Router>
+
       {/* <Navbar setRedirectPath={setRedirectPath} />
-      
       <LandingPage/>
       <LoginForm/>
       <Footer /> */}
