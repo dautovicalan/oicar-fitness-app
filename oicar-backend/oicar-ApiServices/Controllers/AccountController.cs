@@ -25,7 +25,11 @@ namespace oicar_ApiServices.Controllers
         public async Task<IActionResult> Login(UserLoginInput userLogin)
         {
             if (await _repository.User.CheckLogin(userLogin.Email, userLogin.Password))
-                return Ok();
+            {
+                User? user = await _repository.User.GetUserByEmail(userLogin.Email);
+                return Ok(_mapper.Map<UserDto>(user));
+            }
+              
 
             return Forbid();
         }
@@ -36,7 +40,7 @@ namespace oicar_ApiServices.Controllers
             User? user = await _repository.User.GetUser(id);
 
             if (user is null)
-                return NotFound(new HttpError("Korisnik ne postoji"));
+                return NotFound(new HttpError("User does not exist"));
             
             return Ok(user);
         }
