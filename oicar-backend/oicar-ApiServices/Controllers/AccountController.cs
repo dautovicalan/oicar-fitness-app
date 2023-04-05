@@ -30,7 +30,6 @@ namespace oicar_ApiServices.Controllers
                 return Ok(_mapper.Map<UserDto>(user));
             }
               
-
             return Forbid();
         }
 

@@ -21,7 +21,6 @@ namespace Repository.Implementation
 
         public async Task<User?> GetUserByEmail(string email) => await _repositoryContext.Users.FirstOrDefaultAsync(u=> u.Email.Equals(email));
 
-
         public async Task<bool> IsEmailExist(string email) => await Any(u=> u.Email.Equals(email));
 
         public async Task<User> RegisterUser(UserRegisterInput user)
