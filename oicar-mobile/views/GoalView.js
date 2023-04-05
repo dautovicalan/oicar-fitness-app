@@ -5,12 +5,12 @@ import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 import { fitnessGoals } from "../data/FitnessData";
 
 export default function GoalView({ navigation }) {
-  const { currentNewUser, setGoal } = useRegistrationProcess();
+  const { setGoal } = useRegistrationProcess();
   const [selectedGoal, setSelectedGoal] = useState();
 
   const handleClick = () => {
     if (!selectedGoal) {
-      return;
+      return Alert.alert("Select one goal");
     }
     setGoal(selectedGoal);
 
@@ -23,14 +23,14 @@ export default function GoalView({ navigation }) {
         return (
           <Pressable
             key={goal.id}
-            onPress={() => setSelectedGoal(goal.id)}
+            onPress={() => setSelectedGoal(goal.text)}
             style={style.innerItem}
           >
             <Text
               variant="displayMedium"
               style={Array.of(
                 style.itemText,
-                goal.id === selectedGoal ? style.selectedBorder : null
+                goal.text === selectedGoal ? style.selectedBorder : null
               )}
             >
               {goal.text}

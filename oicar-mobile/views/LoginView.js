@@ -43,10 +43,10 @@ export default function LoginView({ navigation }) {
 
     // navigate to home
 
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "MainApp" }],
-    });
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{ name: "MainApp" }],
+    // });
   };
 
   return (
@@ -84,6 +84,13 @@ export default function LoginView({ navigation }) {
             <View style={styles.pictureContainer}>
               <GoogleLogin />
             </View>
+          </View>
+          <View>
+            <Pressable onPress={() => navigation.navigate("ForgotPassword")}>
+              <Text variant="titleMedium" style={{ textAlign: "center" }}>
+                Forgot your password?
+              </Text>
+            </Pressable>
           </View>
         </View>
       </KeyboardAvoidingView>

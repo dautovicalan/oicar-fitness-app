@@ -1,23 +1,8 @@
-import {
-  View,
-  SafeAreaView,
-  StyleSheet,
-  Alert,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Platform,
-} from "react-native";
+import * as reactNative from "react-native";
 import React, { useState } from "react";
-import { Button, HelperText, TextInput } from "react-native-paper";
-import {
-  emailValid,
-  formValid,
-  isPasswordMatch,
-} from "../utils/FormValidatonUtils";
+import { Button, TextInput } from "react-native-paper";
 import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 import { Text } from "react-native-paper";
-import EmailTextInput from "../components/EmailTextInput";
 import GoogleLogin from "../components/GoogleLogin";
 import { userValidationSchema } from "../schema/ValidationSchemas";
 
@@ -38,9 +23,33 @@ export default function UserInformationView({ navigation }) {
         { name, surname, email, password, passwordRepeat },
         { abortEarly: false }
       )
-      .then(() => {
-        // do the rest
-        Alert.alert("Success");
+      .then(async () => {
+        try {
+          const response = await fetch(
+            "http://localhost:5280/api/Account/Register",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ name, surname, email, password }),
+            }
+          );
+          const result = await response.json();
+          if (response.status === 400 && result.message) {
+            return reactNative.Alert.alert(result.message);
+          }
+          setBasicInfo({
+            id: result.id,
+            name: result.name,
+            surname: result.surname,
+            email: result.email,
+          });
+          navigation.navigate("About You");
+        } catch (error) {
+          console.log(error);
+          reactNative.Alert.alert("Something went wrong. Please try again");
+        }
       })
       .catch((err) => {
         const tempErrors = {};
@@ -49,45 +58,18 @@ export default function UserInformationView({ navigation }) {
         });
         setErrors(tempErrors);
       });
-
-    // call API
-    // try {
-    //   const response = await fetch(
-    //     "http://localhost:5280/api/Account/Register",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({ name, surname, email, password }),
-    //     }
-    //   );
-    //   const result = await response.json();
-    //   setBasicInfo({
-    //     name: result.name,
-    //     surname: result.surname,
-    //     email: result.email,
-    //   });
-
-    //   return navigation.navigate("About You");
-    // } catch (error) {
-    //   console.error(error);
-    //   setError(error.message);
-    // }
-
-    // setBasicInfo({ name, surname, email, password });
-
-    //return navigation.navigate("About You");
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <reactNative.KeyboardAvoidingView
+      behavior={reactNative.Platform.OS === "ios" ? "padding" : "height"}
       style={style.container}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={style.innerContainer}>
-          <View>
+      <reactNative.TouchableWithoutFeedback
+        onPress={reactNative.Keyboard.dismiss}
+      >
+        <reactNative.View style={style.innerContainer}>
+          <reactNative.View>
             <TextInput
               label={"Name"}
               value={name}
@@ -95,8 +77,8 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setName(text)}
               left={<TextInput.Icon icon="account" />}
             />
-          </View>
-          <View>
+          </reactNative.View>
+          <reactNative.View>
             <TextInput
               label={"Surname"}
               value={surname}
@@ -104,8 +86,8 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setSurname(text)}
               left={<TextInput.Icon icon="account" />}
             />
-          </View>
-          <View>
+          </reactNative.View>
+          <reactNative.View>
             <TextInput
               label={"Email"}
               value={email}
@@ -113,8 +95,8 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setEmail(text)}
               left={<TextInput.Icon icon="email" />}
             />
-          </View>
-          <View>
+          </reactNative.View>
+          <reactNative.View>
             <TextInput
               label={"Password"}
               value={password}
@@ -123,8 +105,8 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setPassword(text)}
               left={<TextInput.Icon icon="lock" />}
             />
-          </View>
-          <View>
+          </reactNative.View>
+          <reactNative.View>
             <TextInput
               label={"Repeat Password"}
               value={passwordRepeat}
@@ -133,21 +115,21 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setPasswordRepeat(text)}
               left={<TextInput.Icon icon="lock" />}
             />
-          </View>
-          <View style={style.oauthConatiner}>
+          </reactNative.View>
+          <reactNative.View style={style.oauthConatiner}>
             <Text variant="titleMedium">Or Register With...</Text>
             <GoogleLogin />
-          </View>
+          </reactNative.View>
           <Button mode="contained" onPress={handleClick} icon="rocket-launch">
             Next
           </Button>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </reactNative.View>
+      </reactNative.TouchableWithoutFeedback>
+    </reactNative.KeyboardAvoidingView>
   );
 }
 
-const style = StyleSheet.create({
+const style = reactNative.StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",

@@ -1,7 +1,18 @@
 import React, { useContext, useState } from "react";
 
 export const RegistrationProcessContext = React.createContext({
-  currentNewUser: {},
+  currentNewUser: {
+    id: 0,
+    name: "",
+    surname: "",
+    email: "",
+    birthday: "",
+    height: 0,
+    weight: 0,
+    goal: "",
+    workoutsNumber: 0,
+    newsletter: true,
+  },
   setBasicInfo: (userBasicInfo) => {},
   setAboutYouInfo: (aboutYouInfo) => {},
   setGoal: (goalInfo) => {},
@@ -15,6 +26,7 @@ export const useRegistrationProcess = () => {
 
 export const RegistrationProcessContextProvider = ({ children }) => {
   const [currentNewUser, setCurrentNewUser] = useState({
+    id: 0,
     name: "",
     surname: "",
     email: "",
@@ -31,6 +43,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
       setCurrentNewUser((prevVal) => {
         return {
           ...prevVal,
+          id: userBasicInfo.id,
           name: userBasicInfo.name,
           surname: userBasicInfo.surname,
           email: userBasicInfo.email,
