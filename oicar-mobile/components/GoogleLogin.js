@@ -18,6 +18,7 @@ export default function GoogleLogin() {
   }, [response, token]);
 
   const getUserInfo = async () => {
+    // authenticate token to our REST APi
     try {
       const resposne = await fetch(
         "https://www.googleapis.com/userinfo/v2/me",
