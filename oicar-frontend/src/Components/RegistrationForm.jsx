@@ -227,7 +227,7 @@ export default function SignUp() {
               </Box>
             </Box>
           </Box>
-
+        <AboutYou/>
         </Container>
       </ThemeProvider>
     
