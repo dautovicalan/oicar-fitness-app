@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Model;
 using FitPal_Models.Dto;
 using FitPal_Models.JsonModels;
 using Microsoft.AspNetCore.Http;
@@ -43,9 +44,9 @@ namespace oicar_ApiServices.Controllers
         {
             try
             {
-                var newUserPreferences = await _repository.UserPreferences.RegisterUserPreferences(input);
+               UserPreferences newUserPreferences = await _repository.UserPreferences.RegisterUserPreferences(input);
 
-                return Ok(newUserPreferences);
+                return Ok(_mapper.Map<UserPreferencesDto>(newUserPreferences));
             }
             catch (Exception ex)
             {
