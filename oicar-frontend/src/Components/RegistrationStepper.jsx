@@ -1,16 +1,15 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import AboutYou from './AboutYou';
-import WhatsYourGoal from './WhatsYourGoal';
-import RegistrationForm from './RegistrationForm';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import AboutYou from "./AboutYou";
+import WhatsYourGoal from "./WhatsYourGoal";
+import RegistrationForm from "./RegistrationForm";
 
-
-const steps = ['Registration', 'About you', 'Whats your goal?'];
+const steps = ["Registration", "About you", "Whats your goal?"];
 
 export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -59,49 +58,43 @@ export default function HorizontalLinearStepper() {
   };
 
   return (
-    <Box sx={{ width: '100%', marginTop: '100px' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === 0 && <RegistrationForm handleBack={handleBack} handleNext={handleNext} />}
-
-      {activeStep === 1 && <AboutYou handleBack={handleBack} handleNext={handleNext} />}
-      {activeStep === 2 && <WhatsYourGoal handleBack={handleBack} handleNext={handleNext} />}
+    <Box sx={{ width: "100%", marginTop: "50px", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column" }}>
+      <Box sx={{width: "50%"}}>
+        <Stepper activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+      </Box>
+      {activeStep === 0 && (
+        <RegistrationForm handleBack={handleBack} handleNext={handleNext} />
+      )}
+      {activeStep === 1 && (
+        <AboutYou handleBack={handleBack} handleNext={handleNext} />
+      )}
+      {activeStep === 2 && (
+        <WhatsYourGoal handleBack={handleBack} handleNext={handleNext} />
+      )}
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
             All steps completed - you&apos;re finished
           </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Box sx={{ flex: "1 1 auto" }} />
             <Button onClick={handleReset}>Reset</Button>
           </Box>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-
-
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Box sx={{ flex: "1 1 auto" }} />
           </Box>
         </React.Fragment>
       )}

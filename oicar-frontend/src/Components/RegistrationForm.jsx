@@ -202,6 +202,14 @@ export default function SignUp() {
                   </Grid>
                 </Grid>
                 <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  NEXT
+                </Button>
+                <Button
                   fullWidth
                   variant="contained"
                   
@@ -222,6 +230,7 @@ export default function SignUp() {
 
         </Container>
       </ThemeProvider>
+    
 
     </>
   );
