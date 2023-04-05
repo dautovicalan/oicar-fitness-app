@@ -6,28 +6,55 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
   Pressable,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { TextInput, Text, Button } from "react-native-paper";
-import { emailValid, formValid } from "../utils/FormValidatonUtils";
-import EmailTextInput from "../components/EmailTextInput";
-import * as Google from "expo-auth-session/providers/google";
 import GoogleLogin from "../components/GoogleLogin";
-import { userValidationSchema } from "../schema/ValidationSchemas";
+import { loginValidationSchema } from "../schema/ValidationSchemas";
 
 export default function LoginView({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(null);
 
-  const handleLogin = () => {
-    userValidationSchema
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    loginValidationSchema
       .validate({ email, password }, { abortEarly: false })
-      .then(() => {
-        // rest
-        Alert.alert("Success");
+      .then(async () => {
+        try {
+          setLoading(true);
+          const response = await fetch(
+            "http://localhost:5280/api/Account/Login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            }
+          );
+
+          if (response.status === 403) {
+            setLoading(false);
+            return Alert.alert("Wrong email or password");
+          }
+
+          const result = await response.json();
+
+          console.log(result);
+
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "MainApp" }],
+          });
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
       })
       .catch((err) => {
         const tempErrors = {};
@@ -36,17 +63,6 @@ export default function LoginView({ navigation }) {
         });
         setErrors(tempErrors);
       });
-
-    // call API for login
-
-    // set User Context for a application
-
-    // navigate to home
-
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{ name: "MainApp" }],
-    // });
   };
 
   return (
@@ -74,7 +90,12 @@ export default function LoginView({ navigation }) {
             onChangeText={(text) => setPassword(text)}
             left={<TextInput.Icon icon="onepassword" />}
           />
-          <Button mode="contained" onPress={handleLogin} icon="lock-open">
+          <Button
+            mode="contained"
+            onPress={handleLogin}
+            icon="lock-open"
+            disabled={loading}
+          >
             Login
           </Button>
           <View style={styles.oauthContainer}>

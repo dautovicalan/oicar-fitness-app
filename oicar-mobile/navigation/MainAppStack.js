@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginView from "../views/LoginView";
 import { Text, BottomNavigation } from "react-native-paper";
 import { CommonActions } from "@react-navigation/native";
+import HomeView from "../views/main-app/HomeView";
 
 const Tab = createBottomTabNavigator();
 
@@ -57,9 +58,9 @@ export default function MainAppStack() {
     >
       <Tab.Screen
         name="Home"
-        component={LoginView}
+        component={HomeView}
         options={{
-          tabBarLabel: "Login",
+          tabBarLabel: "Home",
         }}
       />
     </Tab.Navigator>
