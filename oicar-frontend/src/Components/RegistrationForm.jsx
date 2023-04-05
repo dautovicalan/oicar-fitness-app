@@ -221,7 +221,6 @@ export default function SignUp() {
           </Box>
 
         </Container>
-        <Container maxWidth="md"><RegistrationStepper/></Container>         
       </ThemeProvider>
 
     </>

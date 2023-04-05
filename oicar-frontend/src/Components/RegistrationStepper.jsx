@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AboutYou from './AboutYou';
 import WhatsYourGoal from './WhatsYourGoal';
+import RegistrationForm from './RegistrationForm';
 
 
 const steps = ['Registration', 'About you', 'Whats your goal?'];
@@ -58,7 +59,7 @@ export default function HorizontalLinearStepper() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', marginTop: '100px' }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
@@ -70,6 +71,8 @@ export default function HorizontalLinearStepper() {
           );
         })}
       </Stepper>
+      {activeStep === 0 && <RegistrationForm handleBack={handleBack} handleNext={handleNext} />}
+
       {activeStep === 1 && <AboutYou handleBack={handleBack} handleNext={handleNext} />}
       {activeStep === 2 && <WhatsYourGoal handleBack={handleBack} handleNext={handleNext} />}
       {activeStep === steps.length ? (

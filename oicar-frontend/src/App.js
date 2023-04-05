@@ -3,6 +3,7 @@ import LandingPage from "./Components/LandingPage";
 import LoginForm from "./Components/LoginForm";
 import Navbar from "./Components/Navbar";
 import RegistrationForm from "./Components/RegistrationForm";
+import RegistrationStepper from "./Components/RegistrationStepper";
 import {
   BrowserRouter as Router,
   Route,
@@ -31,7 +32,7 @@ function App() {
 
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegistrationForm />} />
+            <Route path="/register" element={<RegistrationStepper />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
           </Routes>
           <Footer/>

@@ -19,7 +19,7 @@ const LandingPage = () => {
       </div>
       <div className="header">
         <div>{user}</div>
-        <button onClick={() => setUser("Karlo")}>Click</button>
+        {/* <button onClick={() => setUser("Karlo")}>Click</button> */}
         {/* <button className="button">Continue with Google<GoogleIcon id="google-icon"/></button>
         <button className="button">Sign Up with Google<GoogleIcon id="google-icon"/></button> */}
       </div>
