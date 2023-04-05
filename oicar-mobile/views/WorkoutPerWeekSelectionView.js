@@ -8,7 +8,7 @@ export default function WorkoutPerWeekSelectionView({ navigation }) {
 
   const handleClick = () => {
     if (!selectedWorkout) {
-      return Alert.alert("Please select workout");
+      return Alert.alert("Please select one workout");
     }
 
     return navigation.navigate("Newsletter");

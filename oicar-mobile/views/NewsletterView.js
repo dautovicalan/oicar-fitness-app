@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
 import { Text, Switch, Button } from "react-native-paper";
 import { useRegistrationProcess } from "../context/RegistrationProcessContext";
@@ -8,22 +8,46 @@ export default function NewsletterView({ navigation }) {
   const [newsletter, setNewsletter] = useState(true);
 
   const handleClick = async () => {
-    // call API
+    if (!currentNewUser) {
+      return Alert.alert("Something went wrong with user");
+    }
+
+    console.log(currentNewUser);
 
     try {
       const response = await fetch(
-        "http://localhost:5280/api/Account/Register"
+        "http://localhost:5280/api/UserPreferences/Register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: currentNewUser.id,
+            weight: currentNewUser.weight,
+            height: currentNewUser.height,
+            goal: currentNewUser.goal,
+            workoutNumberPerWeek: currentNewUser.workoutsNumber,
+            newsletter: newsletter,
+          }),
+        }
       );
       const result = response.json();
+      if (!response.ok) {
+        return Alert.alert("Something went wrong");
+      }
+
       console.log(result);
+      //set main context
+
+      // start main app
+      // navigation.reset({
+      //   index: 0,
+      //   routes: [{ name: "MainApp" }],
+      // });
     } catch (error) {
       console.log(error);
     }
-
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{ name: "MainApp" }],
-    // });
   };
 
   return (
