@@ -10,9 +10,11 @@ import { InitialView } from "./views/InitialView";
 import LoginView from "./views/LoginView";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import RegisterView from "./views/RegisterView";
 import AuthStack from "./navigation/AuthStack";
 import { RegistrationProcessContextProvider } from "./context/RegistrationProcessContext";
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function App() {
   return (

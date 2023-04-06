@@ -15,8 +15,6 @@ public partial class User
 
     public string? Surname { get; set; }
 
-    public bool? Newsletter { get; set; }
-
     public DateTime? CreateDate { get; set; }
 
     public DateTime? UpdateDate { get; set; }
@@ -24,7 +22,7 @@ public partial class User
     public bool? Deleted { get; set; }
 
     public int? RoleId { get; set; }
-    public string? test { get; set; }
+    public bool IsRegister { get; set; }
 
     public virtual Role? Role { get; set; }
 }

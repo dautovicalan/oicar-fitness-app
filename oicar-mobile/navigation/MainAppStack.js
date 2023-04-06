@@ -2,13 +2,13 @@ import { View } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginView from "../views/LoginView";
-import RegisterView from "../views/RegisterView";
 import { Text, BottomNavigation } from "react-native-paper";
 import { CommonActions } from "@react-navigation/native";
+import HomeView from "../views/main-app/HomeView";
 
 const Tab = createBottomTabNavigator();
 
-export default function NavigationBottomBar() {
+export default function MainAppStack() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -58,16 +58,9 @@ export default function NavigationBottomBar() {
     >
       <Tab.Screen
         name="Home"
-        component={LoginView}
+        component={HomeView}
         options={{
-          tabBarLabel: "Login",
-        }}
-      />
-      <Tab.Screen
-        name="Settings"
-        component={RegisterView}
-        options={{
-          tabBarLabel: "Register",
+          tabBarLabel: "Home",
         }}
       />
     </Tab.Navigator>

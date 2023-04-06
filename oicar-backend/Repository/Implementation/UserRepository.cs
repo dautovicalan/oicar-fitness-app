@@ -19,6 +19,10 @@ namespace Repository.Implementation
         public async Task<bool> CheckLogin(string email, string password) => await Any(u => u.Email.Equals(email) && u.Password.Equals(password.SHA512Hash()) && u.Deleted == false);
         public Task<User?> GetUser(int id) => _repositoryContext.Users.FirstOrDefaultAsync(u => u.Id == id);
 
+        public async Task<User?> GetUserByEmail(string email) => await _repositoryContext.Users.FirstOrDefaultAsync(u=> u.Email.Equals(email));
+
+        public async Task<bool> IsEmailExist(string email) => await Any(u=> u.Email.Equals(email));
+
         public async Task<User> RegisterUser(UserRegisterInput user)
         {
             Role role = await _repositoryContext.Roles.FirstAsync(r => r.Name.ToLower().Equals("user"));
@@ -29,8 +33,8 @@ namespace Repository.Implementation
                 Password = user.Password.SHA512Hash(),
                 Name = user.Name,
                 Surname = user.Surname,
-                Newsletter = user.Newsletter,
-                RoleId = role.Id
+                RoleId = role.Id,
+                Deleted = false
             };
 
             Create(newUser);

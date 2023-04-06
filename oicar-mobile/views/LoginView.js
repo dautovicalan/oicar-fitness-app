@@ -1,48 +1,128 @@
-import { View, StyleSheet, Alert, SafeAreaView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Pressable,
+} from "react-native";
 import React, { useState } from "react";
 import { TextInput, Text, Button } from "react-native-paper";
-import { emailValid, formValid } from "../utils/FormValidatonUtils";
+import GoogleLogin from "../components/GoogleLogin";
+import { loginValidationSchema } from "../schema/ValidationSchemas";
+import { useRegistrationProcess } from "../context/RegistrationProcessContext";
+import { validateLoginForm } from "../utils/FormValidatonUtils";
 
 export default function LoginView({ navigation }) {
+  const { setBasicInfo } = useRegistrationProcess();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState(null);
 
-  const handleLogin = () => {
-    if (!formValid(Array.of(email, password)) && !emailValid(email)) {
-      return Alert.alert("Form not valid");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    const validateData = await validateLoginForm({ email, password });
+
+    if (!validateData.isValid) {
+      return setErrors(validateData.errors);
     }
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:5280/api/Account/Login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    // call API for login
+      if (response.status === 403) {
+        setLoading(false);
+        return Alert.alert("Wrong email or password");
+      }
 
-    // set User Context for a application
+      const result = await response.json();
 
-    // navigate to home
+      if (result?.isRegister && result.isRegister === true) {
+        return navigation.reset({
+          index: 0,
+          routes: [{ name: "MainApp" }],
+        });
+      }
 
-    console.log("login");
+      console.log(result);
+      setBasicInfo({
+        id: result.id,
+        name: result.name,
+        surname: result.surname,
+        email: result.email,
+        isRegister: result.isRegister,
+      });
+
+      navigation.navigate("Register", {
+        screen: "About You",
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.innerContainer}>
-        <Text variant="displayLarge" style={{ textAlign: "center" }}>
-          Login
-        </Text>
-        <TextInput
-          label={"Email"}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-        <TextInput
-          label={"Password"}
-          value={password}
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-        />
-        <Button mode="contained" onPress={handleLogin}>
-          Login
-        </Button>
-      </View>
-    </SafeAreaView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <View style={styles.innerContainer}>
+          <Text variant="displayLarge" style={{ textAlign: "center" }}>
+            Login
+          </Text>
+          <TextInput
+            label={"Email"}
+            value={email}
+            error={errors?.email}
+            onChangeText={(text) => setEmail(text)}
+            left={<TextInput.Icon icon="email" />}
+          />
+          <TextInput
+            label={"Password"}
+            value={password}
+            secureTextEntry={true}
+            error={errors?.password}
+            onChangeText={(text) => setPassword(text)}
+            left={<TextInput.Icon icon="onepassword" />}
+          />
+          <Button
+            mode="contained"
+            onPress={handleLogin}
+            icon="lock-open"
+            disabled={loading}
+          >
+            Login
+          </Button>
+          <View style={styles.oauthContainer}>
+            <Text variant="titleMedium" style={{ textAlign: "center" }}>
+              Or login with...
+            </Text>
+            <View style={styles.pictureContainer}>
+              <GoogleLogin />
+            </View>
+          </View>
+          <View>
+            <Pressable onPress={() => navigation.navigate("ForgotPassword")}>
+              <Text variant="titleMedium" style={{ textAlign: "center" }}>
+                Forgot your password?
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -57,5 +137,9 @@ const styles = StyleSheet.create({
     gap: 10,
     flexDirection: "column",
     justifyContent: "center",
+  },
+  oauthContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

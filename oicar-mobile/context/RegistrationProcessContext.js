@@ -1,11 +1,24 @@
 import React, { useContext, useState } from "react";
 
 export const RegistrationProcessContext = React.createContext({
-  currentNewUser: {},
+  currentNewUser: {
+    id: 0,
+    name: "",
+    surname: "",
+    email: "",
+    isRegister: false,
+    birthday: "",
+    height: 0,
+    weight: 0,
+    goal: "",
+    workoutsNumber: 0,
+    newsletter: true,
+  },
   setBasicInfo: (userBasicInfo) => {},
   setAboutYouInfo: (aboutYouInfo) => {},
   setGoal: (goalInfo) => {},
   setNumberOfWorkouts: (workoutsInfo) => {},
+  setEnableNewsletter: (enableNewsletter) => {},
 });
 
 export const useRegistrationProcess = () => {
@@ -14,14 +27,17 @@ export const useRegistrationProcess = () => {
 
 export const RegistrationProcessContextProvider = ({ children }) => {
   const [currentNewUser, setCurrentNewUser] = useState({
+    id: 0,
     name: "",
     surname: "",
     email: "",
+    isRegister: false,
     birthday: "",
     height: 0,
     weight: 0,
     goal: "",
     workoutsNumber: 0,
+    newsletter: true,
   });
 
   const setBasicInfo = (userBasicInfo) => {
@@ -29,9 +45,11 @@ export const RegistrationProcessContextProvider = ({ children }) => {
       setCurrentNewUser((prevVal) => {
         return {
           ...prevVal,
+          id: userBasicInfo.id,
           name: userBasicInfo.name,
           surname: userBasicInfo.surname,
           email: userBasicInfo.email,
+          isRegister: userBasicInfo.isRegister,
         };
       });
     }
@@ -41,8 +59,8 @@ export const RegistrationProcessContextProvider = ({ children }) => {
       return {
         ...prevVal,
         birthday: aboutYouInfo.birthday,
-        height: Number.parseInt(aboutYouInfo.height),
-        weight: Number.parseInt(aboutYouInfo.weight),
+        height: aboutYouInfo.height,
+        weight: aboutYouInfo.weight,
       };
     });
   };
@@ -50,7 +68,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     setCurrentNewUser((prevVal) => {
       return {
         ...prevVal,
-        goal: goalInfo.goal,
+        goal: goalInfo,
       };
     });
   };
@@ -58,7 +76,15 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     setCurrentNewUser((prevVal) => {
       return {
         ...prevVal,
-        workoutsNumber: workoutsInfo.workoutsNumber,
+        workoutsNumber: workoutsInfo,
+      };
+    });
+  };
+  const setEnableNewsletter = (enableNewsletter) => {
+    setCurrentNewUser((prevVal) => {
+      return {
+        ...prevVal,
+        newsletter: enableNewsletter,
       };
     });
   };
@@ -69,6 +95,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     setAboutYouInfo,
     setGoal,
     setNumberOfWorkouts,
+    setEnableNewsletter,
   };
 
   return (
