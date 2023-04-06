@@ -2,26 +2,13 @@ import { View, Text } from "react-native";
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import TabSelector from "./TabSelector";
+import { weightDataItems } from "../data/FitnessData";
 
 export default function WeightPicker({ selectedWeight, onWeightChange }) {
   const [isPound, setIsPound] = useState(false);
 
   const handleChange = () => {
     setIsPound((prevVal) => !prevVal);
-  };
-
-  const renderPickerItems = () => {
-    let items = [];
-    if (!isPound) {
-      for (let i = 0; i <= 200; i++) {
-        items.push(<Picker.Item key={i} label={`${i} KG`} value={i} />);
-      }
-    } else {
-      for (let i = 0; i <= 440; i++) {
-        items.push(<Picker.Item key={i} label={`${i} LBS`} value={i} />);
-      }
-    }
-    return items;
   };
 
   return (
@@ -31,7 +18,7 @@ export default function WeightPicker({ selectedWeight, onWeightChange }) {
         selectedValue={selectedWeight}
         onValueChange={(itemValue, itemIndex) => onWeightChange(itemValue)}
       >
-        {renderPickerItems()}
+        {weightDataItems(isPound)}
       </Picker>
     </View>
   );

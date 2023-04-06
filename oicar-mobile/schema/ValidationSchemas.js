@@ -14,3 +14,13 @@ export const loginValidationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
+
+export const aboutYouValidationSchema = Yup.object().shape({
+  birthday: Yup.date().required("Birthday is required"),
+  weight: Yup.number()
+    .required("Weight is required")
+    .positive("Weight must be positive number"),
+  height: Yup.number()
+    .required("Height is required")
+    .positive("Height must be positive number"),
+});
