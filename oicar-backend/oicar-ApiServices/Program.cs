@@ -9,6 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuration
 builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
 // Add services to the container.
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
