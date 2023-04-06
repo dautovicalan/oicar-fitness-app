@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import GoogleIcon from '@mui/icons-material/Google';
+import GoogleIcon from "@mui/icons-material/Google";
 
 import { emailValid } from "../Utils/FormValidation";
 
@@ -35,10 +35,7 @@ function Copyright(props) {
   );
 }
 
-async function login() {
-  
-}
-
+async function login() {}
 
 const theme = createTheme();
 
@@ -56,22 +53,22 @@ export default function LoginForm() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/Account/Login', {
-        method: 'POST',
+      const response = await fetch("/api/Account/Login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: 'your_username',
-          password: 'your_password'
-        })
+          username: "your_username",
+          password: "your_password",
+        }),
       });
       const data = await response.json();
       console.log(data); // Do something with the response data
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -97,7 +94,7 @@ export default function LoginForm() {
     if (!values.email) {
       errors.email = "Email is required!";
     } else if (!regex.test(values.email)) {
-      errors.email = "This is not a valid email format!"
+      errors.email = "This is not a valid email format!";
     }
     if (!values.password) {
       errors.password = "Password is required!";
@@ -107,7 +104,6 @@ export default function LoginForm() {
 
   return (
     <>
-
       <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
@@ -131,12 +127,12 @@ export default function LoginForm() {
                 component="form"
                 onSubmit={handleSubmit}
                 noValidate
-                sx={{ mt: 1, width: '100%' }}
+                sx={{ mt: 1, width: "100%" }}
               >
                 <TextField
                   margin="normal"
                   required
-                  fullWidth   
+                  fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
@@ -191,7 +187,6 @@ export default function LoginForm() {
           </Box>
         </Container>
       </ThemeProvider>
-
     </>
   );
 }
