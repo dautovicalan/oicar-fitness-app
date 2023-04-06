@@ -7,7 +7,7 @@ import HeightPicker from "../components/HeightPicker";
 import WeightPicker from "../components/WeightPicker";
 
 export default function AboutYouView({ navigation }) {
-  const { setAboutYouInfo } = useRegistrationProcess();
+  const { currentNewUser, setAboutYouInfo } = useRegistrationProcess();
 
   const [birthday, setBirthday] = useState(new Date());
   const [height, setHeight] = useState();
@@ -34,6 +34,8 @@ export default function AboutYouView({ navigation }) {
 
     return navigation.navigate("Goal");
   };
+
+  console.log(currentNewUser);
 
   return (
     <SafeAreaView style={style.container}>

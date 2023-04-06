@@ -12,8 +12,11 @@ import React, { useState } from "react";
 import { TextInput, Text, Button } from "react-native-paper";
 import GoogleLogin from "../components/GoogleLogin";
 import { loginValidationSchema } from "../schema/ValidationSchemas";
+import { useRegistrationProcess } from "../context/RegistrationProcessContext";
+import { validateLoginForm } from "../utils/FormValidatonUtils";
 
 export default function LoginView({ navigation }) {
+  const { setBasicInfo } = useRegistrationProcess();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(null);
@@ -21,48 +24,52 @@ export default function LoginView({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    loginValidationSchema
-      .validate({ email, password }, { abortEarly: false })
-      .then(async () => {
-        try {
-          setLoading(true);
-          const response = await fetch(
-            "http://localhost:5280/api/Account/Login",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ email, password }),
-            }
-          );
+    const validateData = await validateLoginForm({ email, password });
 
-          if (response.status === 403) {
-            setLoading(false);
-            return Alert.alert("Wrong email or password");
-          }
-
-          const result = await response.json();
-
-          console.log(result);
-
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "MainApp" }],
-          });
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        const tempErrors = {};
-        err.inner.forEach((e) => {
-          tempErrors[e.path] = e.message;
-        });
-        setErrors(tempErrors);
+    if (!validateData.isValid) {
+      return setErrors(validateData.errors);
+    }
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:5280/api/Account/Login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       });
+
+      if (response.status === 403) {
+        setLoading(false);
+        return Alert.alert("Wrong email or password");
+      }
+
+      const result = await response.json();
+
+      if (result?.isRegister && result.isRegister === true) {
+        return navigation.reset({
+          index: 0,
+          routes: [{ name: "MainApp" }],
+        });
+      }
+
+      console.log(result);
+      setBasicInfo({
+        id: result.id,
+        name: result.name,
+        surname: result.surname,
+        email: result.email,
+        isRegister: result.isRegister,
+      });
+
+      navigation.navigate("Register", {
+        screen: "About You",
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

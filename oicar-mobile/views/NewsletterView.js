@@ -43,7 +43,7 @@ export default function NewsletterView({ navigation }) {
         routes: [{ name: "MainApp" }],
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

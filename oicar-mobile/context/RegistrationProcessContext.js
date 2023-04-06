@@ -6,6 +6,7 @@ export const RegistrationProcessContext = React.createContext({
     name: "",
     surname: "",
     email: "",
+    isRegister: false,
     birthday: "",
     height: 0,
     weight: 0,
@@ -30,6 +31,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     name: "",
     surname: "",
     email: "",
+    isRegister: false,
     birthday: "",
     height: 0,
     weight: 0,
@@ -47,6 +49,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
           name: userBasicInfo.name,
           surname: userBasicInfo.surname,
           email: userBasicInfo.email,
+          isRegister: userBasicInfo.isRegister,
         };
       });
     }

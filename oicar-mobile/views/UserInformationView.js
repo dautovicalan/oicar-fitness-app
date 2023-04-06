@@ -5,6 +5,7 @@ import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 import { Text } from "react-native-paper";
 import GoogleLogin from "../components/GoogleLogin";
 import { userValidationSchema } from "../schema/ValidationSchemas";
+import { validateUserRegistration } from "../utils/FormValidatonUtils";
 
 export default function UserInformationView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
@@ -20,57 +21,56 @@ export default function UserInformationView({ navigation }) {
   const [errors, setErrors] = useState(null);
 
   const handleClick = async () => {
-    userValidationSchema
-      .validate(
-        { name, surname, email, password, passwordRepeat },
-        { abortEarly: false }
-      )
-      .then(async () => {
-        try {
-          setLoading(true);
-          const response = await fetch(
-            "http://localhost:5280/api/Account/Register",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ name, surname, email, password }),
-            }
-          );
-          const result = await response.json();
-          if (response.status === 400 && result.message) {
-            return reactNative.Alert.alert(result.message);
-          }
-          setBasicInfo({
-            id: result.id,
-            name: result.name,
-            surname: result.surname,
-            email: result.email,
-          });
+    const validatedData = await validateUserRegistration({
+      name,
+      surname,
+      email,
+      password,
+      passwordRepeat,
+    });
 
-          reactNative.Alert.alert(
-            "Thank you for creating account. Continue with creating your preferances"
-          );
+    if (!validatedData.isValid) {
+      return setErrors(validatedData.errors);
+    }
 
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "About You" }],
-          });
-        } catch (error) {
-          console.log(error);
-          reactNative.Alert.alert("Something went wrong. Please try again");
-        } finally {
-          setLoading(false);
+    try {
+      setLoading(true);
+      const response = await fetch(
+        "http://localhost:5280/api/Account/Register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, surname, email, password }),
         }
-      })
-      .catch((err) => {
-        const tempErrors = {};
-        err.inner.forEach((e) => {
-          tempErrors[e.path] = e.message;
-        });
-        setErrors(tempErrors);
+      );
+      const result = await response.json();
+      if (response.status === 400 && result.message) {
+        return reactNative.Alert.alert(result.message);
+      }
+      setBasicInfo({
+        id: result.id,
+        name: result.name,
+        surname: result.surname,
+        email: result.email,
+        isRegister: result.isRegister,
       });
+
+      reactNative.Alert.alert(
+        "Thank you for creating account. Continue with creating your preferances"
+      );
+
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "About You" }],
+      });
+    } catch (error) {
+      console.error(error);
+      reactNative.Alert.alert("Something went wrong. Please try again");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
