@@ -35,6 +35,26 @@ function Copyright(props) {
   );
 }
 
+async function login() {
+  try {
+    const response = await fetch('http://localhost:5280/api/Account/Login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: 'your_username',
+        password: 'your_password'
+      })
+    });
+    const data = await response.json();
+    console.log(data); // Do something with the response data
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
 const theme = createTheme();
 
 export default function LoginForm() {
@@ -47,6 +67,10 @@ export default function LoginForm() {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
+
+  const handleLogin = () => {
+    login()
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -111,7 +135,7 @@ export default function LoginForm() {
                 <TextField
                   margin="normal"
                   required
-                  fullWidth
+                  fullWidth   
                   id="email"
                   label="Email Address"
                   name="email"
@@ -142,6 +166,7 @@ export default function LoginForm() {
                 <Button
                   type="submit"
                   fullWidth
+                  onClick={handleLogin}
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
