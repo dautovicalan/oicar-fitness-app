@@ -36,22 +36,7 @@ function Copyright(props) {
 }
 
 async function login() {
-  try {
-    const response = await fetch('http://localhost:5280/api/Account/Login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: 'your_username',
-        password: 'your_password'
-      })
-    });
-    const data = await response.json();
-    console.log(data); // Do something with the response data
-  } catch (error) {
-    console.error(error);
-  }
+  
 }
 
 
@@ -68,8 +53,24 @@ export default function LoginForm() {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleLogin = () => {
-    login()
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/Account/Login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: 'your_username',
+          password: 'your_password'
+        })
+      });
+      const data = await response.json();
+      console.log(data); // Do something with the response data
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const handleSubmit = (event) => {
