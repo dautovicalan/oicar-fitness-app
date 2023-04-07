@@ -99,7 +99,12 @@ export default function LoginView({ navigation }) {
           />
           <Button
             mode="contained"
-            onPress={handleLogin}
+            onPress={() =>
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "MainApp" }],
+              })
+            }
             icon="lock-open"
             disabled={loading}
           >
