@@ -1,6 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, SafeAreaView, Image } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button } from "react-native-paper";
 
 export const InitialView = ({ navigation }) => {
   const handleGetStartedClick = () => {
@@ -14,7 +13,7 @@ export const InitialView = ({ navigation }) => {
   return (
     <SafeAreaView style={stlyes.container}>
       <Image
-        source={require("../assets/fitpal.png")}
+        source={require("../../assets/fitpal.png")}
         style={{ width: 200, height: 200 }}
       />
       <Button

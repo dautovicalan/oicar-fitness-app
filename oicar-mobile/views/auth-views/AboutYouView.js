@@ -1,14 +1,14 @@
 import { View, SafeAreaView, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
-import { Button, Text, Divider } from "react-native-paper";
-import { useRegistrationProcess } from "../context/RegistrationProcessContext";
-import BirthdayDatePicker from "../components/BirthdayDatePicker";
-import HeightPicker from "../components/HeightPicker";
-import WeightPicker from "../components/WeightPicker";
-import { validateAboutYouForm } from "../utils/FormValidatonUtils";
+import { Button, Text } from "react-native-paper";
+import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
+import BirthdayDatePicker from "../../components/BirthdayDatePicker";
+import HeightPicker from "../../components/HeightPicker";
+import WeightPicker from "../../components/WeightPicker";
+import { validateAboutYouForm } from "../../utils/FormValidatonUtils";
 
 export default function AboutYouView({ navigation }) {
-  const { currentNewUser, setAboutYouInfo } = useRegistrationProcess();
+  const { setAboutYouInfo } = useRegistrationProcess();
 
   const [birthday, setBirthday] = useState(new Date());
   const [height, setHeight] = useState();

@@ -1,7 +1,7 @@
 import { View, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
 import { Text, Switch, Button } from "react-native-paper";
-import { useRegistrationProcess } from "../context/RegistrationProcessContext";
+import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
 
 export default function NewsletterView({ navigation }) {
   const { currentNewUser, setEnableNewsletter } = useRegistrationProcess();

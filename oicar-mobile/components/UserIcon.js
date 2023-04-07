@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Appbar } from "react-native-paper";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ProfileView from "../views/main-app/ProfileView";
+import ProfileView from "../views/main-views/ProfileView";
 
 const Stack = createNativeStackNavigator();
 

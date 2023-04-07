@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
-import { userValidationSchema } from "../schema/ValidationSchemas";
 
 export default function ForgotYourPassword() {
   const [email, setEmail] = useState("");

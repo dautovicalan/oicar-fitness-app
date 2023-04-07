@@ -1,13 +1,9 @@
-import { View } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LoginView from "../views/LoginView";
-import { Text, BottomNavigation } from "react-native-paper";
+import { BottomNavigation } from "react-native-paper";
 import { CommonActions, useNavigation } from "@react-navigation/native";
-import HomeView from "../views/main-app/HomeView";
+import HomeView from "../views/main-views/HomeView";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import UserIcon from "../components/UserIcon";
-import ProfileView from "../views/main-app/ProfileView";
 
 const Tab = createBottomTabNavigator();
 

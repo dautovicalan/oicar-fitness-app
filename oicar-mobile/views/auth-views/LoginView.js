@@ -10,10 +10,9 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { TextInput, Text, Button } from "react-native-paper";
-import GoogleLogin from "../components/GoogleLogin";
-import { loginValidationSchema } from "../schema/ValidationSchemas";
-import { useRegistrationProcess } from "../context/RegistrationProcessContext";
-import { validateLoginForm } from "../utils/FormValidatonUtils";
+import GoogleLogin from "../../components/GoogleLogin";
+import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
+import { validateLoginForm } from "../../utils/FormValidatonUtils";
 
 export default function LoginView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
