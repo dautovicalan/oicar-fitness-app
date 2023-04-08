@@ -13,7 +13,7 @@ export default function WeightPicker({ selectedWeight, onWeightChange }) {
 
   return (
     <View style={{ width: "50%" }}>
-      <TabSelector tabs={Array.of("KG", "POUND")} onChange={handleChange} />
+      <TabSelector tabs={Array.of("KG", "LBS")} onChange={handleChange} />
       <Picker
         selectedValue={selectedWeight}
         onValueChange={(itemValue, itemIndex) => onWeightChange(itemValue)}
