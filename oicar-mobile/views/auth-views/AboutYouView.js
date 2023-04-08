@@ -1,17 +1,20 @@
-import { View, SafeAreaView, StyleSheet } from "react-native";
+import { View, SafeAreaView, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
-import { Button, Text, Divider } from "react-native-paper";
-import { useRegistrationProcess } from "../context/RegistrationProcessContext";
-import BirthdayDatePicker from "../components/BirthdayDatePicker";
-import HeightPicker from "../components/HeightPicker";
-import WeightPicker from "../components/WeightPicker";
+import { Button, Text } from "react-native-paper";
+import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
+import BirthdayDatePicker from "../../components/BirthdayDatePicker";
+import HeightPicker from "../../components/HeightPicker";
+import WeightPicker from "../../components/WeightPicker";
+import { validateAboutYouForm } from "../../utils/FormValidatonUtils";
 
 export default function AboutYouView({ navigation }) {
-  const { currentNewUser, setAboutYouInfo } = useRegistrationProcess();
+  const { setAboutYouInfo } = useRegistrationProcess();
 
   const [birthday, setBirthday] = useState(new Date());
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
+
+  const [errors, setErrors] = useState();
 
   const handleDateChange = (newDate) => {
     setBirthday(newDate);
@@ -25,7 +28,19 @@ export default function AboutYouView({ navigation }) {
     setWeight(weight);
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    const validateDate = await validateAboutYouForm({
+      birthday,
+      height,
+      weight,
+    });
+
+    if (!validateDate.isValid) {
+      console.log(validateDate.errors);
+      Alert.alert("Something went wrong");
+      return setErrors(validateDate.errors);
+    }
+
     setAboutYouInfo({
       birthday: birthday,
       height: height,
@@ -34,8 +49,6 @@ export default function AboutYouView({ navigation }) {
 
     return navigation.navigate("Goal");
   };
-
-  console.log(currentNewUser);
 
   return (
     <SafeAreaView style={style.container}>

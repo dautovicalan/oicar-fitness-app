@@ -1,12 +1,11 @@
-import { View, Text } from "react-native";
 import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { InitialView } from "../views/InitialView";
-import LoginView from "../views/LoginView";
+import { InitialView } from "../views/auth-views/InitialView";
+import LoginView from "../views/auth-views/LoginView";
 import RegistrationProcessStack from "./RegistrationProcessStack";
 import MainAppStack from "./MainAppStack";
-import ForgotYourPassword from "../views/ForgotYourPassword";
+import ForgotYourPassword from "../views/auth-views/ForgotYourPassword";
 
 const Stack = createNativeStackNavigator();
 

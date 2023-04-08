@@ -1,7 +1,7 @@
 import { View, StyleSheet, Pressable, Alert } from "react-native";
 import React, { useState } from "react";
 import { Text, Button } from "react-native-paper";
-import { workoutsPerWeek } from "../data/FitnessData";
+import { workoutsPerWeek } from "../../data/FitnessData";
 
 export default function WorkoutPerWeekSelectionView({ navigation }) {
   const [selectedWorkout, setSelectedWorkout] = useState();
