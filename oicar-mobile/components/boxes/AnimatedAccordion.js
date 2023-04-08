@@ -10,7 +10,7 @@ import * as Animatable from "react-native-animatable";
 import WeightPicker from "../WeightPicker";
 import { Text } from "react-native-paper";
 
-export default function AnimatedAccordion({ title, content, height }) {
+export default function AnimatedAccordion({ title, value, content, height }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const heightAnim = useRef(new Animated.Value(0)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
@@ -37,7 +37,7 @@ export default function AnimatedAccordion({ title, content, height }) {
       }).start();
       Animated.timing(opacityAnim, {
         toValue: 1,
-        duration: 100,
+        duration: 300,
         useNativeDriver: false,
       }).start();
     }
@@ -45,7 +45,10 @@ export default function AnimatedAccordion({ title, content, height }) {
 
   return (
     <Pressable onPress={handlePress} style={style.container}>
-      <Text style={{ fontWeight: "bold" }}>Change {title}</Text>
+      <View style={style.containerInfo}>
+        <Text style={{ fontWeight: "bold" }}>Change {title}</Text>
+        <Text>{value}</Text>
+      </View>
       <Animated.View style={[{ height: heightAnim, opacity: opacityAnim }]}>
         <Animatable.View style={style.animatedView} animation="fadeIn">
           {content}
@@ -66,8 +69,12 @@ const style = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
   },
+  containerInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   animatedView: {
-    padding: 20,
+    padding: 25,
     justifyContent: "center",
     alignItems: "center",
   },

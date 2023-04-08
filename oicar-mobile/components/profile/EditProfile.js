@@ -6,25 +6,63 @@ import HeightPicker from "../HeightPicker";
 import WeightPicker from "../WeightPicker";
 
 export default function EditProfile({ onSave }) {
-  const [weight, setWeight] = useState();
-  const [height, setHeight] = useState();
-  const [newsletter, setNewsletter] = useState();
+  const [weight, setWeight] = useState(30);
+  const [height, setHeight] = useState(100);
+  const [newsletter, setNewsletter] = useState(true);
+
+  const handleWeightChange = (weight) => {
+    setWeight(weight);
+  };
+
+  const handleHeightChange = (height) => {
+    setHeight(height);
+  };
+
   return (
     <>
       <AnimatedAccordion
         title={"Weight"}
-        height={200}
-        content={<WeightPicker />}
+        height={220}
+        value={weight + " KG"}
+        content={
+          <WeightPicker
+            selectedWeight={weight}
+            onWeightChange={handleWeightChange}
+            width={"100%"}
+          />
+        }
       />
       <AnimatedAccordion
         title={"Height"}
-        height={200}
-        content={<HeightPicker />}
+        height={220}
+        value={height + " CM"}
+        content={
+          <HeightPicker
+            selectedHeight={height}
+            onHeightChange={handleHeightChange}
+            width={"100%"}
+          />
+        }
+      />
+      <AnimatedAccordion
+        title={"Goal"}
+        height={100}
+        content={
+          <>
+            <Text>Change your goal</Text>
+          </>
+        }
       />
       <AnimatedAccordion
         title={"Newsletter"}
         height={100}
-        content={<Switch />}
+        value={newsletter ? "Subscribed" : "Unsubscribed"}
+        content={
+          <Switch
+            value={newsletter}
+            onChange={() => setNewsletter((prevVal) => !prevVal)}
+          />
+        }
       />
       <Button mode="contained" onPress={onSave}>
         Save
