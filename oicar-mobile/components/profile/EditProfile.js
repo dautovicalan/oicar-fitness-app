@@ -49,9 +49,10 @@ export default function EditProfile({ onSave }) {
         height={100}
         content={
           <>
-            <Text>Change your goal</Text>
+            <Text>Build Muscle</Text>
           </>
         }
+        value={"Build Muscle"}
       />
       <AnimatedAccordion
         title={"Newsletter"}

@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ProfileView from "../views/main-views/ProfileView";
 import WorkoutView from "../views/main-views/WorkoutView";
 import SettingsView from "../views/main-views/SettingsView";
+import WorkoutStack from "./WorkoutStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -71,7 +72,7 @@ export default function MainAppStack() {
         />
         <Tab.Screen
           name="Workouts"
-          component={WorkoutView}
+          component={WorkoutStack}
           options={{
             tabBarLabel: "Workouts",
             tabBarIcon: ({ color, size }) => {

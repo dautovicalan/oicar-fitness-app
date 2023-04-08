@@ -52,3 +52,10 @@ export const weightDataItems = (isPound) => {
   }
   return items;
 };
+
+export const workoutTypes = Array.of(
+  { id: 1, name: "Chest" },
+  { id: 2, name: "Back" },
+  { id: 3, name: "Legs" },
+  { id: 4, name: "Shoulders" }
+);
