@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./navigation/AuthStack";
 import { RegistrationProcessContextProvider } from "./context/RegistrationProcessContext";
 import * as WebBrowser from "expo-web-browser";
+import "react-native-gesture-handler";
 
 WebBrowser.maybeCompleteAuthSession();
 

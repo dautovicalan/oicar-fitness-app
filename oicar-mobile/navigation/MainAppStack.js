@@ -1,17 +1,18 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigation } from "react-native-paper";
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import { CommonActions } from "@react-navigation/native";
 import HomeView from "../views/main-views/HomeView";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import ProfileView from "../views/main-views/ProfileView";
+import WorkoutView from "../views/main-views/WorkoutView";
+import SettingsView from "../views/main-views/SettingsView";
 
 const Tab = createBottomTabNavigator();
 
 export default function MainAppStack() {
-  const navigation = useNavigation();
   return (
     <>
-      {/* <UserIcon navigation={navigation} /> */}
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -70,7 +71,7 @@ export default function MainAppStack() {
         />
         <Tab.Screen
           name="Workouts"
-          component={HomeView}
+          component={WorkoutView}
           options={{
             tabBarLabel: "Workouts",
             tabBarIcon: ({ color, size }) => {
@@ -85,6 +86,26 @@ export default function MainAppStack() {
             tabBarLabel: "Diet",
             tabBarIcon: ({ color, size }) => {
               return <Icon name="food" size={size} color={color} />;
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileView}
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: ({ color, size }) => {
+              return <Icon name="account-circle" size={size} color={color} />;
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsView}
+          options={{
+            tabBarLabel: "Settings",
+            tabBarIcon: ({ color, size }) => {
+              return <Icon name="apple" size={size} color={color} />;
             },
           }}
         />
