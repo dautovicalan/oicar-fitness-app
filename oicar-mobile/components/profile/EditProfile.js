@@ -55,7 +55,7 @@ export default function EditProfile({ onSave }) {
       />
       <AnimatedAccordion
         title={"Newsletter"}
-        height={100}
+        height={70}
         value={newsletter ? "Subscribed" : "Unsubscribed"}
         content={
           <Switch

@@ -44,17 +44,19 @@ export default function AnimatedAccordion({ title, value, content, height }) {
   };
 
   return (
-    <Pressable onPress={handlePress} style={style.container}>
-      <View style={style.containerInfo}>
-        <Text style={{ fontWeight: "bold" }}>Change {title}</Text>
-        <Text>{value}</Text>
-      </View>
+    <View style={style.container}>
+      <Pressable onPress={handlePress}>
+        <View style={style.containerInfo}>
+          <Text style={{ fontWeight: "bold" }}>Change {title}</Text>
+          <Text>{value}</Text>
+        </View>
+      </Pressable>
       <Animated.View style={[{ height: heightAnim, opacity: opacityAnim }]}>
         <Animatable.View style={style.animatedView} animation="fadeIn">
           {content}
         </Animatable.View>
       </Animated.View>
-    </Pressable>
+    </View>
   );
 }
 
