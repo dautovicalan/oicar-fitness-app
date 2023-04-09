@@ -8,6 +8,7 @@ import ProfileView from "../views/main-views/ProfileView";
 import WorkoutView from "../views/main-views/WorkoutView";
 import SettingsView from "../views/main-views/SettingsView";
 import WorkoutStack from "./WorkoutStack";
+import DietView from "../views/main-views/DietView";
 
 const Tab = createBottomTabNavigator();
 
@@ -82,7 +83,7 @@ export default function MainAppStack() {
         />
         <Tab.Screen
           name="Diet"
-          component={HomeView}
+          component={DietView}
           options={{
             tabBarLabel: "Diet",
             tabBarIcon: ({ color, size }) => {

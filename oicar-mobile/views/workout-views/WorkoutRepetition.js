@@ -3,14 +3,16 @@ import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { Button } from "react-native-paper";
 
-export default function WorkoutRepetition({ navigation }) {
+export default function WorkoutRepetition({ navigation, route }) {
+  const { workoutType, sets } = route.params;
+
   const [repetition, setRepetition] = useState(1);
 
   const handleClick = () => {
     if (!repetition) {
       return Alert.alert("Select repetition");
     }
-    navigation.navigate("Workout Weight");
+    navigation.navigate("Workout Weight", { workoutType, sets, repetition });
   };
 
   return (

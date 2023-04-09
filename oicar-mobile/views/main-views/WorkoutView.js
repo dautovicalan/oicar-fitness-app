@@ -6,6 +6,12 @@ import { Button } from "react-native-paper";
 export default function WorkoutView({ navigation }) {
   return (
     <SafeAreaView style={style.container}>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate("Personal Records")}
+      >
+        Personal Records
+      </Button>
       <Text>Your Workouts</Text>
       <DateSlider />
       <Text variant="displaySmall">View for selected workout</Text>
