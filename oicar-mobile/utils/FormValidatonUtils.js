@@ -2,6 +2,7 @@ import {
   aboutYouValidationSchema,
   loginValidationSchema,
   userValidationSchema,
+  workoutValidationSchema,
 } from "../schema/ValidationSchemas";
 
 export const formValid = (inputFields) => {
@@ -78,6 +79,27 @@ export const validateAboutYouForm = async (data) => {
       {
         abortEarly: false,
       }
+    );
+    return { isValid: true, errors: {} };
+  } catch (err) {
+    const errors = {};
+    err.inner.forEach((e) => {
+      errors[e.path] = e.message;
+    });
+    return { isValid: false, errors };
+  }
+};
+
+export const validateWorkoutForm = async (data) => {
+  try {
+    await workoutValidationSchema.validate(
+      {
+        workoutName: data.workoutName,
+        workoutSets: data.workoutSets,
+        workoutReps: data.workoutReps,
+        workoutWeight: data.workoutWeight,
+      },
+      { abortEarly: false }
     );
     return { isValid: true, errors: {} };
   } catch (err) {

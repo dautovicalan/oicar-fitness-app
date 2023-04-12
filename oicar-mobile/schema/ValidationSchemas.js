@@ -24,3 +24,10 @@ export const aboutYouValidationSchema = Yup.object().shape({
     .required("Height is required")
     .positive("Height must be positive number"),
 });
+
+export const workoutValidationSchema = Yup.object().shape({
+  workoutName: Yup.string().required("Workout name is required"),
+  workoutSets: Yup.string().required("Workout sets is required"),
+  workoutReps: Yup.string().required("Workout reps is required"),
+  workoutWeight: Yup.string().required("Workout weight is required"),
+});

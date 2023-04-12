@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View, FlatList, StyleSheet, Text } from "react-native";
+import { View, FlatList, StyleSheet, Text, Pressable } from "react-native";
 import {
   addDays,
   eachDayOfInterval,
   eachWeekOfInterval,
   format,
+  isEqual,
   subDays,
 } from "date-fns";
 
@@ -29,7 +30,7 @@ const dates = eachWeekOfInterval(
   return acc;
 }, []);
 
-const DateSlider = () => {
+const DateSlider = ({ selectedDate, setSelectedDate }) => {
   return (
     <PagerView style={styles.container} initialPage={0}>
       {dates.map((week, i) => {
@@ -39,10 +40,19 @@ const DateSlider = () => {
               {week.map((day) => {
                 const txt = format(day, "EEEEE");
                 return (
-                  <View key={day} style={styles.day}>
-                    <Text>{txt}</Text>
-                    <Text>{day.getDate()}</Text>
-                  </View>
+                  <Pressable key={day} onPress={() => setSelectedDate(day)}>
+                    <View
+                      style={[
+                        styles.day,
+                        isEqual(selectedDate, day) ? styles.selectedDay : {},
+                      ]}
+                    >
+                      <Text>{txt}</Text>
+                      <Text>
+                        {day.getDate()}.{day.getMonth() + 1}
+                      </Text>
+                    </View>
+                  </Pressable>
                 );
               })}
             </View>
@@ -56,7 +66,7 @@ const DateSlider = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "red",
+    maxHeight: "15%",
   },
   row: {
     flexDirection: "row",
@@ -64,6 +74,11 @@ const styles = StyleSheet.create({
   },
   day: {
     alignItems: "center",
+    padding: 3,
+  },
+  selectedDay: {
+    backgroundColor: "#6750A4",
+    borderRadius: 5,
   },
 });
 
