@@ -1,51 +1,69 @@
 import React, { useState } from "react";
 import { View, FlatList, StyleSheet, Text } from "react-native";
+import {
+  addDays,
+  eachDayOfInterval,
+  eachWeekOfInterval,
+  format,
+  subDays,
+} from "date-fns";
+
+import PagerView from "react-native-pager-view";
+
+const dates = eachWeekOfInterval(
+  {
+    start: subDays(new Date(), 14),
+    end: addDays(new Date(), 14),
+  },
+  {
+    weekStartsOn: 1,
+  }
+).reduce((acc, cur) => {
+  const allDays = eachDayOfInterval({
+    start: cur,
+    end: addDays(cur, 6),
+  });
+
+  acc.push(allDays);
+
+  return acc;
+}, []);
 
 const DateSlider = () => {
-  const [dates, setDates] = useState([
-    { id: "1", date: "2022-01-01" },
-    { id: "2", date: "2022-01-02" },
-    { id: "3", date: "2022-01-03" },
-    { id: "4", date: "2022-01-04" },
-    { id: "5", date: "2022-01-05" },
-    { id: "6", date: "2022-01-06" },
-  ]);
-
-  const renderItem = ({ item }) => {
-    return (
-      <View style={styles.item}>
-        <Text>{item.date}</Text>
-      </View>
-    );
-  };
-
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={dates}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-      />
-    </View>
+    <PagerView style={styles.container} initialPage={0}>
+      {dates.map((week, i) => {
+        return (
+          <View key={i}>
+            <View style={styles.row}>
+              {week.map((day) => {
+                const txt = format(day, "EEEEE");
+                return (
+                  <View key={day} style={styles.day}>
+                    <Text>{txt}</Text>
+                    <Text>{day.getDate()}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        );
+      })}
+    </PagerView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    maxHeight: "10%",
+    backgroundColor: "red",
   },
-  item: {
-    backgroundColor: "#fff",
-    padding: 10,
-    margin: 5,
-    borderRadius: 5,
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  day: {
     alignItems: "center",
-    justifyContent: "center",
   },
 });
 
