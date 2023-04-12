@@ -10,5 +10,7 @@ namespace Repository.Contracts
         Task<User?> GetUserByEmail(string email);
         Task<User> RegisterUser(UserRegisterInput user);
         Task<bool> IsEmailExist(string email);
+        Task SaveResetPasswordCode(string email, string resetCode);
+        Task<User?> ChangePassword(string email, string code, string password);
     }
 }
