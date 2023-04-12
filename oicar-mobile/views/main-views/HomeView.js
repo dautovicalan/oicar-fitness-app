@@ -34,10 +34,10 @@ export default function HomeView() {
           marginBottom: 50,
         }}
       >
-        Welcome Back, Alan
+        Welcome Back, Alan 💪
       </Text>
       <View style={style.firstInnerContainer}>
-        <View style={style.firstInnerItem}>
+        <View>
           <GoalBox />
         </View>
         <View>
@@ -67,11 +67,13 @@ const style = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     height: "25%",
+    gap: 20,
   },
   firstInnerItem: {},
   secondInnerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     height: "25%",
+    gap: 20,
   },
 });

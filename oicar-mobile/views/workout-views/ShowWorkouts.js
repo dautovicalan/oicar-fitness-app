@@ -6,30 +6,26 @@ import { TextInput } from "react-native-paper";
 export default function ShowWorkouts({ navigation }) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSort = (text) => {
-    if (text === "") {
-      return;
-    }
-    setSearchTerm(text);
-  };
-
   return (
     <View style={style.container}>
       <TextInput
         label={"Search for workout"}
         style={{ width: "90%" }}
         value={searchTerm}
-        onChangeText={(text) => handleSort(text)}
+        onChangeText={(text) => setSearchTerm(text)}
       />
       <FlatList
         data={[
           { key: "Alan" },
           { key: "Pero" },
           { key: "Sero" },
-          { key: "kero" },
+          { key: "Mero" },
+          { key: "kero1" },
+          { key: "ker2" },
         ]}
         contentContainerStyle={style.listContainer}
         numColumns={2}
+        keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
           <SingleWorkoutBox
             navigation={() =>
@@ -52,9 +48,6 @@ const style = StyleSheet.create({
     gap: 20,
   },
   listContainer: {
-    width: "100%",
     alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
   },
 });

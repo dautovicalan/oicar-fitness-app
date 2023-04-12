@@ -13,7 +13,7 @@ export default function GoalBox() {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    width: "80%",
+    width: "100%",
     backgroundColor: "#FF5668",
     padding: 20,
     borderRadius: 15,
@@ -22,5 +22,6 @@ const style = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 5,
+    margin: 10,
   },
 });

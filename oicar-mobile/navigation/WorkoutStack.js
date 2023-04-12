@@ -16,10 +16,11 @@ export default function WorkoutStack() {
         name="Workout Dashboard"
         component={WorkoutView}
         options={({ navigation }) => ({
-          title: "Show Workouts",
+          title: "Workouts",
           headerLeft: () => (
             <Icon.Button
               name="weight"
+              iconStyle={{ justifyContent: "center", alignItems: "center" }}
               backgroundColor={"#000"}
               onPress={() => {
                 navigation.navigate("Personal Records");
@@ -30,6 +31,7 @@ export default function WorkoutStack() {
             <Icon.Button
               name="help"
               backgroundColor={"#000"}
+              iconStyle={{ justifyContent: "center", alignItems: "center" }}
               onPress={() => {
                 navigation.navigate("Show Workouts");
               }}

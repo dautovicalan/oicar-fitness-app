@@ -4,7 +4,7 @@ import React from "react";
 export default function WorkoutBox() {
   return (
     <View style={style.container}>
-      <Text>Workout this week</Text>
+      <Text>Workouts</Text>
     </View>
   );
 }
@@ -12,7 +12,7 @@ export default function WorkoutBox() {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    width: "80%",
+    width: "100%",
     backgroundColor: "#3FBD86",
     padding: 20,
     borderRadius: 15,
@@ -21,5 +21,6 @@ const style = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 5,
+    margin: 10,
   },
 });

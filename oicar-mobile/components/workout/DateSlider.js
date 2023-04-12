@@ -66,6 +66,7 @@ const DateSlider = ({ selectedDate, setSelectedDate }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
     maxHeight: "15%",
   },
   row: {

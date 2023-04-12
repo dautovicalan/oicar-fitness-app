@@ -27,6 +27,7 @@ export default function AddWorkoutView({ route, navigation }) {
     }
 
     addWorkout({
+      id: Math.floor(Math.random() * 100000),
       workoutName: workoutType,
       workoutSets: sets,
       workoutReps: reps,

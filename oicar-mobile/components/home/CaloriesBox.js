@@ -12,7 +12,7 @@ export default function CaloriesBox() {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    width: "80%",
+    width: "100%",
     backgroundColor: "#FE7F61",
     padding: 20,
     borderRadius: 15,
@@ -21,5 +21,6 @@ const style = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 5,
+    margin: 10,
   },
 });

@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import React from "react";
+import { Text } from "react-native-paper";
 
 export default function SingleUserEnteredWorkoutBox({
   workoutName,
@@ -7,22 +8,28 @@ export default function SingleUserEnteredWorkoutBox({
   workoutReps,
   workoutWeight,
   removeWorkout,
+  renderFullWidth,
 }) {
   return (
-    <Pressable style={style.container} onLongPress={removeWorkout}>
-      <Text>Name: {workoutName}</Text>
-      <Text>Sets: {workoutSets}</Text>
-      <Text>Reps: {workoutReps}</Text>
-      <Text>Weight: {workoutWeight}</Text>
+    <Pressable
+      style={[
+        style.container,
+        { width: renderFullWidth === true ? "95%" : "45%" },
+      ]}
+      onLongPress={removeWorkout}
+    >
+      <Text variant="bodySmall">Name: {workoutName}</Text>
+      <Text variant="bodySmall">Sets: {workoutSets}</Text>
+      <Text variant="bodySmall">Reps: {workoutReps}</Text>
+      <Text variant="bodySmall">Weight: {workoutWeight}</Text>
     </Pressable>
   );
 }
 
 const style = StyleSheet.create({
   container: {
-    width: "45%",
     backgroundColor: "#fff",
-    padding: 20,
+    padding: 15,
     borderRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -31,8 +38,7 @@ const style = StyleSheet.create({
     elevation: 5,
     justifyContent: "center",
     alignItems: "flex-start",
-    gap: 10,
-    marginBottom: 10,
-    marginRight: 10,
+    gap: 5,
+    margin: 10,
   },
 });
