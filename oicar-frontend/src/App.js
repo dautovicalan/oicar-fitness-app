@@ -2,7 +2,6 @@ import Footer from "./Components/Footer";
 import LandingPage from "./Components/LandingPage";
 import LoginForm from "./Components/LoginForm";
 import Navbar from "./Components/Navbar";
-import RegistrationForm from "./Components/RegistrationForm";
 import RegistrationStepper from "./Components/RegistrationStepper";
 import {
   BrowserRouter as Router,
@@ -14,10 +13,12 @@ import { UserContext } from "./Context/UserContext.js";
 import Dashboard from "./Components/Dashboard";
 import "./Styles/App.css";
 import React from "react";
-import SignUp from "./Components/RegistrationForm";
 import { useState } from "react";
 import ForgotPassword from "./Components/ForgotPassword";
-import AboutYou from "./Components/AboutYou";
+import UserProfile from "./Components/UserProfile"
+import WorkoutPlan from "./Components/WorkoutPlan"
+import MealPlan from "./Components/MealPlan"
+
 
 function App() {
 
@@ -30,12 +31,14 @@ function App() {
         <UserContext.Provider value={{user, setUser}}>
         <Navbar/>
           <Routes>
-
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegistrationStepper />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/workoutplan" element={<WorkoutPlan />} />
+            <Route path="/mealplan" element={<MealPlan />} />
+            <Route path="/profile" element={<UserProfile />} />
           </Routes>
           <Footer/>
         </UserContext.Provider>
