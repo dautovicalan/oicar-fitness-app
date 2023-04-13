@@ -35,7 +35,7 @@ function Copyright(props) {
     </Typography>
   );
 }
-
+var errorsTemp = {};
 const theme = createTheme();
 
 export default function SignUp({handleNext}) {
@@ -58,8 +58,14 @@ export default function SignUp({handleNext}) {
     console.log({
       email: data.get("email"),
       password: data.get("password"),
+      
     });
-    handleNext()
+    //console.log(Object.keys(errorsTemp).length);
+    
+    if (Object.keys(errorsTemp).length == 0) {
+      handleNext()
+    }
+    
   };
 
   useEffect(() => {
@@ -92,7 +98,7 @@ export default function SignUp({handleNext}) {
     } else if (values.repeatpassword!=values.password) {
       errors.repeatpassword = "Passwords must match!";
     }
-
+    errorsTemp = errors;
     return errors;
   };
 
@@ -100,6 +106,8 @@ export default function SignUp({handleNext}) {
     <>
 
       <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
+      <pre>{JSON.stringify(errors, undefined, 2)}</pre>
+
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />

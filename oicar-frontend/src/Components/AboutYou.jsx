@@ -78,6 +78,7 @@ const AboutYou = ({handleNext}) => {
 			age: "",
 		},
 		validationSchema: validationSchema,
+		
 		onSubmit: (values) => {
 
 		},
@@ -92,7 +93,7 @@ const AboutYou = ({handleNext}) => {
 		});
 		handleNext()
 	  };
-
+	  
 	return (
 		<div>
 			<Container
@@ -153,12 +154,14 @@ const AboutYou = ({handleNext}) => {
 							helperText={formik.touched.age && formik.errors.age}
 						/>
 					</Box>
+
+					
 					<Button
 						type="submit"
 						fullWidth
 						variant="contained"
 						sx={{ mt: 3, mb: 2 }}
-						disabled={!formik.isValid || formik.isSubmitting}
+						disabled={!formik.isValid || formik.isSubmitting || !formik.dirty}
 					>
 						{formik.isSubmitting ? "Submitting..." : "Next"}
 					</Button>
