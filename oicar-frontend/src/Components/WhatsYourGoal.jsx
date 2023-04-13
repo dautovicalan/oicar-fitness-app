@@ -81,6 +81,7 @@ const WhatsYourGoal = () => {
       <Button
                   type="submit"
                   fullWidth
+                  href='/login'
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >

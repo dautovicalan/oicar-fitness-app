@@ -11,12 +11,13 @@ import {
   Navigate,
 } from "react-router-dom";
 import { UserContext } from "./Context/UserContext.js";
-
+import Dashboard from "./Components/Dashboard";
 import "./Styles/App.css";
 import React from "react";
 import SignUp from "./Components/RegistrationForm";
 import { useState } from "react";
 import ForgotPassword from "./Components/ForgotPassword";
+import AboutYou from "./Components/AboutYou";
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegistrationStepper />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
           <Footer/>
         </UserContext.Provider>

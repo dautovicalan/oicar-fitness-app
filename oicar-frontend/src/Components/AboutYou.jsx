@@ -19,7 +19,7 @@ const validationSchema = yup.object().shape({
 		.required("Height is required")
 		.positive("Height must be greater than 0 cm")
 		.min(60, "Height must be greater than 60 cm")
-		.max(100, "Height must be less than or equal to 100 cm"),
+		.max(250, "Height must be less than 250 cm"),
 	weight: yup
 		.number("Weight must be a number")
 		.required("Weight is required")
@@ -34,7 +34,7 @@ const validationSchema = yup.object().shape({
 		.max(120, "You must be less than 120 years old"),
 });
 
-const AboutYou = () => {
+const AboutYou = ({handleNext}) => {
 	const BootstrapInput = styled(InputBase)(({ theme }) => ({
 		"label + &": {
 			marginTop: theme.spacing(3),
@@ -79,9 +79,19 @@ const AboutYou = () => {
 		},
 		validationSchema: validationSchema,
 		onSubmit: (values) => {
-			// Handle form submission
+
 		},
 	});
+
+	const handleSubmit = (event) => {
+		const data = new FormData(event.currentTarget);
+		console.log({
+		  email: data.get("height"),
+		  password: data.get("weight"),
+		  password: data.get("age"),
+		});
+		handleNext()
+	  };
 
 	return (
 		<div>
@@ -93,64 +103,66 @@ const AboutYou = () => {
 					alignItems: "center",
 				}}
 			>
-				<h3>About You</h3>
-				<Box>
-					<TextField
-						margin="normal"
-						required
+				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+					<h3>About You</h3>
+					<Box>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							id="height"
+							name="height"
+							label="Height (cm)"
+							type="number"
+							value={formik.values.height}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							error={formik.touched.height && Boolean(formik.errors.height)}
+							helperText={formik.touched.height && formik.errors.height}
+						/>
+					</Box>
+					<Box>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							id="weight"
+							name="weight"
+							label="Weight (kg)"
+							type="number"
+							value={formik.values.weight}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							error={formik.touched.weight && Boolean(formik.errors.weight)}
+							helperText={formik.touched.weight && formik.errors.weight}
+						/>
+					</Box>
+					<Box>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							id="age"
+							name="age"
+							label="Age"
+							type="number"
+							value={formik.values.age}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							error={formik.touched.age && Boolean(formik.errors.age)}
+							helperText={formik.touched.age && formik.errors.age}
+						/>
+					</Box>
+					<Button
+						type="submit"
 						fullWidth
-						id="height"
-						name="height"
-						label="Height (cm)"
-						type="number"
-						value={formik.values.height}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						error={formik.touched.height && Boolean(formik.errors.height)}
-						helperText={formik.touched.height && formik.errors.height}
-					/>
+						variant="contained"
+						sx={{ mt: 3, mb: 2 }}
+						disabled={!formik.isValid || formik.isSubmitting}
+					>
+						{formik.isSubmitting ? "Submitting..." : "Next"}
+					</Button>
 				</Box>
-				<Box>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						id="weight"
-						name="weight"
-						label="Weight (kg)"
-						type="number"
-						value={formik.values.weight}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						error={formik.touched.weight && Boolean(formik.errors.weight)}
-						helperText={formik.touched.weight && formik.errors.weight}
-					/>
-				</Box>
-				<Box>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						id="age"
-						name="age"
-						label="Age"
-						type="number"
-						value={formik.values.age}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						error={formik.touched.age && Boolean(formik.errors.age)}
-						helperText={formik.touched.age && formik.errors.age}
-					/>
-				</Box>
-				<Button
-					type="submit"
-					fullWidth
-					variant="contained"
-					sx={{ mt: 3, mb: 2 }}
-					disabled={!formik.isValid || formik.isSubmitting}
-				>
-					{formik.isSubmitting ? "Submitting..." : "Submit"}
-				</Button>
 			</Container>
 		</div>
 	);

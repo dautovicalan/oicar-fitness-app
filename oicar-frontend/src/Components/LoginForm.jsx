@@ -163,7 +163,7 @@ export default function LoginForm() {
                 <Button
                   type="submit"
                   fullWidth
-                  onClick={handleLogin}
+                  onClick={handleSubmit}
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >

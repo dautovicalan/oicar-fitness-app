@@ -38,7 +38,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function SignUp({handleNext}) {
   const initialValues = { email: "", password: "", repeatpassword: "", firstName: "", lastName: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
@@ -59,6 +59,7 @@ export default function SignUp() {
       email: data.get("email"),
       password: data.get("password"),
     });
+    handleNext()
   };
 
   useEffect(() => {
@@ -227,7 +228,6 @@ export default function SignUp() {
               </Box>
             </Box>
           </Box>
-        <AboutYou/>
         </Container>
       </ThemeProvider>
     
