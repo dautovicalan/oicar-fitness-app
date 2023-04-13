@@ -10,14 +10,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import { UserContext } from "./Context/UserContext.js";
-import Dashboard from "./Components/Dashboard";
 import "./Styles/App.css";
 import React from "react";
 import { useState } from "react";
 import ForgotPassword from "./Components/ForgotPassword";
-import UserProfile from "./Components/UserProfile"
-import WorkoutPlan from "./Components/WorkoutPlan"
-import MealPlan from "./Components/MealPlan"
+import UserProfile from "./Components/UserProfile";
+import WorkoutPlan from "./Components/WorkoutPlan";
+import MealPlan from "./Components/MealPlan";
+import HomePage from "./Components/HomePage";
 
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegistrationStepper />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/homepage" element={<HomePage />} />
             <Route path="/workoutplan" element={<WorkoutPlan />} />
             <Route path="/mealplan" element={<MealPlan />} />
             <Route path="/profile" element={<UserProfile />} />
