@@ -23,8 +23,8 @@ import { Link } from 'react-router-dom';
 
 import { useState } from 'react';
 
-const pages = ['Home', 'Sign In'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Home', 'Workouts', 'Diet'];
+const settings = ['Profile', 'Logout'];
 
 function NavbarLoggedIn() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -130,13 +130,13 @@ function NavbarLoggedIn() {
           </Typography>
           <Box sx={{ flexGrow: 1,
              display: { xs: 'none', md: 'flex' }, 
-             justifyContent: 'space-between'
+             
              }}>
             
               <Button
                 key={pages[0]}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block', marginRight:'3vh' }}
                 
                 href='/'
               >
@@ -146,11 +146,21 @@ function NavbarLoggedIn() {
               <Button 
                 key={pages[1]}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block' , marginRight:'3vh'  }}
                 
-                href='/login'
+                href='/workoutplan'
               >
                 {pages[1]}
+              </Button>
+
+              <Button 
+                key={pages[2]}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block', marginRight:'3vh'  }}
+                
+                href='/mealplan'
+              >
+                {pages[2]}
               </Button>
             
           </Box>
@@ -159,7 +169,7 @@ function NavbarLoggedIn() {
           <Box sx={{ flexGrow: 0 }}  >
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="https://freesvg.org/img/abstract-user-flat-4.png" />
               </IconButton>
             </Tooltip>
             <Menu
