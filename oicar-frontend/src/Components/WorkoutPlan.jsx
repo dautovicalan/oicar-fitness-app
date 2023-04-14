@@ -10,9 +10,9 @@ import Grid from "@mui/material/Grid";
 const WorkoutPlan = () => {
 
   const myList = [
-    { id: 1, name: 'Item 1', description: 'Description for item 1' },
-    { id: 2, name: 'Item 2', description: 'Description for item 2' },
-    { id: 3, name: 'Item 3', description: 'Description for item 3' }
+    { id: 1, name: 'Bench press', sets: 3, reps: 3, weight: 100 },
+    { id: 2, name: 'Curls', sets: 2, reps: 5, weight: 15 },
+    { id: 3, name: 'Rows', sets: 4, reps: 7, weight: 20 }
   ];
 
   return (
@@ -39,15 +39,18 @@ const WorkoutPlan = () => {
         >
           {myList.map((item) =>  {
             return (
-              <div className="item-box">
+              <div className="item-box" key={item.id}>
                 <h3>
                   Name:{item.name}
                 </h3>
                 <p>
-                  ID:{item.id}
+                  Sets:{item.sets}
                 </p>
                 <p>
-                  Description:{item.description}
+                  Reps:{item.reps}
+                </p>
+                <p>
+                  Weight:{item.weight} kg
                 </p>
               </div>
             )
