@@ -49,7 +49,7 @@ const DateSlider = ({ selectedDate, setSelectedDate }) => {
                     >
                       <Text>{txt}</Text>
                       <Text>
-                        {day.getDate()}.{day.getMonth() + 1}
+                        {day.getDate()}.{day.getMonth() + 1}.
                       </Text>
                     </View>
                   </Pressable>

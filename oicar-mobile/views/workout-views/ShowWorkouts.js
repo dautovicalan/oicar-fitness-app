@@ -4,13 +4,22 @@ import SingleWorkoutBox from "../../components/workout/SingleWorkoutBox";
 import { TextInput } from "react-native-paper";
 
 export default function ShowWorkouts({ navigation }) {
+  const [workouts, setWorkouts] = useState();
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const handleFilter = () => {
+    const filtered = workouts.filter((workout) => {
+      return workout.workoutName.includes(searchTerm);
+    });
+  };
 
   return (
     <View style={style.container}>
       <TextInput
         label={"Search for workout"}
-        style={{ width: "90%" }}
+        style={{ width: "90%", marginTop: 10 }}
         value={searchTerm}
         onChangeText={(text) => setSearchTerm(text)}
       />

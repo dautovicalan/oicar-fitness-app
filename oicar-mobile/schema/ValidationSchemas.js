@@ -31,3 +31,9 @@ export const workoutValidationSchema = Yup.object().shape({
   workoutReps: Yup.string().required("Workout reps is required"),
   workoutWeight: Yup.string().required("Workout weight is required"),
 });
+
+export const addPRValidationSchema = Yup.object().shape({
+  workoutDate: Yup.date().required("Workout date is required"),
+  workoutName: Yup.string().required("Workout name is required"),
+  workoutWeight: Yup.number().required("Workout weight is required"),
+});

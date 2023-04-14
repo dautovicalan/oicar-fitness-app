@@ -73,11 +73,16 @@ export default function WorkoutView({ navigation }) {
     },
   ]);
 
+  const [loading, setLoading] = useState(false);
+
   const handleDateChange = async (date) => {
     // fetch API
+    setLoading(true);
 
     setSelectedDate(date);
     // setSelectedDateWorkouts([]);
+
+    setLoading(false);
   };
 
   return (

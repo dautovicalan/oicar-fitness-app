@@ -21,7 +21,7 @@ export default function SingleUserEnteredWorkoutBox({
       <Text variant="bodySmall">Name: {workoutName}</Text>
       <Text variant="bodySmall">Sets: {workoutSets}</Text>
       <Text variant="bodySmall">Reps: {workoutReps}</Text>
-      <Text variant="bodySmall">Weight: {workoutWeight}</Text>
+      <Text variant="bodySmall">Weight: {workoutWeight} KG</Text>
     </Pressable>
   );
 }

@@ -1,14 +1,16 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { WebView } from "react-native-webview";
+import { Text } from "react-native-paper";
 
 export default function SingleWorkoutView({ route }) {
   const { workoutId } = route.params;
   const [playing, setPlaying] = useState(false);
   return (
     <ScrollView contentContainerStyle={style.container}>
-      <Text>Single Workout View</Text>
-      <Text>ID: {workoutId}</Text>
+      <Text variant="bodyLarge" style={{ marginTop: 10 }}>
+        Bench Press
+      </Text>
       <WebView
         style={{ width: 300 }}
         javaScriptEnabled={true}
@@ -23,5 +25,6 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    gap: 10,
   },
 });

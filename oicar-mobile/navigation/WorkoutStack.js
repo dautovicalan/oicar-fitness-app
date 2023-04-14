@@ -6,6 +6,7 @@ import SingleWorkoutView from "../views/workout-views/SingleWorkoutView";
 import PersonalRecordView from "../views/workout-views/PersonalRecordView";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AddWorkoutView from "../views/workout-views/AddWorkoutView";
+import AddPRView from "../views/workout-views/AddPRView";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,8 +42,15 @@ export default function WorkoutStack() {
       />
       <Stack.Screen name="Add Workout" component={AddWorkoutView} />
       <Stack.Screen name="Show Workouts" component={ShowWorkouts} />
-      <Stack.Screen name="Single Workouts" component={SingleWorkoutView} />
+      <Stack.Screen
+        name="Single Workouts"
+        component={SingleWorkoutView}
+        options={() => ({
+          title: "Workout Tutorial",
+        })}
+      />
       <Stack.Screen name="Personal Records" component={PersonalRecordView} />
+      <Stack.Screen name="Add Personal Record" component={AddPRView} />
     </Stack.Navigator>
   );
 }

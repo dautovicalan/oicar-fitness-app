@@ -1,13 +1,22 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 
-export default function PersonalRecordBox() {
+export default function PersonalRecordBox({
+  workoutDate,
+  workoutName,
+  workoutWeight,
+  renderFullWidth,
+}) {
   return (
-    <View style={style.container}>
-      <Text>PR</Text>
-      <Text>Workout: Bench Press</Text>
-      <Text>When: {new Date().toDateString()}</Text>
-      <Text>Weight: 100 KG</Text>
+    <View
+      style={[
+        style.container,
+        { width: renderFullWidth === true ? "95%" : "45%" },
+      ]}
+    >
+      <Text>PR: {workoutDate}</Text>
+      <Text>Workout: {workoutName}</Text>
+      <Text>Weight: {workoutWeight} KG</Text>
     </View>
   );
 }
@@ -24,6 +33,8 @@ const style = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
+    gap: 5,
+    margin: 8,
   },
 });

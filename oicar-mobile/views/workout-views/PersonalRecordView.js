@@ -1,18 +1,72 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
-import { Button } from "react-native-paper";
+import { View, StyleSheet, FlatList } from "react-native";
+import React, { useState } from "react";
+import { Button, Text, TextInput } from "react-native-paper";
 import PersonalRecordBox from "../../components/workout/PersonalRecordBox";
 
-export default function PersonalRecordView() {
-  const handleClick = () => {};
+export default function PersonalRecordView({ navigation }) {
+  const [searchPersonalRecord, setSearchPersonalRecord] = useState("");
+  const [personalRecords, setPersonalRecords] = useState([
+    {
+      id: 1,
+      workoutDate: new Date(),
+      workoutName: "Bench Press",
+      workoutWeight: 100,
+    },
+    {
+      id: 2,
+      workoutDate: new Date(),
+      workoutName: "Something",
+      workoutWeight: 100,
+    },
+    {
+      id: 3,
+      workoutDate: new Date(),
+      workoutName: "something again",
+      workoutWeight: 100,
+    },
+  ]);
+
+  const [loading, setLoading] = useState(false);
+
+  const handleFilter = () => {
+    const filtered = personalRecords.filter((pr) => {
+      return pr.workoutName.includes(searchPersonalRecord);
+    });
+    setPersonalRecords(filtered);
+  };
 
   return (
     <View style={style.container}>
-      <Text>Your PR's</Text>
+      <TextInput
+        label={"Search PR's"}
+        style={{ width: "90%", marginTop: 10 }}
+        value={searchPersonalRecord}
+        onChangeText={(text) => {
+          setSearchPersonalRecord(text);
+          handleFilter();
+        }}
+      />
 
-      <PersonalRecordBox />
-
-      <Button mode="contained" onPress={handleClick}>
+      <FlatList
+        contentContainerStyle={style.prs}
+        data={personalRecords}
+        numColumns={2}
+        renderItem={(item) => (
+          <PersonalRecordBox
+            {...item.item}
+            workoutDate={item.item.workoutDate.toDateString()}
+            renderFullWidth={
+              personalRecords.length % 2 !== 0 &&
+              item.index === personalRecords.length - 1
+            }
+          />
+        )}
+      />
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate("Add Personal Record")}
+        style={{ marginVertical: 10 }}
+      >
         Add New PR
       </Button>
     </View>
@@ -22,8 +76,10 @@ export default function PersonalRecordView() {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     gap: 10,
+  },
+  prs: {
+    alignItems: "center",
   },
 });

@@ -1,15 +1,14 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import React from "react";
 import { Button } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Text } from "react-native-paper";
 
 export default function SingleWorkoutBox({ navigation }) {
   return (
     <View style={style.container}>
-      <Text>Single Workout Box</Text>
-      <Image
-        style={{ width: 50, height: 50 }}
-        source={require("../../assets/googlesvg.png")}
-      />
+      <Text variant="bodyLarge">Bench Press</Text>
+      <Icon name="help-circle" size={32} />
       <Button mode="contained" onPress={navigation}>
         Show
       </Button>
