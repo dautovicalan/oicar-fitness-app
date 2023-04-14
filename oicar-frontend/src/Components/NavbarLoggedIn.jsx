@@ -45,6 +45,7 @@ function NavbarLoggedIn() {
     setAnchorElNav(null);
   };
 
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -188,11 +189,15 @@ function NavbarLoggedIn() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+             
+                <MenuItem key={settings[0]} onClick={handleCloseUserMenu} component={Link} to='/profile'>
+                  <Typography textAlign="center">{settings[0]}</Typography>
                 </MenuItem>
-              ))}
+                
+                <MenuItem key={settings[1]} onClick={handleCloseUserMenu} component={Link} to='/login'>
+                  <Typography textAlign="center">{settings[1]}</Typography>
+                </MenuItem>
+              
             </Menu>
           </Box>
           )}</div>
