@@ -26,10 +26,11 @@ namespace oicar_ApiServices.AppSettings
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
-                Audience = new List<string>() { _config.Value.SocialLoginConfiguration.GoogleClientId }
+                Audience = new List<string>() { _config.Value.SocialLoginConfiguration.GoogleConfiguration.GoogleClientId }
             };
             GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(accessToken, settings);
 
+            var test = payload;
             return payload;
         }
     }
