@@ -18,6 +18,8 @@ import UserProfile from "./Components/UserProfile";
 import WorkoutPlan from "./Components/WorkoutPlan";
 import MealPlan from "./Components/MealPlan";
 import HomePage from "./Components/HomePage";
+import AddWorkout from "./Components/AddWorkout";
+import WorkoutDetails from "./Components/WorkoutDetails";
 
 
 function App() {
@@ -39,15 +41,12 @@ function App() {
             <Route path="/workoutplan" element={<WorkoutPlan />} />
             <Route path="/mealplan" element={<MealPlan />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/addworkout" element={<AddWorkout />} />
+            <Route path="/workoutdetails" element={<WorkoutDetails />} />
           </Routes>
           <Footer/>
         </UserContext.Provider>
       </Router>
-
-      {/* <Navbar setRedirectPath={setRedirectPath} />
-      <LandingPage/>
-      <LoginForm/>
-      <Footer /> */}
     </div>
   );
 }
