@@ -3,8 +3,10 @@ using Domain.ErrorModel;
 using Domain.Models;
 using FitPal_Models.Dto;
 using FitPal_Models.JsonModels;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using oicar_ApiServices.AppSettings;
 using Repository;
 
 namespace oicar_ApiServices.Controllers
@@ -16,11 +18,13 @@ namespace oicar_ApiServices.Controllers
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        private readonly ISocialLoginManager _socialLoginManager;
 
-        public AccountController(IRepositoryManager repositoryManager, IMapper mapper)
+        public AccountController(IRepositoryManager repositoryManager, IMapper mapper, ISocialLoginManager socialLoginManager)
         {
             _repository = repositoryManager;
             _mapper = mapper;
+            _socialLoginManager = socialLoginManager;
         }
 
         [HttpPost("Login")]
@@ -35,6 +39,18 @@ namespace oicar_ApiServices.Controllers
 
             return Forbid();
         }
+
+        [HttpPost("LoginGoogle")]
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginWithGoogle(string accessToken)
+        {
+            GoogleJsonWebSignature.Payload? payload = await _socialLoginManager.GoogleAuthentication(accessToken);
+            if (payload is null)
+                return BadRequest(new HttpError("Error while login with google"));
+
+            return Ok();
+        }
+
 
         [HttpGet("GetUser")]
         public async Task<IActionResult> GetUser(int id)
