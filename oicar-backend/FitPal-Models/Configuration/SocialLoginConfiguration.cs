@@ -2,6 +2,6 @@
 {
     public class SocialLoginConfiguration
     {
-        public string GoogleClientId { get; set; } = null!;
+        public GoogleConfiguration GoogleConfiguration{ get; set; } = null!;
     }
 }
