@@ -5,12 +5,12 @@ namespace RestApiServices
 {
     public class RestApiManager : IRestApiManager
     {
-        private readonly Lazy<IEquipmentApi> _equipmentApi;
+        private readonly Lazy<IExerciseApi> _equipmentApi;
 
         public RestApiManager(IHttpClientFactory factory)
         {
-            _equipmentApi = new Lazy<IEquipmentApi>(() => new EquipmentApi(factory.CreateClient()));
+            _equipmentApi = new Lazy<IExerciseApi>(() => new ExerciseApi(factory.CreateClient()));
         }
-        public IEquipmentApi EquipmentApi => _equipmentApi.Value;
+        public IExerciseApi ExerciseApi => _equipmentApi.Value;
     }
 }

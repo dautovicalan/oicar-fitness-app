@@ -4,6 +4,6 @@ namespace RestApiServices
 {
     public interface IRestApiManager
     {
-        public IEquipmentApi EquipmentApi { get; }
+        public IExerciseApi ExerciseApi { get; }
     }
 }

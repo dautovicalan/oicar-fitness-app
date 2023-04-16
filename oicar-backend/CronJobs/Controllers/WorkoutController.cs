@@ -21,7 +21,7 @@ namespace CronJobs.Controllers
         [HttpGet("Equipments")]
         public async Task<IActionResult> GetEquipments()
         {
-            var equipments = await apiManager.EquipmentApi.GetAllEquipments();
+            var equipments = await apiManager.ExerciseApi.GetAllEquipments();
             equipments.ToList().ForEach(equipmentName =>
             {
                 Equipment equipment = new()
@@ -37,7 +37,33 @@ namespace CronJobs.Controllers
         [HttpGet("BodyParts")]
         public async Task<IActionResult> GetAllBodyParts()
         {
-            
+            var bodyParts = await apiManager.ExerciseApi.GetAllBodyParts();
+            bodyParts.ToList().ForEach(bp =>
+            {
+                BodyPart bodyPart = new()
+                {
+                    Name = bp
+                };
+                repositoryManager.BodyPart.AddBodyPart(bodyPart);
+            });
+            await repositoryManager.SaveAsync();
+            return Ok();
+        }
+
+        [HttpGet("TargetMuscles")]
+        public async Task<IActionResult> GetAllTargetMuscles()
+        {
+            var targetMuscles = await apiManager.ExerciseApi.GetAllTargetMuscles();
+            targetMuscles.ToList().ForEach(tm =>
+            {
+                TargetMuscle targetMuscle = new()
+                {
+                    Name = tm
+                };
+                repositoryManager.TargetMuscle.AddTargetMuscle(targetMuscle);
+            });
+
+            await repositoryManager.SaveAsync();
             return Ok();
         }
     }
