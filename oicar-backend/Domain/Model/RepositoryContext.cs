@@ -20,6 +20,10 @@ public partial class RepositoryContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<UserPreferences> UserPreferences { get; set; }
+    public virtual DbSet<BodyPart> BodyPart { get; set; }
+    public virtual DbSet<Equipment> Equipment { get; set; }
+    public virtual DbSet<TargetMuscle> TargetMuscles { get; set; }
+    public virtual DbSet<Exercise> Exercise { get; set; }
     
  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
