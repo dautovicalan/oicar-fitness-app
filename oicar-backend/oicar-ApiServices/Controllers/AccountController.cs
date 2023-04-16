@@ -5,6 +5,7 @@ using FitPal_Models.Dto;
 using FitPal_Models.JsonModels;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using oicar_ApiServices.AppSettings;
 using Repository;
@@ -13,7 +14,8 @@ namespace oicar_ApiServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [EnableCors]
+    //[Authorize]
     public class AccountController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
