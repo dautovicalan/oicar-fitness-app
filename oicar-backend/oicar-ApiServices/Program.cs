@@ -11,9 +11,9 @@ using FitPal_Models.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Configuration
+// Configuration sql
 builder.Services.ConfigureSqlContext(builder.Configuration);
+
 // Add services to the container.
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
@@ -50,12 +50,19 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
+app.UseCors();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder => builder
+             .AllowAnyOrigin()
+             .AllowAnyMethod()
+             .AllowAnyHeader());
 
 app.UseAuthorization();
 app.UseAuthentication();

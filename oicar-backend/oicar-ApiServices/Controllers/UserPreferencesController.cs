@@ -2,7 +2,6 @@
 using Domain.Model;
 using FitPal_Models.Dto;
 using FitPal_Models.JsonModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 
