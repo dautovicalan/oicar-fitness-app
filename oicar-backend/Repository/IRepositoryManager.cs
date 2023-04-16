@@ -9,6 +9,7 @@ namespace Repository
         public IEquipmentRepository Equipment { get; }
         public IBodyPartRepository BodyPart { get; }
         public ITargetMuscleRepository TargetMuscle { get; }
+        public IExerciseRepository Exercise { get; }
         Task SaveAsync();
         void Save();
     }

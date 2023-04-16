@@ -1,4 +1,5 @@
-﻿using RestApiServices.Contracts;
+﻿using FitPal_Models.JsonModels.RestApiExercises;
+using RestApiServices.Contracts;
 using System.Net.Http.Json;
 
 namespace RestApiServices.Implementation
@@ -22,6 +23,12 @@ namespace RestApiServices.Implementation
         {
             var endpointUrl = "https://exercisedb.p.rapidapi.com/exercises/equipmentList";
             return await SendRequest<IEnumerable<string>>(endpointUrl);
+        }
+
+        public async Task<IEnumerable<ExerciseResponse>> GetAllExercises()
+        {
+            var endpointUrl = "https://exercisedb.p.rapidapi.com/exercises";
+            return await SendRequest<IEnumerable<ExerciseResponse>>(endpointUrl);
         }
 
         public async Task<IEnumerable<string>> GetAllTargetMuscles()
