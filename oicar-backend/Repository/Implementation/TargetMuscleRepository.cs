@@ -17,7 +17,7 @@ namespace Repository.Implementation
 
         public void AddTargetMuscle(TargetMuscle targetMuscle) => Create(targetMuscle);
 
-        public async Task<IEnumerable<TargetMuscle>> GetTargetMusclesAsync() => await _repositoryContext.TargetMuscles.ToListAsync();
+        public async Task<IEnumerable<TargetMuscle>> GetAllAsync() => await _repositoryContext.TargetMuscles.ToListAsync();
 
     }
 }

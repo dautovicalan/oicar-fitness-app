@@ -6,6 +6,6 @@ namespace Repository.Contracts
     {
         void AddTargetMuscle(TargetMuscle targetMuscle);
 
-        Task<IEnumerable<TargetMuscle>> GetTargetMusclesAsync();
+        Task<IEnumerable<TargetMuscle>> GetAllAsync();
     }
 }

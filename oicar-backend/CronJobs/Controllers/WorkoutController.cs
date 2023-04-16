@@ -68,7 +68,7 @@ namespace CronJobs.Controllers
         public async Task<IActionResult> GetAllTargetMuscles()
         {
             var targetMuscles = await apiManager.ExerciseApi.GetAllTargetMuscles();
-            var databaseTargetMuscles = await repositoryManager.TargetMuscle.GetTargetMusclesAsync();
+            var databaseTargetMuscles = await repositoryManager.TargetMuscle.GetAllAsync();
 
             foreach (var tm in targetMuscles)
             {
@@ -87,5 +87,36 @@ namespace CronJobs.Controllers
             await repositoryManager.SaveAsync();
             return Ok();
         }
+
+        //[HttpGet("Exercises")]
+        //public async Task<IActionResult> GetAllExercises()
+        //{
+        //    var apiExercises = await apiManager.ExerciseApi.GetAllExercises();
+        //    var bodyParts = await repositoryManager.BodyPart.GetAllAsync();
+        //    var equipment = await repositoryManager.Equipment.GetAllAsync();
+        //    var targetMuscle = await repositoryManager.TargetMuscle.GetAllAsync();
+
+        //    foreach (var data in apiExercises)
+        //    {
+        //        // Get foreign keys from database
+        //        int bodyPartId = bodyParts.First(bp => bp.Name.ToLower() == data.bodyPart.ToLower()).Id;
+        //        int equipmentId = equipment.First(e => e.Name.ToLower() == data.equipment.ToLower()).Id;
+        //        int targetMuscleId = targetMuscle.First(tm => tm.Name.ToLower() == data.target.ToLower()).Id;
+
+        //        Exercise exercise = new()
+        //        {
+        //            Name = data.name,
+        //            GifUrl = data.gifUrl,
+        //            BodyPartId = bodyPartId,
+        //            EquipmentId = equipmentId,
+        //            TargetMuscleId = targetMuscleId
+        //        };
+        //        repositoryManager.Exercise.AddExercise(exercise);
+        //    }
+
+        //    await repositoryManager.SaveAsync();
+
+        //    return Ok();
+        //}
     }
 }
