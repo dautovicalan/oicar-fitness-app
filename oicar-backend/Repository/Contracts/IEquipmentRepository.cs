@@ -10,5 +10,6 @@ namespace Repository.Contracts
     public interface IEquipmentRepository
     {
         void AddEquipment(Equipment equipment);
+        Task<List<Equipment>> GetAllAsync();
     }
 }
