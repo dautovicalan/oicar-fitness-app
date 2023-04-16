@@ -1,5 +1,6 @@
 ﻿using Domain.Model;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.Base;
 using Repository.Contracts;
 
@@ -15,5 +16,8 @@ namespace Repository.Implementation
         }
 
         public void AddBodyPart(BodyPart bodyPart) => Create(bodyPart);
+
+        public async Task<IEnumerable<BodyPart>> GetAllAsync() => await _repositoryContext.BodyPart.ToListAsync();
+
     }
 }

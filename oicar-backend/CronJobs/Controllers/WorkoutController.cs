@@ -22,14 +22,21 @@ namespace CronJobs.Controllers
         public async Task<IActionResult> GetEquipments()
         {
             var equipments = await apiManager.ExerciseApi.GetAllEquipments();
-            equipments.ToList().ForEach(equipmentName =>
+            var databaseEquipments = await repositoryManager.Equipment.GetAllAsync();
+
+            foreach (var equipmentName in equipments)
             {
-                Equipment equipment = new()
+                var existingEquipment = databaseEquipments.FirstOrDefault(e => e.Name.ToLower() == equipmentName.ToLower());
+                if (existingEquipment == null)
                 {
-                    Name = equipmentName
-                };
-                repositoryManager.Equipment.AddEquipment(equipment);
-            });
+                    // Equipment does not exist in the database, so add it
+                    Equipment equipment = new()
+                    {
+                        Name = equipmentName
+                    };
+                    repositoryManager.Equipment.AddEquipment(equipment);
+                }
+            }
             await repositoryManager.SaveAsync();
             return Ok(equipments);
         }
@@ -38,14 +45,21 @@ namespace CronJobs.Controllers
         public async Task<IActionResult> GetAllBodyParts()
         {
             var bodyParts = await apiManager.ExerciseApi.GetAllBodyParts();
-            bodyParts.ToList().ForEach(bp =>
+            var databaseBodyParts = await repositoryManager.BodyPart.GetAllAsync();
+
+            foreach (var bp in bodyParts)
             {
-                BodyPart bodyPart = new()
+                var existingBodyPart = databaseBodyParts.FirstOrDefault(b => b.Name.ToLower() == bp.ToLower());
+                if (existingBodyPart == null)
                 {
-                    Name = bp
-                };
-                repositoryManager.BodyPart.AddBodyPart(bodyPart);
-            });
+                    // Body part does not exist in the database, so add it
+                    BodyPart bodyPart = new()
+                    {
+                        Name = bp
+                    };
+                    repositoryManager.BodyPart.AddBodyPart(bodyPart);
+                }
+            }
             await repositoryManager.SaveAsync();
             return Ok();
         }
@@ -54,14 +68,21 @@ namespace CronJobs.Controllers
         public async Task<IActionResult> GetAllTargetMuscles()
         {
             var targetMuscles = await apiManager.ExerciseApi.GetAllTargetMuscles();
-            targetMuscles.ToList().ForEach(tm =>
+            var databaseTargetMuscles = await repositoryManager.TargetMuscle.GetTargetMusclesAsync();
+
+            foreach (var tm in targetMuscles)
             {
-                TargetMuscle targetMuscle = new()
+                var existingTargetMuscle = databaseTargetMuscles.FirstOrDefault(t => t.Name.ToLower() == tm.ToLower());
+                if (existingTargetMuscle == null)
                 {
-                    Name = tm
-                };
-                repositoryManager.TargetMuscle.AddTargetMuscle(targetMuscle);
-            });
+                    // Target muscle does not exist in the database, so add it
+                    TargetMuscle targetMuscle = new()
+                    {
+                        Name = tm
+                    };
+                    repositoryManager.TargetMuscle.AddTargetMuscle(targetMuscle);
+                }
+            }
 
             await repositoryManager.SaveAsync();
             return Ok();

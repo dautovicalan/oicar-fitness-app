@@ -1,5 +1,6 @@
 ﻿using Domain.Model;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.Base;
 using Repository.Contracts;
 
@@ -14,5 +15,7 @@ namespace Repository.Implementation
         }
 
         public void AddEquipment(Equipment equipment) => Create(equipment);
+
+        public async Task<List<Equipment>> GetAllAsync() => await _repositoryContext.Equipment.ToListAsync();
     }
 }
