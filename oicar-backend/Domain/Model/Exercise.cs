@@ -9,7 +9,7 @@
         public virtual BodyPart BodyPart { get; set; }
         public int EquipmentId { get; set; }
         public virtual Equipment Equipment { get; set; }
-        public int TargetId { get; set; }
+        public int TargetMuscleId { get; set; }
         public virtual TargetMuscle TargetMuscle { get; set; }
 
     }

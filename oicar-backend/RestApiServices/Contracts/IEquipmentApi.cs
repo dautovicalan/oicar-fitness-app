@@ -4,6 +4,6 @@ namespace RestApiServices.Contracts
 {
     public interface IEquipmentApi
     {
-        Task<IEnumerable<Equipment>> GetAllEquipments();
+        Task<IEnumerable<string>> GetAllEquipments();
     }
 }
