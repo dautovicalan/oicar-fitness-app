@@ -62,7 +62,7 @@ namespace oicar_ApiServices.Controllers
             if (user is null)
                 return NotFound(new HttpError("User does not exist"));
 
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
         [HttpPost("Register")]
