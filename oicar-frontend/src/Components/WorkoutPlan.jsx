@@ -5,12 +5,11 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import Box from "@mui/material/Box";
 import "../Styles/WorkoutPlanStyle.css";
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const WorkoutPlan = () => {
-	const myList = [
+  const myList = [
 		{ id: 1, workoutName: "Bench press", sets: 3, reps: 3, weight: 100 },
 		{ id: 2, workoutName: "Curls", sets: 2, reps: 5, weight: 15 },
 		{ id: 3, workoutName: "Lunges", sets: 7, reps: 3, weight: 30 },
@@ -25,7 +24,7 @@ const WorkoutPlan = () => {
 		{ id: 12, workoutName: "Rows", sets: 4, reps: 11, weight: 30 },
 	];
 
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleClick = (item) => {
     const state = {
@@ -39,7 +38,8 @@ const WorkoutPlan = () => {
     navigate(`/workoutdetails?state=${urlEncodedState}`);
   };
 
-	return (
+
+  return (
 		<div>
 			<div style={{ display: "flex", flexDirection: "row" }}>
 				<Box
