@@ -30,21 +30,21 @@ builder.Services.AddConfiguration(builder.Configuration);
 
 var configuration = builder.Configuration;
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-})
-    .AddCookie()
-    .AddGoogle(options =>
-    {
-        // SocialLoginConfiguration
-        SocialLoginConfiguration socialLoginConfiguration = new SocialLoginConfiguration();
-        builder.Configuration.GetSection("Configuration:SocialLoginConfiguration").Bind(socialLoginConfiguration);
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+//})
+//    .AddCookie()
+//    .AddGoogle(options =>
+//    {
+//        // SocialLoginConfiguration
+//        SocialLoginConfiguration socialLoginConfiguration = new SocialLoginConfiguration();
+//        builder.Configuration.GetSection("Configuration:SocialLoginConfiguration").Bind(socialLoginConfiguration);
 
-        options.ClientId = socialLoginConfiguration.GoogleConfiguration.GoogleClientId;
-        options.ClientSecret = socialLoginConfiguration.GoogleConfiguration.ClientSecret;
-    });
+//        options.ClientId = socialLoginConfiguration.GoogleConfiguration.GoogleClientId;
+//        options.ClientSecret = socialLoginConfiguration.GoogleConfiguration.ClientSecret;
+//    });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -6,5 +6,6 @@ namespace Repository.Contracts
     {
         void AddExercise(Exercise exercise);
         Task<IEnumerable<Exercise>> GetAllExerciseAsync();
+        Task<IEnumerable<Exercise>> GetExerciseByBodyPart(int idBodyPart);
     }
 }

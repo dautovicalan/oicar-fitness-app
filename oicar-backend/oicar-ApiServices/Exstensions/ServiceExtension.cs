@@ -19,7 +19,6 @@ namespace oicar_ApiServices.Exstensions
             services.AddSingleton<ISocialLoginManager, SocialLoginAuthManager>();
 
         }
-
         public static void AddConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<Configuration>(configuration.GetSection(nameof(Configuration)));
 

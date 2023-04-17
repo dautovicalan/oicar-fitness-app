@@ -19,5 +19,8 @@ namespace Repository.Implementation
 
         public async Task<IEnumerable<Exercise>> GetAllExerciseAsync() => await _repositoryContext.Exercise.ToListAsync();
 
+        public async Task<IEnumerable<Exercise>> GetExerciseByBodyPart(int idBodyPart) 
+            => await _repositoryContext.Exercise.Where(e=> e.BodyPartId == idBodyPart).ToListAsync();
+       
     }
 }
