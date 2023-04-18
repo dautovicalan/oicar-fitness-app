@@ -12,7 +12,7 @@ export default function GoogleLogin() {
 
   useEffect(() => {
     if (response?.type === "success") {
-      setToken(response.authentication.accessToken);
+      setToken(response.authentication.idToken);
       getUserInfo();
     }
   }, [response, token]);
@@ -20,16 +20,22 @@ export default function GoogleLogin() {
   const getUserInfo = async () => {
     // authenticate token to our REST APi
     try {
+      console.log(token);
       const resposne = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
+        "http://localhost:5280/api/Account/LoginGoogle",
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({ accessToken: token }),
         }
       );
 
-      const user = await resposne.json();
-
-      console.log(user);
+      if (resposne.status !== 200) {
+        return Alert.alert("Something went wrong");
+      }
+      console.log(response.status);
     } catch (error) {
       console.log(error);
     }
