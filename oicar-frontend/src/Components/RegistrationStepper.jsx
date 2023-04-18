@@ -23,40 +23,7 @@ export default function HorizontalLinearStepper() {
     }
   });
 
-  const handleUserPreferences = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/api/UserPreferences/Register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          height: formValues.firstName,
-          weight: formValues.lastName,
-          goal: formValues.email,
-          workoutNumberPerWeek: formValues.password,
-          userId: formValues.newsletter 
-        }),
-      });
-      const data = await response.json();
-      if (data.isRegister) {
-        window.location.href = "/workoutplan"
-        localStorage.setItem("id", data.id);
-        sessionStorage.setItem("id", data.id);
-
-
-      } else if (data == null) {
-        return false;
-      } else if(data.isRegister == false) {
-        window.location.href = "/register"
-        localStorage.setItem("id", data.id);
-        sessionStorage.setItem("id", data.id);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  
   
   const [skipped, setSkipped] = React.useState(new Set());
 
