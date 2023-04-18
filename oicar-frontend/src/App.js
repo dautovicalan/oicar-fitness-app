@@ -15,29 +15,54 @@ import HomePage from "./Components/HomePage";
 import AddWorkout from "./Components/AddWorkout";
 import WorkoutDetails from "./Components/WorkoutDetails";
 import "./Styles/App.css";
+import NavbarLoggedIn from "./Components/NavbarLoggedIn.jsx";
 
 function App() {
-  const [userData, setUserData] = useState({});
-  const [userPreferencesData, setUserPreferencesData] = useState({});
+  // const [userData, setUserData] = useState({});
+  // const [userPreferencesData, setUserPreferencesData] = useState({});
+  // const [dataLoaded, setDataLoaded] = useState(false);
 
-  useEffect(() => {
-    fetch("http://localhost:5280/api/Account/GetUser?id=28")
-      .then((response) => response.json())
-      .then((data) => setUserData(data));
-  }, []);
+  // Get data from session storage
+  const userID = sessionStorage.getItem("id");
 
-  useEffect(() => {
-    fetch("http://localhost:5280/api/UserPreferences/GetUserPreferences?id=28")
-      .then((response) => response.json())
-      .then((data) => setUserPreferencesData(data));
-  }, []);
+  // console.log(userID);
+
+  // useEffect(() => {
+  //   if (dataLoaded) {
+  //     fetch(`http://localhost:5280/api/Account/GetUser?id=${userID}`)
+  //       .then((response) => response.json())
+  //       .then((data) => setUserData(data));
+  //   }
+  // }, [dataLoaded]);
+
+  // useEffect(() => {
+  //   if (dataLoaded) {
+  //     fetch(
+  //       `http://localhost:5280/api/UserPreferences/GetUserPreferences?id=${userID}`
+  //     )
+  //       .then((response) => response.json())
+  //       .then((data) => setUserPreferencesData(data));
+  //   }
+  // }, [dataLoaded]);
+
+  // var userID = null;
+
+  // const pull_data = (data) => {
+  //   if (data != null) {
+  //     userID = data.id
+  //     setDataLoaded(true)
+  //   }
+  //   console.log(data); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+  // };
 
   return (
     <div>
       <Router>
-        <UserContext.Provider value={{ userData, setUserData }}>
-          <UserPreferencesContext.Provider value={{ userPreferencesData, setUserPreferencesData }}>
-            <Navbar />
+        {/* <UserContext.Provider value={{ userData, setUserData }}>
+          <UserPreferencesContext.Provider
+            value={{ userPreferencesData, setUserPreferencesData }}
+          > */}
+            {userID == null ? <Navbar /> : <NavbarLoggedIn/>}
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<LoginForm />} />
@@ -51,8 +76,8 @@ function App() {
               <Route path="/workoutdetails" element={<WorkoutDetails />} />
             </Routes>
             <Footer />
-          </UserPreferencesContext.Provider>
-        </UserContext.Provider>
+          {/* </UserPreferencesContext.Provider>
+        </UserContext.Provider> */}
       </Router>
     </div>
   );

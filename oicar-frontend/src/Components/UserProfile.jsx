@@ -8,11 +8,32 @@ import { UserPreferencesContext } from "../Context/UserPreferencesContext";
 
 
 const UserProfile = () => {
-	const { userData, setUserData } = useContext(UserContext);
-	const { userPreferencesData, setUserPreferencesData } = useContext(UserPreferencesContext);
+	const [userData, setUserData] = useState({});
+  const [userPreferencesData, setUserPreferencesData] = useState({});
+	
+	// Get data from session storage
+	const userID = sessionStorage.getItem("id");
+
+	console.log(userID)
+
+	useEffect(() => {
+		
+		  fetch(`http://localhost:5280/api/Account/GetUser?id=${userID}`)
+		  .then((response) => response.json())
+		  .then((data) => setUserData(data));
+		
+	  }, []);
+	
+	  useEffect(() => {
+		  fetch(`http://localhost:5280/api/UserPreferences/GetUserPreferences?id=${userID}`)
+		  .then((response) => response.json())
+		  .then((data) => setUserPreferencesData(data));
+		
+	  }, []);
+	
   
   //Privremeno
-  userData.picture = "https://freesvg.org/img/abstract-user-flat-4.png";
+  const picture = "https://freesvg.org/img/abstract-user-flat-4.png";
 	return (
 		<div>
 			<Container
@@ -36,7 +57,7 @@ const UserProfile = () => {
 							height: 250,
 							boxShadow: "0px 8px 10px rgba(0,0,0,0.3)",
 						}}
-						src={userData.picture}
+						src={picture}
 					/>
 				</Box>
 			</Container>

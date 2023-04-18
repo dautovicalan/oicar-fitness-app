@@ -23,7 +23,7 @@ const RecoverAccountSchema = Yup.object().shape({
 		.required("Email is required"),
 });
 
-const RecoverAccount = () => {
+const RecoverAccount = (props) => {
 	const initialValues = { email: "" };
 
 	const handleSubmit = (values) => {

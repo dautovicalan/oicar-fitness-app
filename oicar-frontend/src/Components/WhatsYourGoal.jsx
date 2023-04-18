@@ -7,6 +7,8 @@ import Select from "@mui/material/Select";
 import Container from "@mui/material/Container";
 import { useState } from "react";
 import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 export const fitnessGoals = Array.of(
 	{ id: 1, text: "Be More Active" },
@@ -26,6 +28,52 @@ export const workoutsPerWeek = Array.of(
 const WhatsYourGoal = () => {
 	const [fitnessGoalSelected, setFitnessGoalSelected] = useState(null);
 	const [workoutSelected, setWorkoutSelected] = useState(null);
+	const [checkBoxState, setCheckBoxState] = useState(false);
+
+	const age = localStorage.getItem("age");
+	const height = localStorage.getItem("height");
+	const weight = localStorage.getItem("weight");
+	const userID = sessionStorage.getItem("id");
+	const selectedFitnessGoal = fitnessGoals.find((goal) => goal.id === fitnessGoalSelected)?.text;
+
+	const handleUserPreferences = async (e) => {
+		e.preventDefault();
+		try {
+		  const response = await fetch("/api/UserPreferences/Register", {
+			method: "POST",
+			headers: {
+			  "Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+			  height: height,
+			  weight: weight,
+			  goal: selectedFitnessGoal,
+			  workoutNumberPerWeek: workoutSelected,
+			  userId: userID,
+			  newsletter: checkBoxState
+			}),
+		  });
+		  const data = await response.json();
+		} catch (error) {
+		  console.error(error);
+		}
+	  };
+
+	  const handleChange = (e) => {
+		setCheckBoxState(e.target.checked)
+	  }
+
+	  console.log("height: " + height)
+	  console.log("weight: " + weight)
+	  console.log("Fitness goal: " + selectedFitnessGoal)
+	  console.log("workoutSelected: " + workoutSelected)
+	  console.log("userID" + userID)
+	  console.log("checkBoxState" + checkBoxState)
+	 
+
+
+
+
 	return (
 		<div>
 			<Container
@@ -83,6 +131,12 @@ const WhatsYourGoal = () => {
 						<FormHelperText error>Select a workout goal</FormHelperText>
 					)}
 				</FormControl>
+				<FormControlLabel
+                      control={
+                        <Checkbox value="allowExtraEmails" onChange={handleChange} color="primary" />
+                      }
+                      label="I want to receive inspiration, marketing promotions and updates via email."
+                    />
 				<Button
 					type="submit"
 					fullWidth

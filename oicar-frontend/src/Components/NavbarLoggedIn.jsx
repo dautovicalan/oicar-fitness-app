@@ -45,6 +45,11 @@ function NavbarLoggedIn() {
     setAnchorElNav(null);
   };
 
+  const handleClickUserLogout = () => {
+    sessionStorage.removeItem("id");
+    window.location.href = "/login"
+  };
+
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -194,7 +199,7 @@ function NavbarLoggedIn() {
                   <Typography textAlign="center">{settings[0]}</Typography>
                 </MenuItem>
                 
-                <MenuItem key={settings[1]} onClick={handleCloseUserMenu} component={Link} to='/login'>
+                <MenuItem key={settings[1]} onClick={handleClickUserLogout} component={Link} to='/login'>
                   <Typography textAlign="center">{settings[1]}</Typography>
                 </MenuItem>
               

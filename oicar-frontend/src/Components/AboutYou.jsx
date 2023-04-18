@@ -91,6 +91,10 @@ const AboutYou = ({handleNext}) => {
 		  password: data.get("weight"),
 		  password: data.get("age"),
 		});
+		localStorage.setItem("height", data.get("height"));
+		localStorage.setItem("weight", data.get("weight"));
+		localStorage.setItem("age", data.get("age"));
+
 		handleNext()
 	  };
 	  

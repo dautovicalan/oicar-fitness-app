@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import GoogleIcon from "@mui/icons-material/Google";
+import { useNavigate } from "react-router-dom";
 
 import { emailValid } from "../Utils/FormValidation";
 
@@ -45,6 +46,8 @@ export default function LoginForm() {
   const [errors, setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -59,12 +62,24 @@ export default function LoginForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: "your_username",
-          password: "your_password",
+          email: formValues.email,
+          password: formValues.password,
         }),
       });
       const data = await response.json();
-      console.log(data); // Do something with the response data
+      if (data.isRegister) {
+        window.location.href = "/workoutplan"
+        localStorage.setItem("id", data.id);
+        sessionStorage.setItem("id", data.id);
+
+
+      } else if (data == null) {
+        return false;
+      } else if(data.isRegister == false) {
+        window.location.href = "/register"
+        localStorage.setItem("id", data.id);
+        sessionStorage.setItem("id", data.id);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -163,7 +178,7 @@ export default function LoginForm() {
                 <Button
                   type="submit"
                   fullWidth
-                  onClick={handleSubmit}
+                  onClick={handleLogin}
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
