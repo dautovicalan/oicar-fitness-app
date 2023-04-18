@@ -44,9 +44,46 @@ export default function SignUp({handleNext}) {
   const [errors, setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
+  };
+
+
+  const handleRegistration = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/Account/Register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+          email: formValues.email,
+          password: formValues.password,
+        }),
+      });
+      const data = await response.json();
+      if (data.isRegister) {
+        window.location.href = "/workoutplan"
+        localStorage.setItem("id", data.id);
+        sessionStorage.setItem("id", data.id);
+
+
+      } else if (data == null) {
+        return false;
+      } else if(data.isRegister == false) {
+        window.location.href = "/register"
+        localStorage.setItem("id", data.id);
+        sessionStorage.setItem("id", data.id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
 
@@ -201,18 +238,11 @@ export default function SignUp({handleNext}) {
                     />
                     <p style={{ color: "red" }}>{errors.repeatpassword}</p>
                   </Grid>
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox value="allowExtraEmails" color="primary" />
-                      }
-                      label="I want to receive inspiration, marketing promotions and updates via email."
-                    />
-                  </Grid>
                 </Grid>
                 <Button
                   type="submit"
                   fullWidth
+                  onClick={handleRegistration}
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >

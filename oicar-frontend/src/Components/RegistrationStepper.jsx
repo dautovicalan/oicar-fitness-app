@@ -11,8 +11,53 @@ import RegistrationForm from "./RegistrationForm";
 
 const steps = ["Registration", "About you", "Whats your goal?"];
 
+// Get data from session storage
+const userID = sessionStorage.getItem("id");
+
 export default function HorizontalLinearStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(() => {
+    if (userID == null) {
+      return 0;
+    } else {
+      return 1;
+    }
+  });
+
+  const handleUserPreferences = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/UserPreferences/Register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          height: formValues.firstName,
+          weight: formValues.lastName,
+          goal: formValues.email,
+          workoutNumberPerWeek: formValues.password,
+          userId: formValues.newsletter 
+        }),
+      });
+      const data = await response.json();
+      if (data.isRegister) {
+        window.location.href = "/workoutplan"
+        localStorage.setItem("id", data.id);
+        sessionStorage.setItem("id", data.id);
+
+
+      } else if (data == null) {
+        return false;
+      } else if(data.isRegister == false) {
+        window.location.href = "/register"
+        localStorage.setItem("id", data.id);
+        sessionStorage.setItem("id", data.id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   const [skipped, setSkipped] = React.useState(new Set());
 
   const isStepOptional = (step) => {
@@ -58,8 +103,17 @@ export default function HorizontalLinearStepper() {
   };
 
   return (
-    <Box sx={{ width: "100%", marginTop: "50px", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column" }}>
-      <Box sx={{width: "50%"}}>
+    <Box
+      sx={{
+        width: "100%",
+        marginTop: "50px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <Box sx={{ width: "50%" }}>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => {
             const stepProps = {};
