@@ -54,6 +54,19 @@ export default function SignUp({handleNext}) {
 
   const handleRegistration = async (e) => {
     e.preventDefault();
+    setIsSubmit(true);
+
+    console.log(errors)
+    if(Object.keys(errors) != 0) {
+      setErrors(validate(formValues));
+      if (Object.keys(errorsTemp).length == 0) {
+        handleNext()
+      }
+      setErrors({})
+      setIsSubmit(false);
+      return
+    }
+   
     try {
       const response = await fetch("/api/Account/Register", {
         method: "POST",
@@ -61,10 +74,11 @@ export default function SignUp({handleNext}) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          firstName: formValues.firstName,
-          lastName: formValues.lastName,
+          name: formValues.firstName,
+          surname: formValues.lastName,
           email: formValues.email,
           password: formValues.password,
+          newsletter: false
         }),
       });
       const data = await response.json();
@@ -87,26 +101,27 @@ export default function SignUp({handleNext}) {
   };
 
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setErrors(validate(formValues));
-    setIsSubmit(true);
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   setErrors(validate(formValues));
+  //   setIsSubmit(true);
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
       
-    });
-    //console.log(Object.keys(errorsTemp).length);
+  //   });
+  //   //console.log(Object.keys(errorsTemp).length);
     
-    if (Object.keys(errorsTemp).length == 0) {
-      handleNext()
-    }
+  //   if (Object.keys(errorsTemp).length == 0) {
+  //     handleNext()
+  //   }
     
-  };
+  // };
 
   useEffect(() => {
-    console.log(errors);
+    // console.log(errors);
     if (Object.keys(errors).length == 0 && isSubmit) {
       console.log(formValues);
     }
@@ -141,10 +156,6 @@ export default function SignUp({handleNext}) {
 
   return (
     <>
-
-      <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
-      <pre>{JSON.stringify(errors, undefined, 2)}</pre>
-
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -166,7 +177,7 @@ export default function SignUp({handleNext}) {
               <Box
                 component="form"
                 noValidate
-                onSubmit={handleSubmit}
+                onSubmit={handleRegistration}
                 sx={{ mt: 3 }}
               >
                 <Grid container spacing={2}>
@@ -239,7 +250,7 @@ export default function SignUp({handleNext}) {
                     <p style={{ color: "red" }}>{errors.repeatpassword}</p>
                   </Grid>
                 </Grid>
-                <Button
+                {errors != null ? <Button
                   type="submit"
                   fullWidth
                   onClick={handleRegistration}
@@ -247,7 +258,16 @@ export default function SignUp({handleNext}) {
                   sx={{ mt: 3, mb: 2 }}
                 >
                   NEXT
-                </Button>
+                </Button> : <Button
+                  type="submit"
+                  fullWidth
+                  disabled="true"
+                  onClick={handleRegistration}
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  NEXT
+                </Button>}
                 <Button
                   fullWidth
                   variant="contained"

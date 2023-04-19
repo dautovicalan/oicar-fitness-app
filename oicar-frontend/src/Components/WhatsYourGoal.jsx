@@ -45,15 +45,22 @@ const WhatsYourGoal = () => {
 			  "Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-			  height: height,
-			  weight: weight,
+			  height: parseInt(height),
+			  weight: parseInt(weight),
 			  goal: selectedFitnessGoal,
-			  workoutNumberPerWeek: workoutSelected,
-			  userId: userID,
+			  workoutNumberPerWeek: parseInt(workoutSelected),
+			  userId: parseInt(userID),
 			  newsletter: checkBoxState
 			}),
 		  });
 		  const data = await response.json();
+		  localStorage.removeItem("height");
+		  localStorage.removeItem("weight");
+		  localStorage.removeItem("age");
+		  localStorage.removeItem("id")
+		  sessionStorage.removeItem("id")
+
+		  window.location.href = "/login"
 		} catch (error) {
 		  console.error(error);
 		}
@@ -63,12 +70,7 @@ const WhatsYourGoal = () => {
 		setCheckBoxState(e.target.checked)
 	  }
 
-	  console.log("height: " + height)
-	  console.log("weight: " + weight)
-	  console.log("Fitness goal: " + selectedFitnessGoal)
-	  console.log("workoutSelected: " + workoutSelected)
-	  console.log("userID" + userID)
-	  console.log("checkBoxState" + checkBoxState)
+
 	 
 
 
@@ -143,6 +145,7 @@ const WhatsYourGoal = () => {
 					href="/login"
 					variant="contained"
 					sx={{ mt: 3, mb: 2 }}
+					onClick={handleUserPreferences}
           disabled={!fitnessGoalSelected || !workoutSelected}
 				>
 					Finish

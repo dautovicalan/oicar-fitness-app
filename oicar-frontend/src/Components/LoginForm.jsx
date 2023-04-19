@@ -53,8 +53,10 @@ export default function LoginForm() {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setErrors(validate(formValues));
+    setIsSubmit(true);
     try {
       const response = await fetch("/api/Account/Login", {
         method: "POST",
@@ -85,21 +87,10 @@ export default function LoginForm() {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setErrors(validate(formValues));
-    setIsSubmit(true);
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
 
   useEffect(() => {
-    console.log(errors);
     if (Object.keys(errors).length == 0 && isSubmit) {
-      console.log(formValues);
+      //console.log(formValues);
     }
   }, [errors]);
 
@@ -119,7 +110,6 @@ export default function LoginForm() {
 
   return (
     <>
-      <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -140,7 +130,7 @@ export default function LoginForm() {
               </Typography>
               <Box
                 component="form"
-                onSubmit={handleSubmit}
+                onSubmit={handleLogin}
                 noValidate
                 sx={{ mt: 1, width: "100%" }}
               >
