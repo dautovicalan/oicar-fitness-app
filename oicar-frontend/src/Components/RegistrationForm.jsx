@@ -57,12 +57,12 @@ export default function SignUp({handleNext}) {
     setIsSubmit(true);
 
     console.log(errors)
-    if(Object.keys(errors) != 0) {
+    if(errors !== 0) {
       setErrors(validate(formValues));
       if (Object.keys(errorsTemp).length == 0) {
         handleNext()
       }
-      setErrors({})
+      //setErrors({})
       setIsSubmit(false);
       return
     }
@@ -128,6 +128,7 @@ export default function SignUp({handleNext}) {
   }, [errors]);
 
   const validate = (values) => {
+    console.log("VALIDATE")
     const errors = {};
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
