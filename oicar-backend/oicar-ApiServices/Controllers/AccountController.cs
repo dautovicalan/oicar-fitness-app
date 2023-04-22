@@ -14,7 +14,7 @@ namespace oicar_ApiServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors]
+    //[EnableCors]
     //[Authorize]
     public class AccountController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpPost("Login")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginInput userLogin)
         {
             if (await _repository.User.CheckLogin(userLogin.Email, userLogin.Password))
@@ -39,11 +39,11 @@ namespace oicar_ApiServices.Controllers
                 return Ok(_mapper.Map<UserDto>(user));
             }
 
-            return Forbid();
+            return BadRequest();
         }
 
         [HttpPost("LoginGoogle")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> LoginWithGoogle(string accessToken)
         {
             GoogleJsonWebSignature.Payload? payload = await _socialLoginManager.GoogleAuthentication(accessToken);
@@ -53,8 +53,8 @@ namespace oicar_ApiServices.Controllers
             return Ok();
         }
 
-
         [HttpGet("GetUser")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUser(int id)
         {
             User? user = await _repository.User.GetUser(id);

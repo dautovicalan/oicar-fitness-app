@@ -11,6 +11,7 @@
         public virtual Equipment Equipment { get; set; }
         public int TargetMuscleId { get; set; }
         public virtual TargetMuscle TargetMuscle { get; set; }
+        public virtual ICollection<WorkoutExercise> WorkoutExercises { get; } = new List<WorkoutExercise>();
 
     }
 }

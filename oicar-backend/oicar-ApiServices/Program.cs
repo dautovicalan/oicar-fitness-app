@@ -64,8 +64,8 @@ app.UseCors(builder => builder
              .AllowAnyMethod()
              .AllowAnyHeader());
 
-app.UseAuthorization();
-app.UseAuthentication();
+//app.UseAuthorization();
+//app.UseAuthentication();
 
 
 app.MapControllers();
