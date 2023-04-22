@@ -3,7 +3,8 @@
     public class GoogleConfiguration
     {
         public const string Section = nameof(GoogleConfiguration);
-        public string GoogleClientId { get; set; } = null!;
+        public string IOSClientId { get; set; } = null!;
+        public string WebClientId { get; set; } = null!;
         public string ClientSecret { get; set; } = null!;
     }
 }
