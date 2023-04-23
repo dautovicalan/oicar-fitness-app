@@ -8,7 +8,7 @@ namespace Domain.Model
         public string Name { get; set; }
         public int UserId { get; set; }
         public virtual User? User { get; set; }
-        public virtual ICollection<WorkoutSchedule> WorkoutSchedules { get; } = new List<WorkoutSchedule>();
-        public virtual ICollection<WorkoutExercise> WorkoutExercises { get; } = new List<WorkoutExercise>();
+        public virtual ICollection<WorkoutSchedule> WorkoutsSchedule { get; } = new List<WorkoutSchedule>();
+        public virtual ICollection<Exercise> Exercises { get; set; } = new List<Exercise>();
     }
 }

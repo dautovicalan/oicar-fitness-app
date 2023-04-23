@@ -4,6 +4,7 @@ using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20230422150209_WorkoutFix")]
+    partial class WorkoutFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,19 +25,19 @@ namespace Domain.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CustomWorkoutExercise", b =>
+            modelBuilder.Entity("CustomWorkoutWorkoutSchedule", b =>
                 {
-                    b.Property<int>("CustomWorkoutsId")
+                    b.Property<int>("WorkoutsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ExercisesId")
+                    b.Property<int>("WorkoutsId1")
                         .HasColumnType("int");
 
-                    b.HasKey("CustomWorkoutsId", "ExercisesId");
+                    b.HasKey("WorkoutsId", "WorkoutsId1");
 
-                    b.HasIndex("ExercisesId");
+                    b.HasIndex("WorkoutsId1");
 
-                    b.ToTable("CustomWorkoutExercise");
+                    b.ToTable("CustomWorkoutWorkoutSchedule");
                 });
 
             modelBuilder.Entity("Domain.Model.BodyPart", b =>
@@ -129,33 +132,6 @@ namespace Domain.Migrations
                     b.ToTable("Exercise");
                 });
 
-            modelBuilder.Entity("Domain.Model.ExerciseProgress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfReps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfSets")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Weight")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.ToTable("WorkoutExercise");
-                });
-
             modelBuilder.Entity("Domain.Model.TargetMuscle", b =>
                 {
                     b.Property<int>("Id")
@@ -207,7 +183,7 @@ namespace Domain.Migrations
                     b.ToTable("UserPreferences");
                 });
 
-            modelBuilder.Entity("Domain.Model.WorkoutSchedule", b =>
+            modelBuilder.Entity("Domain.Model.WorkoutExerciseProgress", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -218,12 +194,39 @@ namespace Domain.Migrations
                     b.Property<int>("CustomWorkoutId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfReps")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfSets")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomWorkoutId");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("WorkoutExercise");
+                });
+
+            modelBuilder.Entity("Domain.Model.WorkoutSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
 
                     b.ToTable("WorkoutSchedule");
                 });
@@ -303,17 +306,17 @@ namespace Domain.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("CustomWorkoutExercise", b =>
+            modelBuilder.Entity("CustomWorkoutWorkoutSchedule", b =>
                 {
                     b.HasOne("Domain.Model.CustomWorkout", null)
                         .WithMany()
-                        .HasForeignKey("CustomWorkoutsId")
+                        .HasForeignKey("WorkoutsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Model.Exercise", null)
+                    b.HasOne("Domain.Model.WorkoutSchedule", null)
                         .WithMany()
-                        .HasForeignKey("ExercisesId")
+                        .HasForeignKey("WorkoutsId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -356,17 +359,6 @@ namespace Domain.Migrations
                     b.Navigation("TargetMuscle");
                 });
 
-            modelBuilder.Entity("Domain.Model.ExerciseProgress", b =>
-                {
-                    b.HasOne("Domain.Model.Exercise", "Exercise")
-                        .WithMany("ExerciseProgress")
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Exercise");
-                });
-
             modelBuilder.Entity("Domain.Model.UserPreferences", b =>
                 {
                     b.HasOne("Domain.Models.User", "User")
@@ -378,15 +370,23 @@ namespace Domain.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Model.WorkoutSchedule", b =>
+            modelBuilder.Entity("Domain.Model.WorkoutExerciseProgress", b =>
                 {
                     b.HasOne("Domain.Model.CustomWorkout", "CustomWorkout")
-                        .WithMany("WorkoutsSchedule")
+                        .WithMany("WorkoutExercises")
                         .HasForeignKey("CustomWorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Model.Exercise", "Exercise")
+                        .WithMany("WorkoutExercises")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("CustomWorkout");
+
+                    b.Navigation("Exercise");
                 });
 
             modelBuilder.Entity("Domain.Models.User", b =>
@@ -406,7 +406,7 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Model.CustomWorkout", b =>
                 {
-                    b.Navigation("WorkoutsSchedule");
+                    b.Navigation("WorkoutExercises");
                 });
 
             modelBuilder.Entity("Domain.Model.Equipment", b =>
@@ -416,7 +416,7 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Model.Exercise", b =>
                 {
-                    b.Navigation("ExerciseProgress");
+                    b.Navigation("WorkoutExercises");
                 });
 
             modelBuilder.Entity("Domain.Model.TargetMuscle", b =>
