@@ -17,9 +17,16 @@ public partial class RepositoryContext : DbContext
     }
 
     public virtual DbSet<Role> Roles { get; set; }
-
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<UserPreferences> UserPreferences { get; set; }
+    public virtual DbSet<BodyPart> BodyPart { get; set; }
+    public virtual DbSet<Equipment> Equipment { get; set; }
+    public virtual DbSet<TargetMuscle> TargetMuscles { get; set; }
+    public virtual DbSet<Exercise> Exercise { get; set; }
+    public virtual DbSet<CustomWorkout> CustomWorkout { get; set; }
+    public virtual DbSet<ExerciseProgress> WorkoutExercise { get; set; }
+    public virtual DbSet<WorkoutSchedule> WorkoutSchedule { get; set; }
+
     
  
     protected override void OnModelCreating(ModelBuilder modelBuilder)

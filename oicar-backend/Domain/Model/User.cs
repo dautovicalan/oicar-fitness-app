@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Model;
+using System;
 using System.Collections.Generic;
 
 namespace Domain.Models;
@@ -20,9 +21,11 @@ public partial class User
     public DateTime? UpdateDate { get; set; }
 
     public bool? Deleted { get; set; }
-
     public int? RoleId { get; set; }
     public bool IsRegister { get; set; }
-
+    public string? ForgotPasswordCode { get; set; }
+    public DateTime? ForgotPasswordCreateDate { get; set; }
     public virtual Role? Role { get; set; }
+    public virtual ICollection<CustomWorkout> CustomWorkouts { get; } = new List<CustomWorkout>();
+
 }

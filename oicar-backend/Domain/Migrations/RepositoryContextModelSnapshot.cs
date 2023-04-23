@@ -22,6 +22,157 @@ namespace Domain.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CustomWorkoutExercise", b =>
+                {
+                    b.Property<int>("CustomWorkoutsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExercisesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CustomWorkoutsId", "ExercisesId");
+
+                    b.HasIndex("ExercisesId");
+
+                    b.ToTable("CustomWorkoutExercise");
+                });
+
+            modelBuilder.Entity("Domain.Model.BodyPart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BodyPart");
+                });
+
+            modelBuilder.Entity("Domain.Model.CustomWorkout", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CustomWorkout");
+                });
+
+            modelBuilder.Entity("Domain.Model.Equipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Equipment");
+                });
+
+            modelBuilder.Entity("Domain.Model.Exercise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BodyPartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GifUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TargetMuscleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BodyPartId");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("TargetMuscleId");
+
+                    b.ToTable("Exercise");
+                });
+
+            modelBuilder.Entity("Domain.Model.ExerciseProgress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfReps")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfSets")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("WorkoutExercise");
+                });
+
+            modelBuilder.Entity("Domain.Model.TargetMuscle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TargetMuscles");
+                });
+
             modelBuilder.Entity("Domain.Model.UserPreferences", b =>
                 {
                     b.Property<int>("Id")
@@ -54,6 +205,27 @@ namespace Domain.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserPreferences");
+                });
+
+            modelBuilder.Entity("Domain.Model.WorkoutSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CustomWorkoutId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomWorkoutId");
+
+                    b.ToTable("WorkoutSchedule");
                 });
 
             modelBuilder.Entity("Domain.Models.Role", b =>
@@ -95,6 +267,12 @@ namespace Domain.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("ForgotPasswordCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ForgotPasswordCreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsRegister")
                         .HasColumnType("bit");
 
@@ -125,6 +303,70 @@ namespace Domain.Migrations
                     b.ToTable("User", (string)null);
                 });
 
+            modelBuilder.Entity("CustomWorkoutExercise", b =>
+                {
+                    b.HasOne("Domain.Model.CustomWorkout", null)
+                        .WithMany()
+                        .HasForeignKey("CustomWorkoutsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Model.Exercise", null)
+                        .WithMany()
+                        .HasForeignKey("ExercisesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Model.CustomWorkout", b =>
+                {
+                    b.HasOne("Domain.Models.User", "User")
+                        .WithMany("CustomWorkouts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Model.Exercise", b =>
+                {
+                    b.HasOne("Domain.Model.BodyPart", "BodyPart")
+                        .WithMany("Exercises")
+                        .HasForeignKey("BodyPartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Model.Equipment", "Equipment")
+                        .WithMany("Exercises")
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Model.TargetMuscle", "TargetMuscle")
+                        .WithMany("Exercises")
+                        .HasForeignKey("TargetMuscleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BodyPart");
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("TargetMuscle");
+                });
+
+            modelBuilder.Entity("Domain.Model.ExerciseProgress", b =>
+                {
+                    b.HasOne("Domain.Model.Exercise", "Exercise")
+                        .WithMany("ExerciseProgress")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exercise");
+                });
+
             modelBuilder.Entity("Domain.Model.UserPreferences", b =>
                 {
                     b.HasOne("Domain.Models.User", "User")
@@ -134,6 +376,17 @@ namespace Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Model.WorkoutSchedule", b =>
+                {
+                    b.HasOne("Domain.Model.CustomWorkout", "CustomWorkout")
+                        .WithMany("WorkoutsSchedule")
+                        .HasForeignKey("CustomWorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomWorkout");
                 });
 
             modelBuilder.Entity("Domain.Models.User", b =>
@@ -146,9 +399,39 @@ namespace Domain.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Domain.Model.BodyPart", b =>
+                {
+                    b.Navigation("Exercises");
+                });
+
+            modelBuilder.Entity("Domain.Model.CustomWorkout", b =>
+                {
+                    b.Navigation("WorkoutsSchedule");
+                });
+
+            modelBuilder.Entity("Domain.Model.Equipment", b =>
+                {
+                    b.Navigation("Exercises");
+                });
+
+            modelBuilder.Entity("Domain.Model.Exercise", b =>
+                {
+                    b.Navigation("ExerciseProgress");
+                });
+
+            modelBuilder.Entity("Domain.Model.TargetMuscle", b =>
+                {
+                    b.Navigation("Exercises");
+                });
+
             modelBuilder.Entity("Domain.Models.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Domain.Models.User", b =>
+                {
+                    b.Navigation("CustomWorkouts");
                 });
 #pragma warning restore 612, 618
         }
