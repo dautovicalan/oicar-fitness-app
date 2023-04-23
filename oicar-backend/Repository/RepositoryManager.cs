@@ -14,6 +14,7 @@ namespace Repository
         private readonly Lazy<IBodyPartRepository> _bodyPartRepository;
         private readonly Lazy<ITargetMuscleRepository> _targetMuscleRepository;
         private readonly Lazy<IExerciseRepository> _exerciseRepository;
+        private readonly Lazy<ICustomWorkoutRepository> _customWorkoutRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -24,6 +25,7 @@ namespace Repository
             _bodyPartRepository = new Lazy<IBodyPartRepository>(() => new BodyPartRepository(repositoryContext));
             _targetMuscleRepository = new Lazy<ITargetMuscleRepository>(() => new TargetMuscleRepository(repositoryContext));
             _exerciseRepository = new Lazy<IExerciseRepository>(()=> new ExerciseRepository(repositoryContext));
+            _customWorkoutRepository = new Lazy<ICustomWorkoutRepository>(()=> new CustomWorkoutRepository(repositoryContext));
         }
 
         public IUserRepository User => _userRepository.Value;
@@ -32,7 +34,7 @@ namespace Repository
         public IBodyPartRepository BodyPart => _bodyPartRepository.Value;
         public ITargetMuscleRepository TargetMuscle => _targetMuscleRepository.Value;
         public IExerciseRepository Exercise => _exerciseRepository.Value;
-
+        public ICustomWorkoutRepository CustomWorkout => _customWorkoutRepository.Value;
         public void Save() => _repositoryContext.SaveChanges();
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }

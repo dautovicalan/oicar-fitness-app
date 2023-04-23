@@ -10,6 +10,7 @@ namespace Repository
         public IBodyPartRepository BodyPart { get; }
         public ITargetMuscleRepository TargetMuscle { get; }
         public IExerciseRepository Exercise { get; }
+        public ICustomWorkoutRepository CustomWorkout { get; }
         Task SaveAsync();
         void Save();
     }
