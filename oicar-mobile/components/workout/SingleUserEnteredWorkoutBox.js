@@ -1,12 +1,9 @@
 import { View, StyleSheet, Pressable } from "react-native";
 import React from "react";
-import { Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 
 export default function SingleUserEnteredWorkoutBox({
   workoutName,
-  workoutSets,
-  workoutReps,
-  workoutWeight,
   removeWorkout,
   renderFullWidth,
 }) {
@@ -19,9 +16,9 @@ export default function SingleUserEnteredWorkoutBox({
       onLongPress={removeWorkout}
     >
       <Text variant="bodySmall">Name: {workoutName}</Text>
-      <Text variant="bodySmall">Sets: {workoutSets}</Text>
-      <Text variant="bodySmall">Reps: {workoutReps}</Text>
-      <Text variant="bodySmall">Weight: {workoutWeight} KG</Text>
+      <Button mode="contained" onPress={() => {}}>
+        Add
+      </Button>
     </Pressable>
   );
 }

@@ -1,12 +1,12 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WorkoutView from "../views/main-views/WorkoutView";
-import ShowWorkouts from "../views/workout-views/ShowWorkouts";
 import SingleWorkoutView from "../views/workout-views/SingleWorkoutView";
 import PersonalRecordView from "../views/workout-views/PersonalRecordView";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AddWorkoutView from "../views/workout-views/AddWorkoutView";
 import AddPRView from "../views/workout-views/AddPRView";
+import ShowExercise from "../views/workout-views/ShowExercise";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,14 +34,15 @@ export default function WorkoutStack() {
               backgroundColor={"#000"}
               iconStyle={{ justifyContent: "center", alignItems: "center" }}
               onPress={() => {
-                navigation.navigate("Show Workouts");
+                navigation.navigate("Show Exercise");
               }}
             />
           ),
         })}
       />
       <Stack.Screen name="Add Workout" component={AddWorkoutView} />
-      <Stack.Screen name="Show Workouts" component={ShowWorkouts} />
+      <Stack.Screen name="Show Workout" component={AddWorkoutView} />
+      <Stack.Screen name="Show Exercise" component={ShowExercise} />
       <Stack.Screen
         name="Single Workouts"
         component={SingleWorkoutView}

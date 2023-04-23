@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import SingleWorkoutBox from "../../components/workout/SingleWorkoutBox";
 import { TextInput } from "react-native-paper";
 
-export default function ShowWorkouts({ navigation }) {
+export default function ShowExercise({ navigation }) {
   const [workouts, setWorkouts] = useState();
   const [searchTerm, setSearchTerm] = useState("");
 
