@@ -7,7 +7,7 @@ export default function GoogleLogin() {
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
-      "609881614284-dqc1n38lufdbudbga094di5ag2clufg9.apps.googleusercontent.com",
+      "971150090379-ckoc4re0ltkd2v6qli5nse34e0hcbsjk.apps.googleusercontent.com",
   });
 
   useEffect(() => {
