@@ -27,30 +27,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.RegisterServices();
 builder.Services.AddConfiguration(builder.Configuration);
-
-var configuration = builder.Configuration;
-
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-//})
-//    .AddCookie()
-//    .AddGoogle(options =>
-//    {
-//        // SocialLoginConfiguration
-//        SocialLoginConfiguration socialLoginConfiguration = new SocialLoginConfiguration();
-//        builder.Configuration.GetSection("Configuration:SocialLoginConfiguration").Bind(socialLoginConfiguration);
-
-//        options.ClientId = socialLoginConfiguration.GoogleConfiguration.GoogleClientId;
-//        options.ClientSecret = socialLoginConfiguration.GoogleConfiguration.ClientSecret;
-//    });
+builder.Services.AddJwtConfiguration(builder.Configuration);
+builder.Services.ConfigureJwt(builder.Configuration);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
-
-app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -64,8 +46,8 @@ app.UseCors(builder => builder
              .AllowAnyMethod()
              .AllowAnyHeader());
 
-//app.UseAuthorization();
-//app.UseAuthentication();
+app.UseAuthorization();
+app.UseAuthentication();
 
 
 app.MapControllers();

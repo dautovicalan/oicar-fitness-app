@@ -5,7 +5,6 @@ using FitPal_Models.Dto;
 using FitPal_Models.JsonModels;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using oicar_ApiServices.AppSettings;
 using Repository;
@@ -14,36 +13,38 @@ namespace oicar_ApiServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[EnableCors]
-    //[Authorize]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
         private readonly ISocialLoginManager _socialLoginManager;
+        private readonly IJwtAuthManager _jwtAuthManager;
 
-        public AccountController(IRepositoryManager repositoryManager, IMapper mapper, ISocialLoginManager socialLoginManager)
+        public AccountController(IRepositoryManager repositoryManager, IMapper mapper, ISocialLoginManager socialLoginManager, IJwtAuthManager jwtAuthManager)
         {
             _repository = repositoryManager;
             _mapper = mapper;
             _socialLoginManager = socialLoginManager;
+            _jwtAuthManager = jwtAuthManager;
         }
 
         [HttpPost("Login")]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginInput userLogin)
         {
             if (await _repository.User.CheckLogin(userLogin.Email, userLogin.Password))
             {
                 User? user = await _repository.User.GetUserByEmail(userLogin.Email);
-                return Ok(_mapper.Map<UserDto>(user));
+                var test = await _jwtAuthManager.GenerateToken(user.Id);
+                return Ok(await _jwtAuthManager.GenerateToken(user!.Id));
             }
 
             return BadRequest();
         }
 
         [HttpPost("LoginGoogle")]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> LoginWithGoogle(string accessToken)
         {
             GoogleJsonWebSignature.Payload? payload = await _socialLoginManager.GoogleAuthentication(accessToken);
@@ -54,7 +55,6 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpGet("GetUser")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetUser(int id)
         {
             User? user = await _repository.User.GetUser(id);
@@ -92,7 +92,6 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpPost("ChangePassword")]
-        [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ChangePasswordInput changePassword)
         {
             // Get references
