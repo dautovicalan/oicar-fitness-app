@@ -29,6 +29,7 @@ namespace oicar_ApiServices.Controllers
             return Ok();
         }
 
+
         [HttpGet("GetWorkouts")]
         public async Task<IActionResult> GetAllUsersWorkouts(int idUser)
         {
@@ -45,16 +46,15 @@ namespace oicar_ApiServices.Controllers
             return Ok(_mapper.Map<WorkoutDto>(workout));
         }
         [HttpPost("AddExercises")]
-        public async Task<IActionResult> GetUserWorkout(int idWorkout, List<int> exerciseIds)
+        public async Task<IActionResult> AddExercisesToWorkout(int idWorkout, List<int> exerciseIds)
         {
             await _repository.CustomWorkout.AddExercises(idWorkout, exerciseIds);
 
             return Ok();
         }
 
-
         [HttpGet("ByDate")]
-        public async Task<IActionResult> GetUserWorkout(int idUser, string date)
+        public async Task<IActionResult> GetWorkoutByDate(int idUser, string date)
         {
             var workoutSchedule = await _repository.CustomWorkout.GetWorkoutsByDate(idUser, date);
             if (workoutSchedule is null)

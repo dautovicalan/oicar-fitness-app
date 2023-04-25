@@ -27,5 +27,6 @@ public partial class User
     public DateTime? ForgotPasswordCreateDate { get; set; }
     public virtual Role? Role { get; set; }
     public virtual ICollection<CustomWorkout> CustomWorkouts { get; } = new List<CustomWorkout>();
+    public virtual ICollection<ExerciseProgress> ExerciseProgresses { get; } = new List<ExerciseProgress>();
 
 }
