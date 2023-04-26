@@ -56,45 +56,47 @@ export default function SignUp({handleNext}) {
     e.preventDefault();
     setIsSubmit(true);
 
-    console.log(errors)
-    if(errors !== 0) {
+    console.log(errorsTemp)
+    if(errorsTemp !== null) {
       setErrors(validate(formValues));
       if (Object.keys(errorsTemp).length == 0) {
         handleNext()
       }
-      //setErrors({})
+      //errorsTemp = null;
       setIsSubmit(false);
-      return
     }
    
     try {
-      const response = await fetch("/api/Account/Register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formValues.firstName,
-          surname: formValues.lastName,
-          email: formValues.email,
-          password: formValues.password,
-          newsletter: false
-        }),
-      });
-      const data = await response.json();
-      if (data.isRegister) {
-        window.location.href = "/workoutplan"
-        localStorage.setItem("id", data.id);
-        sessionStorage.setItem("id", data.id);
-
-
-      } else if (data == null) {
-        return false;
-      } else if(data.isRegister == false) {
-        window.location.href = "/register"
-        localStorage.setItem("id", data.id);
-        sessionStorage.setItem("id", data.id);
+      if(isSubmit) {
+        const response = await fetch("/api/Account/Register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formValues.firstName,
+            surname: formValues.lastName,
+            email: formValues.email,
+            password: formValues.password,
+            newsletter: false
+          }),
+        });
+        const data = await response.json();
+        if (data.isRegister) {
+          window.location.href = "/workoutplan"
+          localStorage.setItem("id", data.id);
+          sessionStorage.setItem("id", data.id);
+  
+  
+        } else if (data == null) {
+          return false;
+        } else if(data.isRegister == false) {
+          window.location.href = "/register"
+          localStorage.setItem("id", data.id);
+          sessionStorage.setItem("id", data.id);
+        }
       }
+      
     } catch (error) {
       console.error(error);
     }
@@ -157,6 +159,7 @@ export default function SignUp({handleNext}) {
 
   return (
     <>
+    <div>{JSON.stringify(formValues)}</div>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
