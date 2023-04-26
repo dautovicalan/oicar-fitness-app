@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { WebView } from "react-native-webview";
 import { Text } from "react-native-paper";
 
-export default function SingleWorkoutView({ route }) {
+export default function SingleTutorialView({ route }) {
   const { workoutId } = route.params;
   const [playing, setPlaying] = useState(false);
   return (

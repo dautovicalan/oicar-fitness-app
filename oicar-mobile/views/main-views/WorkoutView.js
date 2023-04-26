@@ -29,6 +29,20 @@ export default function WorkoutView({ navigation }) {
       workoutReps: 12,
       workoutWeight: 50,
     },
+    {
+      id: 3,
+      workoutName: "Pull Day",
+      workoutSets: 3,
+      workoutReps: 12,
+      workoutWeight: 50,
+    },
+    {
+      id: 4,
+      workoutName: "Pull Day",
+      workoutSets: 3,
+      workoutReps: 12,
+      workoutWeight: 50,
+    },
   ]);
 
   const [loading, setLoading] = useState(false);
@@ -61,13 +75,12 @@ export default function WorkoutView({ navigation }) {
           icon="plus"
           backgroundColor="#6750A4"
           onPress={() =>
-            navigation.navigate("Add Workout", {
-              addWorkout: (workout) =>
-                setSelectedDateWorkouts([...selectedDateWorkouts, workout]),
+            navigation.navigate("Add Exercise", {
+              navigation: navigation,
             })
           }
         >
-          Add Workout
+          Add Exercise
         </Button>
       </View>
       <FlatList
@@ -77,6 +90,12 @@ export default function WorkoutView({ navigation }) {
         renderItem={(item) => (
           <SingleUserEnteredWorkoutBox
             {...item.item}
+            navigation={() =>
+              navigation.navigate("Show Single Exercise Details", {
+                exerciseId: item.item.id,
+                exerciseName: item.item.workoutName,
+              })
+            }
             removeWorkout={() => {
               setSelectedDateWorkouts(
                 selectedDateWorkouts.filter((w) => w.id !== item.item.id)

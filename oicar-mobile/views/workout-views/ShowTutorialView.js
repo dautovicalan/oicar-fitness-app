@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import SingleWorkoutBox from "../../components/workout/SingleWorkoutBox";
 import { TextInput } from "react-native-paper";
 
-export default function ShowExercise({ navigation }) {
+export default function ShowTutorialView({ navigation }) {
   const [workouts, setWorkouts] = useState();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -38,7 +38,7 @@ export default function ShowExercise({ navigation }) {
         renderItem={({ item }) => (
           <SingleWorkoutBox
             navigation={() =>
-              navigation.navigate("Single Workouts", {
+              navigation.navigate("Single Tutorial", {
                 workoutId: 1,
               })
             }

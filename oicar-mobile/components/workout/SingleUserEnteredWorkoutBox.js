@@ -3,9 +3,11 @@ import React from "react";
 import { Button, Text } from "react-native-paper";
 
 export default function SingleUserEnteredWorkoutBox({
+  workoutId,
   workoutName,
   removeWorkout,
   renderFullWidth,
+  navigation,
 }) {
   return (
     <Pressable
@@ -15,9 +17,9 @@ export default function SingleUserEnteredWorkoutBox({
       ]}
       onLongPress={removeWorkout}
     >
-      <Text variant="bodySmall">Name: {workoutName}</Text>
-      <Button mode="contained" onPress={() => {}}>
-        Add
+      <Text variant="bodyLarge">{workoutName}</Text>
+      <Button mode="contained" onPress={navigation}>
+        Details
       </Button>
     </Pressable>
   );
@@ -34,7 +36,7 @@ const style = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
     gap: 5,
     margin: 10,
   },
