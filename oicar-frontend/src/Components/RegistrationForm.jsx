@@ -14,7 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AboutYou from "./AboutYou";
 import { useState, useEffect } from "react";
-import GoogleIcon from '@mui/icons-material/Google';
+import GoogleIcon from "@mui/icons-material/Google";
 import RegistrationStepper from "./RegistrationStepper";
 import WhatsYourGoal from "./WhatsYourGoal";
 
@@ -38,99 +38,70 @@ function Copyright(props) {
 var errorsTemp = {};
 const theme = createTheme();
 
-export default function SignUp({handleNext}) {
-  const initialValues = { email: "", password: "", repeatpassword: "", firstName: "", lastName: "" };
+export default function SignUp({ handleNext }) {
+  const initialValues = {
+    email: "",
+    password: "",
+    repeatpassword: "",
+    firstName: "",
+    lastName: "",
+  };
   const [formValues, setFormValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
-
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-
   const handleRegistration = async (e) => {
     e.preventDefault();
-    setIsSubmit(true);
 
-    console.log(errorsTemp)
-    if(errorsTemp !== null) {
-      setErrors(validate(formValues));
-      if (Object.keys(errorsTemp).length == 0) {
-        handleNext()
-      }
-      //errorsTemp = null;
-      setIsSubmit(false);
+    console.log(errorsTemp);
+    const validation = validate(formValues);
+    if (validation) {
+      return setErrors(validation);
     }
-   
+
     try {
-      if(isSubmit) {
-        const response = await fetch("/api/Account/Register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formValues.firstName,
-            surname: formValues.lastName,
-            email: formValues.email,
-            password: formValues.password,
-            newsletter: false
-          }),
-        });
-        const data = await response.json();
-        if (data.isRegister) {
-          window.location.href = "/workoutplan"
-          localStorage.setItem("id", data.id);
-          sessionStorage.setItem("id", data.id);
-  
-  
-        } else if (data == null) {
-          return false;
-        } else if(data.isRegister == false) {
-          window.location.href = "/register"
-          localStorage.setItem("id", data.id);
-          sessionStorage.setItem("id", data.id);
-        }
+      const response = await fetch("/api/Account/Register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formValues.firstName,
+          surname: formValues.lastName,
+          email: formValues.email,
+          password: formValues.password,
+          newsletter: false,
+        }),
+      });
+      const data = await response.json();
+      if (data.isRegister) {
+        window.location.href = "/workoutplan";
+        localStorage.setItem("id", data.id);
+        sessionStorage.setItem("id", data.id);
+      } else if (data == null) {
+        return false;
+      } else if (data.isRegister == false) {
+        window.location.href = "/register";
+        localStorage.setItem("id", data.id);
+        sessionStorage.setItem("id", data.id);
       }
-      
     } catch (error) {
       console.error(error);
     }
   };
 
-
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   setErrors(validate(formValues));
-  //   setIsSubmit(true);
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-      
-  //   });
-  //   //console.log(Object.keys(errorsTemp).length);
-    
-  //   if (Object.keys(errorsTemp).length == 0) {
-  //     handleNext()
-  //   }
-    
-  // };
-
   useEffect(() => {
-    // console.log(errors);
     if (Object.keys(errors).length == 0 && isSubmit) {
       console.log(formValues);
     }
   }, [errors]);
 
   const validate = (values) => {
-    console.log("VALIDATE")
     const errors = {};
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -150,16 +121,18 @@ export default function SignUp({handleNext}) {
     }
     if (!values.repeatpassword) {
       errors.repeatpassword = "Repeat Password is required!";
-    } else if (values.repeatpassword!=values.password) {
+    } else if (values.repeatpassword != values.password) {
       errors.repeatpassword = "Passwords must match!";
     }
-    errorsTemp = errors;
+    if (Object.keys(errors).length === 0) {
+      return null;
+    }
     return errors;
   };
 
   return (
     <>
-    <div>{JSON.stringify(formValues)}</div>
+      <div>{JSON.stringify(formValues)}</div>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -254,31 +227,34 @@ export default function SignUp({handleNext}) {
                     <p style={{ color: "red" }}>{errors.repeatpassword}</p>
                   </Grid>
                 </Grid>
-                {errors != null ? <Button
-                  type="submit"
-                  fullWidth
-                  onClick={handleRegistration}
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  NEXT
-                </Button> : <Button
-                  type="submit"
-                  fullWidth
-                  disabled="true"
-                  onClick={handleRegistration}
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  NEXT
-                </Button>}
+                {errors != null ? (
+                  <Button
+                    type="submit"
+                    fullWidth
+                    onClick={handleRegistration}
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    NEXT
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    fullWidth
+                    disabled="true"
+                    onClick={handleRegistration}
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    NEXT
+                  </Button>
+                )}
                 <Button
                   fullWidth
                   variant="contained"
-                  
-                  sx={{ mt: 3, mb: 2, backgroundColor:'gray' }}
+                  sx={{ mt: 3, mb: 2, backgroundColor: "gray" }}
                 >
-                  Continue with Google <GoogleIcon id="google-icon"/>
+                  Continue with Google <GoogleIcon id="google-icon" />
                 </Button>
                 <Grid container justifyContent="flex-end">
                   <Grid item>
@@ -292,8 +268,6 @@ export default function SignUp({handleNext}) {
           </Box>
         </Container>
       </ThemeProvider>
-    
-
     </>
   );
 }
