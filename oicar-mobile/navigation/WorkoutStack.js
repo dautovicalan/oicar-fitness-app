@@ -5,11 +5,11 @@ import SingleTutorialView from "../views/workout-views/SingleTutorialView";
 import PersonalRecordView from "../views/workout-views/PersonalRecordView";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AddPRView from "../views/workout-views/AddPRView";
-import ShowExercise from "../views/workout-views/ShowTutorialView";
-import AddExerciseView from "../views/workout-views/AddExerciseView";
-import SingleUserExerciseDetailsView from "../views/workout-views/SingleUserExerciseDetailsView";
+import AddWorkoutView from "../views/workout-views/AddWorkoutView";
 import ShowTutorialView from "../views/workout-views/ShowTutorialView";
-import AddSpecificExerciseView from "../views/workout-views/AddSpecificExerciseView";
+import AddExerciseView from "../views/workout-views/AddExerciseView";
+import ShowWorkoutDetailsView from "../views/workout-views/ShowWorkoutDetailsView";
+import ShowExerciseDetailsView from "../views/workout-views/ShowExerciseDetailsView";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,20 +43,33 @@ export default function WorkoutStack() {
           ),
         })}
       />
-      <Stack.Screen name="Add Exercise" component={AddExerciseView} />
+      <Stack.Screen
+        name="Add Workout"
+        component={AddWorkoutView}
+        options={({ route }) => ({ title: "Add Workout" })}
+      />
       <Stack.Screen
         name="Add Specific Exercise"
-        component={AddSpecificExerciseView}
+        component={AddExerciseView}
         options={({ route }) => ({ title: "Select Exercises" })}
       />
       <Stack.Screen
-        name="Show Single Exercise Details"
-        component={SingleUserExerciseDetailsView}
+        name="Show Single Workout Details"
+        component={ShowWorkoutDetailsView}
+        options={({ route }) => ({ title: route.params.workoutName })}
+      />
+      <Stack.Screen
+        name="Exercise Details"
+        component={ShowExerciseDetailsView}
         options={({ route }) => ({ title: route.params.exerciseName })}
       />
-      <Stack.Screen name="Show Tutorials" component={ShowTutorialView} />
       <Stack.Screen
-        name="Single Workouts"
+        name="Show Tutorials"
+        component={ShowTutorialView}
+        options={({ route }) => ({ title: "Show Tutorials" })}
+      />
+      <Stack.Screen
+        name="Single Tutorial"
         component={SingleTutorialView}
         options={() => ({
           title: "Single Tutorial",

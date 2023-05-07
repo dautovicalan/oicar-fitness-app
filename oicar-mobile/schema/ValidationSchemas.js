@@ -37,3 +37,15 @@ export const addPRValidationSchema = Yup.object().shape({
   workoutName: Yup.string().required("Workout name is required"),
   workoutWeight: Yup.number().required("Workout weight is required"),
 });
+
+export const editExerciseValidationSchema = Yup.object().shape({
+  sets: Yup.number()
+    .required("Exercise sets is required")
+    .positive("Exercise sets must be positive number"),
+  repetition: Yup.number()
+    .required("Exercise reps is required")
+    .positive("Exercise reps must be positive number"),
+  weight: Yup.number()
+    .required("Exercise weight is required")
+    .positive("Exercise weight must be positive number"),
+});

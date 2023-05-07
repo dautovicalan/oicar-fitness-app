@@ -18,30 +18,18 @@ export default function WorkoutView({ navigation }) {
     {
       id: 1,
       workoutName: "Leg Day",
-      workoutSets: 3,
-      workoutReps: 12,
-      workoutWeight: 50,
     },
     {
       id: 2,
       workoutName: "Pull Day",
-      workoutSets: 3,
-      workoutReps: 12,
-      workoutWeight: 50,
     },
     {
       id: 3,
       workoutName: "Pull Day",
-      workoutSets: 3,
-      workoutReps: 12,
-      workoutWeight: 50,
     },
     {
       id: 4,
       workoutName: "Pull Day",
-      workoutSets: 3,
-      workoutReps: 12,
-      workoutWeight: 50,
     },
   ]);
 
@@ -75,12 +63,12 @@ export default function WorkoutView({ navigation }) {
           icon="plus"
           backgroundColor="#6750A4"
           onPress={() =>
-            navigation.navigate("Add Exercise", {
-              navigation: navigation,
+            navigation.navigate("Add Workout", {
+              selectedDate: selectedDate.toDateString(),
             })
           }
         >
-          Add Exercise
+          Add Workout
         </Button>
       </View>
       <FlatList
@@ -91,9 +79,9 @@ export default function WorkoutView({ navigation }) {
           <SingleUserEnteredWorkoutBox
             {...item.item}
             navigation={() =>
-              navigation.navigate("Show Single Exercise Details", {
-                exerciseId: item.item.id,
-                exerciseName: item.item.workoutName,
+              navigation.navigate("Show Single Workout Details", {
+                workoutId: item.item.id,
+                workoutName: item.item.workoutName,
               })
             }
             removeWorkout={() => {

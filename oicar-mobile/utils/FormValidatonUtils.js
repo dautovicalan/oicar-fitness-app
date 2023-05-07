@@ -1,6 +1,7 @@
 import {
   aboutYouValidationSchema,
   addPRValidationSchema,
+  editExerciseValidationSchema,
   loginValidationSchema,
   userValidationSchema,
   workoutValidationSchema,
@@ -119,6 +120,26 @@ export const validateAddPRForm = async (data) => {
         workoutDate: data.workoutDate,
         workoutName: data.workoutName,
         workoutWeight: data.workoutWeight,
+      },
+      { abortEarly: false }
+    );
+    return { isValid: true, errors: {} };
+  } catch (err) {
+    const errors = {};
+    err.inner.forEach((e) => {
+      errors[e.path] = e.message;
+    });
+    return { isValid: false, errors };
+  }
+};
+
+export const validateExerciseForm = async (data) => {
+  try {
+    await editExerciseValidationSchema.validate(
+      {
+        sets: data.sets,
+        repetition: data.repetition,
+        weight: data.weight,
       },
       { abortEarly: false }
     );

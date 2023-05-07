@@ -1,39 +1,126 @@
-import { View, Text, StyleSheet, ScrollView, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  Pressable,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
-import { Picker } from "@react-native-picker/picker";
-import { Button, TextInput } from "react-native-paper";
-import { validateWorkoutForm } from "../../utils/FormValidatonUtils";
-import ExerciseMuscleBox from "../../components/workout/ExerciseMuscleBox";
+import { Button, Checkbox } from "react-native-paper";
 
-const muscleGroups = ["chest", "back", "shoulders", "legs", "arms"];
+const exerciseNames = [
+  "bench press",
+  "squat",
+  "deadlift",
+  "overhead press",
+  "barbell row",
+];
 
-export default function AddExerciseView({ route, navigation }) {
-  const { addWorkout } = route.params;
+const ExerciseItemBox = ({ addExercise, removeExercise, muscleName }) => {
+  const [checked, setChecked] = useState(false);
+
+  const handlePress = () => {
+    if (checked) {
+      removeExercise(muscleName);
+    } else {
+      addExercise(muscleName);
+    }
+    setChecked((prevVal) => !prevVal);
+  };
 
   return (
-    <FlatList
-      contentContainerStyle={style.container}
-      data={muscleGroups}
-      renderItem={(item) => (
-        <ExerciseMuscleBox
-          muscleId
-          muscleName={item.item}
-          navigation={() => navigation.navigate("Add Specific Exercise")}
+    <Pressable onPress={handlePress}>
+      <View style={styles.exerciseItemContainer}>
+        <Image
+          source={require("../../assets/bench.gif")}
+          style={{ width: 50, height: 50 }}
         />
-      )}
-      keyExtractor={(item) => item}
-    />
+        <Text>{muscleName}</Text>
+        <Checkbox status={checked ? "checked" : "unchecked"} />
+      </View>
+    </Pressable>
+  );
+};
+
+export default function AddExerciseView({ route, navigation }) {
+  const { muscleId, selectedDate } = route.params;
+  const [selectedExercises, setSelectedExercises] = useState([]);
+
+  const addExercise = (exercise) => {
+    setSelectedExercises((prevVal) => [...prevVal, exercise]);
+  };
+
+  const removeExercise = (exercise) => {
+    setSelectedExercises((prevVal) =>
+      prevVal.filter((item) => item !== exercise)
+    );
+  };
+
+  const handleSubmit = async () => {
+    // TODO - add exercises to workout
+    console.log(muscleId, selectedExercises, selectedDate);
+    Alert.alert("You added: " + selectedExercises.join(", "), "", [
+      {
+        text: "Go Back",
+        onPress: () =>
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Workout Dashboard" }],
+          }),
+      },
+    ]);
+  };
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        contentContainerStyle={{ width: "90%", marginBottom: 20 }}
+        data={exerciseNames}
+        keyExtractor={(item) => item}
+        renderItem={(item) => (
+          <ExerciseItemBox
+            addExercise={addExercise}
+            removeExercise={removeExercise}
+            muscleName={item.item}
+          />
+        )}
+      />
+      <Button
+        mode="contained"
+        onPress={handleSubmit}
+        style={styles.buttonStyle}
+      >
+        Add Exercises
+      </Button>
+    </View>
   );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    gap: 10,
   },
-  row: {
+  buttonStyle: {
+    marginVertical: 10,
+  },
+  exerciseItemContainer: {
+    backgroundColor: "#fff",
     flexDirection: "row",
+    padding: 15,
+    borderRadius: 15,
+    shadowColor: "#000",
+    width: "95%",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 5,
+    justifyContent: "center",
     alignItems: "center",
+    gap: 5,
+    margin: 10,
   },
 });

@@ -39,12 +39,13 @@ const DateSlider = ({ selectedDate, setSelectedDate }) => {
             <View style={styles.row}>
               {week.map((day) => {
                 const txt = format(day, "EEEEE");
+                const dateWithoutTime = selectedDate.setHours(0, 0, 0, 0);
                 return (
                   <Pressable key={day} onPress={() => setSelectedDate(day)}>
                     <View
                       style={[
                         styles.day,
-                        isEqual(selectedDate, day) ? styles.selectedDay : {},
+                        isEqual(dateWithoutTime, day) ? styles.selectedDay : {},
                       ]}
                     >
                       <Text>{txt}</Text>

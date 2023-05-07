@@ -37,16 +37,6 @@ export default function PersonalRecordView({ navigation }) {
 
   return (
     <View style={style.container}>
-      <TextInput
-        label={"Search PR's"}
-        style={{ width: "90%", marginTop: 10 }}
-        value={searchPersonalRecord}
-        onChangeText={(text) => {
-          setSearchPersonalRecord(text);
-          handleFilter();
-        }}
-      />
-
       <FlatList
         contentContainerStyle={style.prs}
         data={personalRecords}
