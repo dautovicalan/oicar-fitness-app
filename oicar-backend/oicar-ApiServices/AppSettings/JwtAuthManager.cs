@@ -52,6 +52,7 @@ namespace oicar_ApiServices.AppSettings
             return new AccountTokenDto
             {
                 IdUser = user.Id,
+                IsRegister = user.IsRegister,
                 AccessToken = accesToken
             };
         }

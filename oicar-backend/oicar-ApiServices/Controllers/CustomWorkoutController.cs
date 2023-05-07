@@ -2,6 +2,7 @@
 using Domain.Model;
 using FitPal_Models.Dto;
 using FitPal_Models.JsonModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 
@@ -9,6 +10,7 @@ namespace oicar_ApiServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CustomWorkoutController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
@@ -31,6 +33,7 @@ namespace oicar_ApiServices.Controllers
 
 
         [HttpGet("GetWorkouts")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllUsersWorkouts(int idUser)
         {
             List<CustomWorkout> workoutsList = await _repository.CustomWorkout.GetUserCustomWorkouts(idUser);
