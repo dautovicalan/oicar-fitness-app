@@ -44,10 +44,12 @@ export default function UserInformationView({ navigation }) {
           body: JSON.stringify({ name, surname, email, password }),
         }
       );
+      console.log(response);
       const result = await response.json();
       if (response.status === 400 && result.message) {
         return reactNative.Alert.alert(result.message);
       }
+      console.log("User id is: " + result.id);
       setBasicInfo({
         id: result.id,
         name: result.name,

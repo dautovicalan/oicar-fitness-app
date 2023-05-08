@@ -10,8 +10,11 @@ import GoalBox from "../../components/home/GoalBox";
 import CaloriesBox from "../../components/home/CaloriesBox";
 import WorkoutBox from "../../components/home/WorkoutBox";
 import { Text } from "react-native-paper";
+import { useUserContext } from "../../context/UserContext";
 
 export default function HomeView() {
+  const { getUserInfo } = useUserContext();
+
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = () => {
@@ -34,7 +37,7 @@ export default function HomeView() {
           marginBottom: 50,
         }}
       >
-        Welcome Back, Alan 💪
+        Welcome Back, {getUserInfo()?.name} 💪
       </Text>
       <View style={style.firstInnerContainer}>
         <View>

@@ -1,21 +1,19 @@
 import { View, StyleSheet, ScrollView } from "react-native";
 import React, { useState } from "react";
-import { WebView } from "react-native-webview";
 import { Text } from "react-native-paper";
+import useFetch from "../../hooks/useFetch";
 
 export default function SingleTutorialView({ route }) {
   const { workoutId } = route.params;
+  // const { data, isPending, error } = useFetch(
+  //   `http://localhost:5280/api/Exercise/${workoutId}`
+  // );
   const [playing, setPlaying] = useState(false);
   return (
     <ScrollView contentContainerStyle={style.container}>
       <Text variant="bodyLarge" style={{ marginTop: 10 }}>
-        Bench Press
+        Name of the exercise
       </Text>
-      <WebView
-        style={{ width: 300 }}
-        javaScriptEnabled={true}
-        source={{ uri: "https://www.youtube.com/embed/rT7DgCr-3pg" }}
-      />
     </ScrollView>
   );
 }

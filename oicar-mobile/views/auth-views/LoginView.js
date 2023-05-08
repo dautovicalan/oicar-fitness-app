@@ -13,9 +13,11 @@ import { TextInput, Text, Button } from "react-native-paper";
 import GoogleLogin from "../../components/GoogleLogin";
 import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
 import { validateLoginForm } from "../../utils/FormValidatonUtils";
+import { useUserContext } from "../../context/UserContext";
 
 export default function LoginView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
+  const { setUserInfo } = useUserContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(null);
@@ -45,7 +47,14 @@ export default function LoginView({ navigation }) {
 
       const result = await response.json();
 
+      console.log(result);
+
       if (result?.isRegister && result.isRegister === true) {
+        setUserInfo({
+          id: result.id,
+          name: result.name,
+          surname: result.surname,
+        });
         return navigation.reset({
           index: 0,
           routes: [{ name: "MainApp" }],
@@ -98,12 +107,12 @@ export default function LoginView({ navigation }) {
           />
           <Button
             mode="contained"
-            onPress={() =>
+            onPress={() => {
               navigation.reset({
                 index: 0,
                 routes: [{ name: "MainApp" }],
-              })
-            }
+              });
+            }}
             icon="lock-open"
             disabled={loading}
           >

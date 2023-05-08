@@ -2,12 +2,17 @@ import { View, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
 import { Text, Switch, Button } from "react-native-paper";
 import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
+import { useUserContext } from "../../context/UserContext";
 
 export default function NewsletterView({ navigation }) {
+  const { setUserInfo } = useUserContext();
   const { currentNewUser, setEnableNewsletter } = useRegistrationProcess();
   const [newsletter, setNewsletter] = useState(true);
 
+  const [loading, setLoading] = useState(false);
+
   const handleClick = async () => {
+    setLoading(true);
     if (!currentNewUser || currentNewUser.id === 0) {
       return Alert.alert("Something went wrong with user");
     }
@@ -38,12 +43,20 @@ export default function NewsletterView({ navigation }) {
 
       //set main context
 
+      setUserInfo({
+        id: currentNewUser.id,
+        name: currentNewUser.firstName,
+        surname: currentNewUser.lastName,
+      });
+
       navigation.reset({
         index: 0,
         routes: [{ name: "MainApp" }],
       });
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,7 +69,12 @@ export default function NewsletterView({ navigation }) {
           onChange={() => setNewsletter((prevVal) => !prevVal)}
         />
       </View>
-      <Button mode="contained" icon="rocket" onPress={handleClick}>
+      <Button
+        mode="contained"
+        icon="rocket"
+        onPress={handleClick}
+        disabled={loading}
+      >
         Finish Profile Creation
       </Button>
     </View>
