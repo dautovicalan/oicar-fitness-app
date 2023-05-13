@@ -47,13 +47,10 @@ export default function LoginView({ navigation }) {
 
       const result = await response.json();
 
-      console.log(result);
-
       if (result?.isRegister && result.isRegister === true) {
         setUserInfo({
           id: result.id,
-          name: result.name,
-          surname: result.surname,
+          accessToken: result.accessToken,
         });
         return navigation.reset({
           index: 0,
@@ -61,12 +58,8 @@ export default function LoginView({ navigation }) {
         });
       }
 
-      console.log(result);
       setBasicInfo({
         id: result.id,
-        name: result.name,
-        surname: result.surname,
-        email: result.email,
         isRegister: result.isRegister,
       });
 
@@ -107,12 +100,7 @@ export default function LoginView({ navigation }) {
           />
           <Button
             mode="contained"
-            onPress={() => {
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "MainApp" }],
-              });
-            }}
+            onPress={handleLogin}
             icon="lock-open"
             disabled={loading}
           >

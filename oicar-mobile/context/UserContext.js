@@ -4,6 +4,7 @@ export const UserContext = React.createContext({
   id: 0,
   name: "",
   surname: "",
+  accessToken: "",
   setUserInfo: () => {},
   getUserInfo: () => {},
   logut: () => {},
@@ -18,6 +19,7 @@ export const UserContextProvider = ({ children }) => {
     id: 0,
     name: "",
     surname: "",
+    accessToken: "",
   });
 
   const setUserInfo = (userInfo) => {
@@ -25,6 +27,7 @@ export const UserContextProvider = ({ children }) => {
       id: userInfo.id,
       name: userInfo.firstName,
       surname: userInfo.lastName,
+      accessToken: userInfo.accessToken,
     });
   };
 
@@ -37,6 +40,7 @@ export const UserContextProvider = ({ children }) => {
       id: 0,
       name: "",
       surname: "",
+      accessToken: "",
     });
   };
 
