@@ -13,7 +13,7 @@ export default function SettingsView({ navigation }) {
           logout();
           navigation.reset({
             index: 0,
-            routes: [{ name: "Login" }],
+            routes: [{ name: "Welcome" }],
           });
         }}
       >

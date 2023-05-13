@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import SingleWorkoutBox from "../../components/workout/SingleWorkoutBox";
 import { ActivityIndicator, TextInput } from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
-import { set } from "date-fns";
 
 export default function ShowTutorialView({ navigation }) {
   const { data, isPending, error } = useFetch(
