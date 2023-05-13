@@ -15,10 +15,10 @@ namespace Repository.Implementation
             _repositoryContext = repositoryContext;
         }
 
-        public async Task CreateWorkout(CustomWorkout workout)
+        public async Task<int> CreateWorkout(CustomWorkout workout)
         {
             Create(workout);
-            await _repositoryContext.SaveChangesAsync();
+            return await _repositoryContext.SaveChangesAsync();
         }
 
         public async Task<CustomWorkout?> GetUserCustomWorkout(int idUser, int idWorkout)

@@ -5,33 +5,35 @@ import {
   FlatList,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DateSlider from "../../components/workout/DateSlider";
 import { Button } from "react-native-paper";
 import SingleUserEnteredWorkoutBox from "../../components/workout/SingleUserEnteredWorkoutBox";
 import { Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useUserContext } from "../../context/UserContext";
+import useFetch from "../../hooks/useFetch";
 
 export default function WorkoutView({ navigation }) {
+  const { user } = useUserContext();
+
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedDateWorkouts, setSelectedDateWorkouts] = useState([
-    {
-      id: 1,
-      workoutName: "Leg Day",
-    },
-    {
-      id: 2,
-      workoutName: "Pull Day",
-    },
-    {
-      id: 3,
-      workoutName: "Pull Day",
-    },
-    {
-      id: 4,
-      workoutName: "Pull Day",
-    },
-  ]);
+
+  const { data, isPending, error } = useFetch(
+    `http://localhost:5280/api/CustomWorkout/ByDate?idUser=${
+      user.id
+    }&date=${selectedDate.toDateString()}}`,
+    "GET"
+  );
+
+  const [selectedDateWorkouts, setSelectedDateWorkouts] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setSelectedDateWorkouts(data);
+    }
+    // TODO: fetch data for selected date
+  }, [data, selectedDate]);
 
   const [loading, setLoading] = useState(false);
 

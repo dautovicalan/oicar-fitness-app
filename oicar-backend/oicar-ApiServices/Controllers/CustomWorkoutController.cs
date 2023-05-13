@@ -23,12 +23,14 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpPost("Create")]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateCustomWorkout(CustomWorkoutInput input)
         {
             CustomWorkout customWorkout = _mapper.Map<CustomWorkout>(input);
-            await _repository.CustomWorkout.CreateWorkout(customWorkout);
+            var workoutId = await _repository.CustomWorkout.CreateWorkout(customWorkout);
+            customWorkout.Id = workoutId;
 
-            return Ok();
+            return Ok(_mapper.Map<WorkoutDto>(customWorkout));
         }
 
 
@@ -49,6 +51,7 @@ namespace oicar_ApiServices.Controllers
             return Ok(_mapper.Map<WorkoutDto>(workout));
         }
         [HttpPost("AddExercises")]
+        [AllowAnonymous]
         public async Task<IActionResult> AddExercisesToWorkout(int idWorkout, List<int> exerciseIds)
         {
             await _repository.CustomWorkout.AddExercises(idWorkout, exerciseIds);

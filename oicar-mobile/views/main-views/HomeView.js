@@ -5,15 +5,17 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
-import React, { useState } from "react";
-import GoalBox from "../../components/home/GoalBox";
-import CaloriesBox from "../../components/home/CaloriesBox";
-import WorkoutBox from "../../components/home/WorkoutBox";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
+import useFetch from "../../hooks/useFetch";
+import HomeBox from "../../components/home/HomeBox";
 
 export default function HomeView() {
-  const { getUserInfo } = useUserContext();
+  const { user } = useUserContext();
+
+  console.log("HOME");
+  console.log(user);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -37,22 +39,34 @@ export default function HomeView() {
           marginBottom: 50,
         }}
       >
-        Welcome Back, {getUserInfo()?.name} 💪
+        Welcome Back, {user?.name} 💪
       </Text>
       <View style={style.firstInnerContainer}>
         <View>
-          <GoalBox />
+          <HomeBox
+            text="Follow Your Goal"
+            userText={user?.goal}
+            color="#FF5668"
+          />
         </View>
         <View>
-          <CaloriesBox />
+          <HomeBox
+            text="Your Workouts"
+            userText={user?.workoutNumberPerWeek}
+            color="#3FBD86"
+          />
         </View>
       </View>
       <View style={style.secondInnerContainer}>
         <View>
-          <WorkoutBox />
+          <HomeBox
+            text="Current Weight"
+            userText={user?.weight}
+            color="#FE7F61"
+          />
         </View>
         <View>
-          <WorkoutBox />
+          <HomeBox text="Your Calories" color="#3FBD86" />
         </View>
       </View>
     </ScrollView>
@@ -68,14 +82,14 @@ const style = StyleSheet.create({
   },
   firstInnerContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     height: "25%",
     gap: 20,
   },
   firstInnerItem: {},
   secondInnerContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     height: "25%",
     gap: 20,
   },

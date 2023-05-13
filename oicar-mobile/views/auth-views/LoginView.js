@@ -49,7 +49,7 @@ export default function LoginView({ navigation }) {
 
       if (result?.isRegister && result.isRegister === true) {
         setUserInfo({
-          id: result.id,
+          id: result.idUser,
           accessToken: result.accessToken,
         });
         return navigation.reset({

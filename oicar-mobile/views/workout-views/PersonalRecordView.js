@@ -1,57 +1,84 @@
-import { View, StyleSheet, FlatList } from "react-native";
-import React, { useState } from "react";
+import { View, StyleSheet, FlatList, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Button, Text, TextInput } from "react-native-paper";
 import PersonalRecordBox from "../../components/workout/PersonalRecordBox";
+import { useUserContext } from "../../context/UserContext";
+import { readFromStorage, writeToStorage } from "../../utils/StorageUtils";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function PersonalRecordView({ navigation }) {
-  const [searchPersonalRecord, setSearchPersonalRecord] = useState("");
-  const [personalRecords, setPersonalRecords] = useState([
-    {
-      id: 1,
-      workoutDate: new Date(),
-      workoutName: "Bench Press",
-      workoutWeight: 100,
-    },
-    {
-      id: 2,
-      workoutDate: new Date(),
-      workoutName: "Something",
-      workoutWeight: 100,
-    },
-    {
-      id: 3,
-      workoutDate: new Date(),
-      workoutName: "something again",
-      workoutWeight: 100,
-    },
-  ]);
+  const { user } = useUserContext();
+  const [personalRecords, setPersonalRecords] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const getPersonalRecords = async () => {
+      const personalRecords = await readFromStorage(
+        user.id + "_" + "personalRecords"
+      );
+      if (personalRecords === null || personalRecords === undefined) {
+        return setPersonalRecords([]);
+      }
+      console.log(personalRecords);
+      setPersonalRecords(personalRecords);
+    };
 
-  const handleFilter = () => {
-    const filtered = personalRecords.filter((pr) => {
-      return pr.workoutName.includes(searchPersonalRecord);
-    });
-    setPersonalRecords(filtered);
-  };
+    getPersonalRecords();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const getPersonalRecords = async () => {
+        const personalRecords = await readFromStorage(
+          user.id + "_" + "personalRecords"
+        );
+        if (personalRecords === null || personalRecords === undefined) {
+          return setPersonalRecords([]);
+        }
+        setPersonalRecords(personalRecords);
+      };
+
+      getPersonalRecords();
+    }, [])
+  );
 
   return (
     <View style={style.container}>
-      <FlatList
-        contentContainerStyle={style.prs}
-        data={personalRecords}
-        numColumns={2}
-        renderItem={(item) => (
-          <PersonalRecordBox
-            {...item.item}
-            workoutDate={item.item.workoutDate.toDateString()}
-            renderFullWidth={
-              personalRecords.length % 2 !== 0 &&
-              item.index === personalRecords.length - 1
-            }
-          />
-        )}
-      />
+      {personalRecords?.length === 0 ? (
+        <Text>You have no personal records yet</Text>
+      ) : (
+        <FlatList
+          contentContainerStyle={style.prs}
+          data={personalRecords}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+          renderItem={(item) => (
+            <PersonalRecordBox
+              {...item.item}
+              onLongPress={async () => {
+                const newPersonalRecords = personalRecords.filter(
+                  (pr) => pr.id !== item.item.id
+                );
+                try {
+                  await writeToStorage(
+                    user.id + "_" + "personalRecords",
+                    newPersonalRecords
+                  );
+                  setPersonalRecords(newPersonalRecords);
+                } catch (error) {
+                  console.error(error);
+                  Alert.alert("Error", "Something went wrong");
+                }
+              }}
+              workoutDate={item.item.workoutDate}
+              renderFullWidth={
+                personalRecords.length % 2 !== 0 &&
+                item.index === personalRecords.length - 1
+              }
+            />
+          )}
+        />
+      )}
+
       <Button
         mode="contained"
         onPress={() => navigation.navigate("Add Personal Record")}

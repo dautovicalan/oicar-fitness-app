@@ -14,7 +14,7 @@ import PagerView from "react-native-pager-view";
 const dates = eachWeekOfInterval(
   {
     start: subDays(new Date(), 14),
-    end: addDays(new Date(), 14),
+    end: new Date(),
   },
   {
     weekStartsOn: 1,

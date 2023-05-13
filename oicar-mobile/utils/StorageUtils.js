@@ -1,20 +1,22 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const storeMetric = async (value) => {
+// Utility function to read data from storage
+export const readFromStorage = async (userId) => {
   try {
-    await AsyncStorage.setItem("metric", value);
+    const value = await AsyncStorage.getItem(userId);
+    if (value !== null) {
+      return JSON.parse(value);
+    }
   } catch (error) {
-    console.error(error);
+    console.error(`Error reading from storage for key ${userId}: ${error}`);
   }
 };
 
-export const getMetric = async () => {
+// Utility function to write data to storage
+export const writeToStorage = async (userId, value) => {
   try {
-    const value = await AsyncStorage.getItem("metric");
-    if (value !== null) {
-      // value previously stored
-    }
-  } catch (e) {
-    // error reading value
+    await AsyncStorage.setItem(userId, JSON.stringify(value));
+  } catch (error) {
+    console.error(`Error writing to storage for key ${userId}: ${error}`);
   }
 };

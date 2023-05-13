@@ -29,5 +29,13 @@ namespace oicar_ApiServices.Controllers
 
             return Ok(exercies);
         }
+
+        [HttpGet("GetBodyParts")]
+        public async Task<IActionResult> GetBodyParts()
+        {
+            var bodyParts = await _repositoryManager.BodyPart.GetAllAsync();
+
+            return Ok(bodyParts);
+        }
     }
 }

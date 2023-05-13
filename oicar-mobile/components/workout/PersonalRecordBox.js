@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
 
 export default function PersonalRecordBox({
@@ -6,9 +6,11 @@ export default function PersonalRecordBox({
   workoutName,
   workoutWeight,
   renderFullWidth,
+  onLongPress,
 }) {
   return (
-    <View
+    <Pressable
+      onLongPress={onLongPress}
       style={[
         style.container,
         { width: renderFullWidth === true ? "95%" : "45%" },
@@ -17,7 +19,7 @@ export default function PersonalRecordBox({
       <Text>PR: {workoutDate}</Text>
       <Text>Workout: {workoutName}</Text>
       <Text>Weight: {workoutWeight} KG</Text>
-    </View>
+    </Pressable>
   );
 }
 

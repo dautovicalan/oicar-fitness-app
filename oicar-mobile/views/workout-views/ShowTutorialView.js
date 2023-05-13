@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import SingleWorkoutBox from "../../components/workout/SingleWorkoutBox";
 import { ActivityIndicator, TextInput } from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
+import { set } from "date-fns";
 
 export default function ShowTutorialView({ navigation }) {
   const { data, isPending, error } = useFetch(
@@ -12,24 +13,19 @@ export default function ShowTutorialView({ navigation }) {
   const [workouts, setWorkouts] = useState(data);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [loading, setLoading] = useState(false);
-
-  const handleFilter = (text) => {
-    setSearchTerm(text);
-    if (text === "") {
-      return setWorkouts(data);
-    }
-    const filtered = workouts.filter((workout) => {
-      return workout.name.includes(searchTerm);
-    });
-    setWorkouts(filtered);
-  };
-
   useEffect(() => {
     if (data) {
       setWorkouts(data);
     }
-  }, [data]);
+    if (searchTerm === "") {
+      setWorkouts(data);
+    } else {
+      const filtered = workouts.filter((workout) => {
+        return workout.name.toUpperCase().includes(searchTerm.toUpperCase());
+      });
+      setWorkouts(filtered);
+    }
+  }, [data, searchTerm]);
 
   return (
     <View style={style.container}>
@@ -37,7 +33,7 @@ export default function ShowTutorialView({ navigation }) {
         label={"Search for workout"}
         style={{ width: "90%", marginTop: 10 }}
         value={searchTerm}
-        onChangeText={handleFilter}
+        onChangeText={(text) => setSearchTerm(text)}
       />
       {!isPending ? (
         <FlatList

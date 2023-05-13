@@ -5,8 +5,10 @@ import { Text } from "react-native-paper";
 import AnimatedAccordion from "../../components/boxes/AnimatedAccordion";
 import EditProfile from "../../components/profile/EditProfile";
 import ChangePasswordDialog from "../../components/profile/ChangePasswordDialog";
+import { useUserContext } from "../../context/UserContext";
 
 export default function ProfileView() {
+  const { user } = useUserContext();
   const [editProfile, setEditProfile] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
 
@@ -20,23 +22,25 @@ export default function ProfileView() {
         <>
           <View style={style.innerContainer}>
             <Text style={style.headerText}>Name</Text>
-            <Text>Alan Dautovic</Text>
+            <Text>
+              {user.name} {user.surname}
+            </Text>
           </View>
           <View style={style.innerContainer}>
             <Text style={style.headerText}>Your Goal</Text>
-            <Text>Gain Muscle</Text>
+            <Text>{user.goal}</Text>
           </View>
           <View style={style.innerContainer}>
             <Text style={style.headerText}>Weight</Text>
-            <Text>90 KG</Text>
+            <Text>{user.weight} KG</Text>
           </View>
           <View style={style.innerContainer}>
             <Text style={style.headerText}>Height</Text>
-            <Text>190 CM</Text>
+            <Text>{user.height} CM</Text>
           </View>
           <View style={style.innerContainer}>
             <Text style={style.headerText}>Newsletter</Text>
-            <Text>Subscribed</Text>
+            <Text>{user.newsletter ? "Subscribed" : "Not subscribed"}</Text>
           </View>
         </>
       )}

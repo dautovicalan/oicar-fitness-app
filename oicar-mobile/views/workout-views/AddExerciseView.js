@@ -8,7 +8,9 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import { Button, Checkbox } from "react-native-paper";
+import { Button, Checkbox, ActivityIndicator } from "react-native-paper";
+import useFetch from "../../hooks/useFetch";
+import { useUserContext } from "../../context/UserContext";
 
 const exerciseNames = [
   "bench press",
@@ -18,14 +20,20 @@ const exerciseNames = [
   "barbell row",
 ];
 
-const ExerciseItemBox = ({ addExercise, removeExercise, muscleName }) => {
+const ExerciseItemBox = ({
+  addExercise,
+  removeExercise,
+  exerciseId,
+  exerciseName,
+  exerciseGif,
+}) => {
   const [checked, setChecked] = useState(false);
 
   const handlePress = () => {
     if (checked) {
-      removeExercise(muscleName);
+      removeExercise(exerciseId);
     } else {
-      addExercise(muscleName);
+      addExercise(exerciseId);
     }
     setChecked((prevVal) => !prevVal);
   };
@@ -34,10 +42,10 @@ const ExerciseItemBox = ({ addExercise, removeExercise, muscleName }) => {
     <Pressable onPress={handlePress}>
       <View style={styles.exerciseItemContainer}>
         <Image
-          source={require("../../assets/bench.gif")}
-          style={{ width: 50, height: 50 }}
+          source={{ uri: exerciseGif }}
+          style={{ width: 100, height: 100 }}
         />
-        <Text>{muscleName}</Text>
+        <Text>{exerciseName}</Text>
         <Checkbox status={checked ? "checked" : "unchecked"} />
       </View>
     </Pressable>
@@ -46,6 +54,14 @@ const ExerciseItemBox = ({ addExercise, removeExercise, muscleName }) => {
 
 export default function AddExerciseView({ route, navigation }) {
   const { muscleId, selectedDate } = route.params;
+
+  const { user } = useUserContext();
+
+  const { data, isPending, error } = useFetch(
+    "http://localhost:5280/api/Exercise/GetByBodyPart?bodyPartId=" + muscleId,
+    "GET"
+  );
+
   const [selectedExercises, setSelectedExercises] = useState([]);
 
   const addExercise = (exercise) => {
@@ -54,14 +70,48 @@ export default function AddExerciseView({ route, navigation }) {
 
   const removeExercise = (exercise) => {
     setSelectedExercises((prevVal) =>
-      prevVal.filter((item) => item !== exercise)
+      prevVal.filter((item) => item.id !== exercise.id)
     );
   };
 
   const handleSubmit = async () => {
-    // TODO - add exercises to workout
-    console.log(muscleId, selectedExercises, selectedDate);
-    Alert.alert("You added: " + selectedExercises.join(", "), "", [
+    const requestCreateWorkout = await fetch(
+      "http://localhost:5280/api/CustomWorkout/Create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          name: user.name + "_" + new Date().toDateString(),
+        }),
+      }
+    );
+
+    if (requestCreateWorkout.status !== 200) {
+      return Alert.alert("Error creating workout");
+    }
+
+    const responseCreateWorkout = await requestCreateWorkout.json();
+
+    const requestAddExercises = await fetch(
+      "http://localhost:5280/api/CustomWorkout/AddExercises?idWorkout=" +
+        responseCreateWorkout.id,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(selectedExercises.map((item) => item.id)),
+      }
+    );
+
+    if (requestAddExercises.status !== 200) {
+      return Alert.alert("Error adding exercises");
+    }
+
+    Alert.alert("You created workout", "", [
       {
         text: "Go Back",
         onPress: () =>
@@ -75,25 +125,33 @@ export default function AddExerciseView({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        contentContainerStyle={{ width: "90%", marginBottom: 20 }}
-        data={exerciseNames}
-        keyExtractor={(item) => item}
-        renderItem={(item) => (
-          <ExerciseItemBox
-            addExercise={addExercise}
-            removeExercise={removeExercise}
-            muscleName={item.item}
+      {isPending ? (
+        <ActivityIndicator animating={true} />
+      ) : (
+        <>
+          <FlatList
+            contentContainerStyle={{ width: "90%", marginBottom: 20 }}
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={(item) => (
+              <ExerciseItemBox
+                addExercise={addExercise}
+                removeExercise={removeExercise}
+                exerciseId={item.item.id}
+                exerciseName={item.item.name}
+                exerciseGif={item.item.gifUrl}
+              />
+            )}
           />
-        )}
-      />
-      <Button
-        mode="contained"
-        onPress={handleSubmit}
-        style={styles.buttonStyle}
-      >
-        Add Exercises
-      </Button>
+          <Button
+            mode="contained"
+            onPress={handleSubmit}
+            style={styles.buttonStyle}
+          >
+            Add Exercises
+          </Button>
+        </>
+      )}
     </View>
   );
 }
@@ -109,7 +167,7 @@ const styles = StyleSheet.create({
   },
   exerciseItemContainer: {
     backgroundColor: "#fff",
-    flexDirection: "row",
+    flexDirection: "column",
     padding: 15,
     borderRadius: 15,
     shadowColor: "#000",
