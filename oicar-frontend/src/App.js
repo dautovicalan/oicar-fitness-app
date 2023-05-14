@@ -16,6 +16,7 @@ import AddWorkout from "./Components/AddWorkout";
 import WorkoutDetails from "./Components/WorkoutDetails";
 import "./Styles/App.css";
 import NavbarLoggedIn from "./Components/NavbarLoggedIn.jsx";
+import AddMeal from "./Components/AddMeal.jsx";
 
 function App() {
   // const [userData, setUserData] = useState({});
@@ -73,6 +74,7 @@ function App() {
               <Route path="/mealplan" element={<MealPlan />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/addworkout" element={<AddWorkout />} />
+              <Route path="/addmeal" element={<AddMeal />} />
               <Route path="/workoutdetails" element={<WorkoutDetails />} />
             </Routes>
             <Footer />

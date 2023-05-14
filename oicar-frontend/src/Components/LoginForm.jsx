@@ -71,16 +71,19 @@ export default function LoginForm() {
       const data = await response.json();
       if (data.isRegister) {
         window.location.href = "/workoutplan"
-        localStorage.setItem("id", data.id);
-        sessionStorage.setItem("id", data.id);
+        localStorage.setItem("id", data.idUser);
+        sessionStorage.setItem("id", data.idUser);
+        sessionStorage.setItem("jwt", data.accessToken)
 
 
       } else if (data == null) {
         return false;
       } else if(data.isRegister == false) {
         window.location.href = "/register"
-        localStorage.setItem("id", data.id);
-        sessionStorage.setItem("id", data.id);
+        localStorage.setItem("id", data.idUser);
+        sessionStorage.setItem("id", data.idUser);
+        sessionStorage.setItem("jwt", data.accessToken)
+
       }
     } catch (error) {
       console.error(error);
@@ -182,7 +185,7 @@ export default function LoginForm() {
                   </Grid>
                   <Grid item>
                     <Link href="/register" variant="body2">
-                      {"Don't have an account? Sign Up"}
+                      {"Don't have an account? Sign Up"} 
                     </Link>
                   </Grid>
                 </Grid>

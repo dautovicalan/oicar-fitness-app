@@ -1,20 +1,31 @@
 import React from "react";
-import { Box } from "@mui/material";
-import Paper from "@mui/material";
 import '../Styles/MealPlanStyle.css'
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import Box from "@mui/material/Box";
+import "../Styles/MealPlanStyle.css";
+import Paper from "@mui/material/Paper";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const MealPlan = () => {
 
   const myList = [
-		{ id: 1, mealName: "Carrot", Calories: 30},
-		{ id: 2, mealName: "Chicken", Calories: 30},
-		{ id: 3, mealName: "Apple", Calories: 30},
-		{ id: 4, mealName: "Strawberry", Calories: 30},
-		{ id: 5, mealName: "Blackberry", Calories: 30},		
-		{ id: 5, mealName: "Blackberry", Calories: 30},		
-		{ id: 5, mealName: "Blackberry", Calories: 30},		
-		{ id: 5, mealName: "Blackberry", Calories: 30},		
+		{ id: 1, mealType: "Breakfast"},
+		{ id: 2, mealType: "Lunch"},
+		{ id: 3, mealType: "Dinner"},		
 	];
+
+	const navigate = useNavigate();
+	const handleClick = (item) => {
+		const state = {
+		  item,
+		  mealType: item.mealType,
+		};
+		const urlEncodedState = encodeURIComponent(JSON.stringify(state));
+		navigate(`/addmeal?state=${urlEncodedState}`);
+	  };
 
 
 
@@ -32,7 +43,14 @@ const MealPlan = () => {
 						p: 1,
 					}}
 				>
-          <h1>Meals</h1>
+					<LocalizationProvider dateAdapter={AdapterDayjs}>
+						<DateCalendar
+							sx={{
+								width: "80%" /* Set the width to 80% of the parent container */,
+								height: "600px" /* Set the height to 600 pixels */,
+							}}
+						/>
+					</LocalizationProvider>
 				</Box>
 				<Box
 					sx={{
@@ -40,16 +58,17 @@ const MealPlan = () => {
 						width: "100%",
 						m: 1,
 						p: 1,
+
 					}}
 				>
 					<div className="item-row">
 						{myList.map((item) => {
 							return (
 								<div className="item">
-									<div className="item-box">
-										<h3>{item.mealName}</h3>
-										<p>Calories: {item.Calories} cal.</p>
-									</div>
+									<Paper className="item-box" onClick={() => handleClick(item)}>
+										<h3>{item.mealType}</h3>
+										
+									</Paper>
 								</div>
 							);
 						})}

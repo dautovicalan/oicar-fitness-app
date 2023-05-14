@@ -48,6 +48,7 @@ function NavbarLoggedIn() {
   const handleClickUserLogout = () => {
     sessionStorage.removeItem("id");
     localStorage.removeItem("id");
+    sessionStorage.removeItem("jwt");
     window.location.href = "/login"
   };
 
