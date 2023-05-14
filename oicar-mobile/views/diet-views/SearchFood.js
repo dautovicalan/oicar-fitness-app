@@ -4,7 +4,8 @@ import { TextInput, Text } from "react-native-paper";
 
 const data = ["apple", "banana", "orange", "pear", "grape", "pineapple"];
 
-export default function SearchFood({ navigation }) {
+export default function SearchFood({ navigationm, route }) {
+  const { mealType } = route.params;
   const [searchTerm, setSearchTerm] = useState("");
   const [foods, setFoods] = useState([]);
 

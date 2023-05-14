@@ -18,9 +18,7 @@ export default function GoogleLogin() {
   }, [response, token]);
 
   const getUserInfo = async () => {
-    // authenticate token to our REST APi
     try {
-      console.log(token);
       const resposne = await fetch(
         "http://localhost:5280/api/Account/LoginGoogle",
         {
@@ -35,7 +33,7 @@ export default function GoogleLogin() {
       if (resposne.status !== 200) {
         return Alert.alert("Something went wrong");
       }
-      console.log(response.status);
+      console.log("POZDRAV " + response);
     } catch (error) {
       console.log(error);
     }

@@ -20,7 +20,7 @@ export default function AddFood({ navigation, route }) {
     // add to user's diet
     navigation.reset({
       index: 0,
-      routes: [{ name: "Diet" }],
+      routes: [{ name: "Diet Dashboard" }],
     });
   };
 

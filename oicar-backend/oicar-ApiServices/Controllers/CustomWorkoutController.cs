@@ -42,6 +42,7 @@ namespace oicar_ApiServices.Controllers
             return Ok(workoutsList);
         }
         [HttpGet("GetWorkout")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserWorkout(int idUser, int idWorkout)
         {
             CustomWorkout? workout = await _repository.CustomWorkout.GetUserCustomWorkout(idUser, idWorkout);
@@ -60,6 +61,7 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpGet("ByDate")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetWorkoutByDate(int idUser, string date)
         {
             var workoutSchedule = await _repository.CustomWorkout.GetWorkoutsByDate(idUser, date);

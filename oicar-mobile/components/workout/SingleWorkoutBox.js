@@ -7,9 +7,9 @@ import { Text } from "react-native-paper";
 export default function SingleWorkoutBox({
   navigation,
   workoutName,
+  workoutGif,
   renderFullWidth,
 }) {
-  console.log(workoutName + " " + renderFullWidth);
   return (
     <View
       style={[
@@ -18,7 +18,7 @@ export default function SingleWorkoutBox({
       ]}
     >
       <Text variant="bodyLarge">{workoutName}</Text>
-      <Icon name="help-circle" size={32} />
+      <Image source={{ uri: workoutGif }} style={{ width: 60, height: 60 }} />
       <Button mode="contained" onPress={navigation}>
         Show
       </Button>

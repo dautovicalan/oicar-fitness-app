@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import { Button, Checkbox, ActivityIndicator } from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
 import { useUserContext } from "../../context/UserContext";
+import { format } from "date-fns";
 
 const exerciseNames = [
   "bench press",
@@ -53,7 +54,7 @@ const ExerciseItemBox = ({
 };
 
 export default function AddExerciseView({ route, navigation }) {
-  const { muscleId, selectedDate } = route.params;
+  const { muscleId, selectedDate, muscleName } = route.params;
 
   const { user } = useUserContext();
 
@@ -74,53 +75,62 @@ export default function AddExerciseView({ route, navigation }) {
     );
   };
 
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async () => {
-    const requestCreateWorkout = await fetch(
-      "http://localhost:5280/api/CustomWorkout/Create",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user.id,
-          name: user.name + "_" + new Date().toDateString(),
-        }),
+    setLoading(true);
+    // const requestCreateWorkout = await fetch(
+    //   "http://localhost:5280/api/CustomWorkout/Create",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       userId: user.id,
+    //       name: muscleName.toUpperCase(),
+    //     }),
+    //   }
+    // );
+
+    // if (requestCreateWorkout.status !== 200) {
+    //   return Alert.alert("Error creating workout");
+    // }
+
+    //const responseCreateWorkout = await requestCreateWorkout.json();
+
+    try {
+      const requestAddExercises = await fetch(
+        "http://localhost:5280/api/CustomWorkout/AddExercises?idWorkout=2",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(selectedExercises.map((item) => item.id)),
+        }
+      );
+
+      console.log(requestAddExercises.status);
+      if (requestAddExercises.status !== 200) {
+        return Alert.alert("Error adding exercises");
       }
-    );
 
-    if (requestCreateWorkout.status !== 200) {
-      return Alert.alert("Error creating workout");
-    }
-
-    const responseCreateWorkout = await requestCreateWorkout.json();
-
-    const requestAddExercises = await fetch(
-      "http://localhost:5280/api/CustomWorkout/AddExercises?idWorkout=" +
-        responseCreateWorkout.id,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      Alert.alert("You created workout", "", [
+        {
+          text: "Go Back",
+          onPress: () =>
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Workout Dashboard" }],
+            }),
         },
-        body: JSON.stringify(selectedExercises.map((item) => item.id)),
-      }
-    );
-
-    if (requestAddExercises.status !== 200) {
-      return Alert.alert("Error adding exercises");
+      ]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-
-    Alert.alert("You created workout", "", [
-      {
-        text: "Go Back",
-        onPress: () =>
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "Workout Dashboard" }],
-          }),
-      },
-    ]);
   };
 
   return (
@@ -146,6 +156,7 @@ export default function AddExerciseView({ route, navigation }) {
           <Button
             mode="contained"
             onPress={handleSubmit}
+            disabled={selectedExercises.length === 0 || loading}
             style={styles.buttonStyle}
           >
             Add Exercises

@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator();
 export default function DietStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Diet" component={DietView} />
+      <Stack.Screen name="Diet Dashboard" component={DietView} />
       <Stack.Screen name="Search Food" component={SearchFood} />
       <Stack.Screen name="Add Food" component={AddFood} />
     </Stack.Navigator>

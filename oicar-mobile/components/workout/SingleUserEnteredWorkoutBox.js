@@ -3,8 +3,8 @@ import React from "react";
 import { Button, Text } from "react-native-paper";
 
 export default function SingleUserEnteredWorkoutBox({
-  workoutId,
-  workoutName,
+  id,
+  name,
   removeWorkout,
   renderFullWidth,
   navigation,
@@ -17,7 +17,7 @@ export default function SingleUserEnteredWorkoutBox({
       ]}
       onLongPress={removeWorkout}
     >
-      <Text variant="bodyLarge">{workoutName}</Text>
+      <Text variant="bodyLarge">{name}</Text>
       <Button mode="contained" onPress={navigation}>
         Details
       </Button>

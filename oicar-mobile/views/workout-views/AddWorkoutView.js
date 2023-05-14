@@ -5,11 +5,12 @@ import { ActivityIndicator, Button, TextInput } from "react-native-paper";
 import { validateWorkoutForm } from "../../utils/FormValidatonUtils";
 import ExerciseMuscleBox from "../../components/workout/ExerciseMuscleBox";
 import useFetch from "../../hooks/useFetch";
+import { format } from "date-fns";
 
 const muscleGroups = ["chest", "back", "shoulders", "legs", "arms"];
 
 export default function AddWorkoutView({ route, navigation }) {
-  const { addWorkout, selectedDate } = route.params;
+  const { selectedDate } = route.params;
 
   const { data, isPending, error } = useFetch(
     "http://localhost:5280/api/Exercise/GetBodyParts",
@@ -30,6 +31,7 @@ export default function AddWorkoutView({ route, navigation }) {
               navigation={() =>
                 navigation.navigate("Add Specific Exercise", {
                   muscleId: item.item.id,
+                  muscleName: item.item.name,
                   selectedDate,
                 })
               }

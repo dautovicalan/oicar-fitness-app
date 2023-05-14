@@ -13,6 +13,7 @@ import { Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useUserContext } from "../../context/UserContext";
 import useFetch from "../../hooks/useFetch";
+import { format } from "date-fns";
 
 export default function WorkoutView({ navigation }) {
   const { user } = useUserContext();
@@ -20,9 +21,7 @@ export default function WorkoutView({ navigation }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const { data, isPending, error } = useFetch(
-    `http://localhost:5280/api/CustomWorkout/ByDate?idUser=${
-      user.id
-    }&date=${selectedDate.toDateString()}}`,
+    `http://localhost:5280/api/CustomWorkout/GetWorkouts?idUser=${user.id}`,
     "GET"
   );
 
@@ -66,7 +65,7 @@ export default function WorkoutView({ navigation }) {
           backgroundColor="#6750A4"
           onPress={() =>
             navigation.navigate("Add Workout", {
-              selectedDate: selectedDate.toDateString(),
+              selectedDate: format(selectedDate, "dd-MM-yyyy"),
             })
           }
         >
@@ -83,7 +82,8 @@ export default function WorkoutView({ navigation }) {
             navigation={() =>
               navigation.navigate("Show Single Workout Details", {
                 workoutId: item.item.id,
-                workoutName: item.item.workoutName,
+                workoutName: item.item.name,
+                selectedDate: format(selectedDate, "dd-MM-yyyy"),
               })
             }
             removeWorkout={() => {

@@ -44,9 +44,11 @@ export default function ShowTutorialView({ navigation }) {
             <SingleWorkoutBox
               workoutId={item.id}
               workoutName={item.name}
+              workoutGif={item.gifUrl}
               navigation={() =>
                 navigation.navigate("Single Tutorial", {
-                  workoutId: item.id,
+                  workoutName: item.name,
+                  workoutGif: item.gifUrl,
                 })
               }
               renderFullWidth={
