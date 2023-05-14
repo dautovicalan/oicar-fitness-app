@@ -2,6 +2,7 @@ import { View, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, Button } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
+import { te } from "date-fns/locale";
 
 export default function AddFood({ navigation, route }) {
   const { food } = route.params;
@@ -24,18 +25,26 @@ export default function AddFood({ navigation, route }) {
     });
   };
 
+  const handleChangeText = (text) => {
+    const formattedNumber = text.replace(/[^0-9]/g, "");
+    setQuantity(formattedNumber);
+  };
+
   return (
     <View style={style.container}>
-      <Text variant="headlineLarge">{food.toUpperCase()}</Text>
+      <Text variant="headlineLarge" style={{ textAlign: "center" }}>
+        {food.toUpperCase()}
+      </Text>
       <TextInput
         label="Quantity in Grams"
+        keyboardType="numeric"
         value={quantity}
-        onChangeText={(text) => setQuantity(text)}
+        onChangeText={handleChangeText}
       />
       <View style={style.nutritionRow}>
         <View style={[style.circle, { borderColor: "red" }]}>
           <Text>{calories}</Text>
-          <Text>Cal</Text>
+          <Text>Cal.</Text>
         </View>
         <View style={[style.circle, { borderColor: "green" }]}>
           <Text>{calories}</Text>
@@ -61,8 +70,8 @@ const style = StyleSheet.create({
     alignItems: "center",
   },
   circle: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     borderRadius: 50,
     borderWidth: 2,
     justifyContent: "center",

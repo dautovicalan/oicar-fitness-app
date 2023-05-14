@@ -86,7 +86,7 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {isPending && <ActivityIndicator animating={true} />}
-      {exercises && exercises.length === 0 ? (
+      {exercises && exercises.length === 0 && !isPending ? (
         <Text>You have no exercises for this workout</Text>
       ) : (
         <FlatList

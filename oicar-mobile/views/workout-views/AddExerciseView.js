@@ -65,13 +65,13 @@ export default function AddExerciseView({ route, navigation }) {
 
   const [selectedExercises, setSelectedExercises] = useState([]);
 
-  const addExercise = (exercise) => {
-    setSelectedExercises((prevVal) => [...prevVal, exercise]);
+  const addExercise = (exerciseId) => {
+    setSelectedExercises((prevVal) => [...prevVal, exerciseId]);
   };
 
-  const removeExercise = (exercise) => {
+  const removeExercise = (exerciseId) => {
     setSelectedExercises((prevVal) =>
-      prevVal.filter((item) => item.id !== exercise.id)
+      prevVal.filter((item) => item !== exerciseId)
     );
   };
 
@@ -133,6 +133,7 @@ export default function AddExerciseView({ route, navigation }) {
     }
   };
 
+  console.log(selectedExercises.length);
   return (
     <View style={styles.container}>
       {isPending ? (

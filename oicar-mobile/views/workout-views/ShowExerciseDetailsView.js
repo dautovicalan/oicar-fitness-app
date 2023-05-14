@@ -26,7 +26,6 @@ export default function ShowExerciseDetailsView({ route }) {
       repetition,
       weight,
     });
-    console.log(validateData);
     if (!validateData.isValid) {
       return setErrors(validateData.errors);
     }
@@ -40,21 +39,21 @@ export default function ShowExerciseDetailsView({ route }) {
         label={"Set Sets"}
         value={sets}
         keyboardType="numeric"
-        onChangeText={(text) => setSets(text)}
+        onChangeText={(text) => setSets(text.replace(/[^0-9]/g, ""))}
         error={errors?.sets}
       />
       <TextInput
         label={"Set Repetition"}
         value={repetition}
         keyboardType="numeric"
-        onChangeText={(text) => setRepetition(text)}
+        onChangeText={(text) => setRepetition(text.replace(/[^0-9]/g, ""))}
         error={errors?.repetition}
       />
       <TextInput
         label={"Set Weight"}
         value={weight}
         keyboardType="numeric"
-        onChangeText={(text) => setWeight(text)}
+        onChangeText={(text) => setWeight(text.replace(/[^0-9]/g, ""))}
         error={errors?.weight}
       />
       <Button mode="contained" onPress={handleSubmit}>

@@ -29,6 +29,11 @@ export const isPasswordMatch = (password, repeatPassword) => {
   return password === repeatPassword;
 };
 
+export const isNumber = (number) => {
+  const re = /^[0-9]+$/;
+  return re.test(number);
+};
+
 export const validateUserRegistration = async (newUser) => {
   try {
     await userValidationSchema.validate(
