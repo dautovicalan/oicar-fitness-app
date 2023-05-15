@@ -2,13 +2,12 @@ import { View, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, Button } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
-import { te } from "date-fns/locale";
 
 export default function AddFood({ navigation, route }) {
   const { food } = route.params;
   const { user } = useUserContext();
 
-  const [quantity, setQuantity] = useState(100);
+  const [quantity, setQuantity] = useState("100");
   const [calories, setCalories] = useState(120);
 
   useEffect(() => {
@@ -43,12 +42,12 @@ export default function AddFood({ navigation, route }) {
       />
       <View style={style.nutritionRow}>
         <View style={[style.circle, { borderColor: "red" }]}>
-          <Text>{calories}</Text>
-          <Text>Cal.</Text>
+          <Text variant="titleMedium">{calories}</Text>
+          <Text variant="titleSmall">Cal.</Text>
         </View>
         <View style={[style.circle, { borderColor: "green" }]}>
-          <Text>{calories}</Text>
-          <Text>Protein</Text>
+          <Text variant="titleMedium">{calories}</Text>
+          <Text variant="titleSmall">Protein</Text>
         </View>
       </View>
       <Button mode="contained" icon={"plus"} onPress={handlePress}>
@@ -70,10 +69,10 @@ const style = StyleSheet.create({
     alignItems: "center",
   },
   circle: {
-    width: 70,
-    height: 70,
+    width: 90,
+    height: 90,
     borderRadius: 50,
-    borderWidth: 2,
+    borderWidth: 5,
     justifyContent: "center",
     alignItems: "center",
   },

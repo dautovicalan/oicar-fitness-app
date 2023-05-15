@@ -1,4 +1,11 @@
-import * as reactNative from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
@@ -47,7 +54,7 @@ export default function UserInformationView({ navigation }) {
       console.log(response);
       const result = await response.json();
       if (response.status === 400 && result.message) {
-        return reactNative.Alert.alert(result.message);
+        return Alert.alert(result.message);
       }
       console.log("User id is: " + result.id);
       setBasicInfo({
@@ -58,7 +65,7 @@ export default function UserInformationView({ navigation }) {
         isRegister: result.isRegister,
       });
 
-      reactNative.Alert.alert(
+      Alert.alert(
         "Thank you for creating account. Continue with creating your preferances"
       );
 
@@ -68,22 +75,20 @@ export default function UserInformationView({ navigation }) {
       });
     } catch (error) {
       console.error(error);
-      reactNative.Alert.alert("Something went wrong. Please try again");
+      Alert.alert("Something went wrong. Please try again");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <reactNative.KeyboardAvoidingView
-      behavior={reactNative.Platform.OS === "ios" ? "padding" : "height"}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={style.container}
     >
-      <reactNative.TouchableWithoutFeedback
-        onPress={reactNative.Keyboard.dismiss}
-      >
-        <reactNative.View style={style.innerContainer}>
-          <reactNative.View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={style.innerContainer}>
+          <View>
             <TextInput
               label={"Name"}
               value={name}
@@ -91,8 +96,8 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setName(text)}
               left={<TextInput.Icon icon="account" />}
             />
-          </reactNative.View>
-          <reactNative.View>
+          </View>
+          <View>
             <TextInput
               label={"Surname"}
               value={surname}
@@ -100,8 +105,8 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setSurname(text)}
               left={<TextInput.Icon icon="account" />}
             />
-          </reactNative.View>
-          <reactNative.View>
+          </View>
+          <View>
             <TextInput
               label={"Email"}
               value={email}
@@ -109,8 +114,8 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setEmail(text)}
               left={<TextInput.Icon icon="email" />}
             />
-          </reactNative.View>
-          <reactNative.View>
+          </View>
+          <View>
             <TextInput
               label={"Password"}
               value={password}
@@ -119,8 +124,8 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setPassword(text)}
               left={<TextInput.Icon icon="lock" />}
             />
-          </reactNative.View>
-          <reactNative.View>
+          </View>
+          <View>
             <TextInput
               label={"Repeat Password"}
               value={passwordRepeat}
@@ -129,11 +134,11 @@ export default function UserInformationView({ navigation }) {
               onChangeText={(text) => setPasswordRepeat(text)}
               left={<TextInput.Icon icon="lock" />}
             />
-          </reactNative.View>
-          <reactNative.View style={style.oauthConatiner}>
+          </View>
+          <View style={style.oauthConatiner}>
             <Text variant="titleMedium">Or Register With...</Text>
             <GoogleLogin />
-          </reactNative.View>
+          </View>
           <Button
             mode="contained"
             onPress={handleClick}
@@ -142,13 +147,13 @@ export default function UserInformationView({ navigation }) {
           >
             Next
           </Button>
-        </reactNative.View>
-      </reactNative.TouchableWithoutFeedback>
-    </reactNative.KeyboardAvoidingView>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
-const style = reactNative.StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",

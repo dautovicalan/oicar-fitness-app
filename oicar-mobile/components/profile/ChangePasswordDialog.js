@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import {
   Button,
@@ -9,6 +9,7 @@ import {
   TextInput,
 } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
+import { useFocusEffect } from "@react-navigation/native";
 
 const ChangePasswordDialog = ({ visible, setVisible }) => {
   const { user } = useUserContext();
@@ -16,21 +17,51 @@ const ChangePasswordDialog = ({ visible, setVisible }) => {
   const [newPassword, setNewPassword] = useState("");
   const [repeatNewPassword, setRepeatNewPassword] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const handleChangePassword = async () => {
+    setLoading(true);
     if (newPassword !== repeatNewPassword) {
+      setLoading(false);
       return Alert.alert("Passwords do not match");
     }
-    const request = await fetch(
-      "http://localhost:5280/api/Account/ChangePassword",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userInfo.accessToken}`,
-        },
-        body: JSON.stringify({ email: user.email, password: password }),
+
+    try {
+      const request = await fetch(
+        "http://localhost:5280/api/Account/ChangePassword",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+          body: JSON.stringify({
+            email: user.email,
+            password: newPassword,
+            code: "",
+          }),
+        }
+      );
+      if (!request.ok) {
+        return Alert.alert("Something went wrong");
       }
-    );
+      if (request.status === 200) {
+        setNewPassword("");
+        setRepeatNewPassword("");
+        setVisible();
+        return Alert.alert("Password changed");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClose = () => {
+    setNewPassword("");
+    setRepeatNewPassword("");
+    setVisible();
   };
 
   return (
@@ -52,8 +83,12 @@ const ChangePasswordDialog = ({ visible, setVisible }) => {
           />
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={setVisible}>Cancel</Button>
-          <Button onPress={setVisible}>Change</Button>
+          <Button onPress={handleClose} disabled={loading}>
+            Cancel
+          </Button>
+          <Button onPress={handleChangePassword} disabled={loading}>
+            Change
+          </Button>
         </Dialog.Actions>
       </Dialog>
     </Portal>

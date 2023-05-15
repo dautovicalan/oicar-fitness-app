@@ -37,6 +37,8 @@ export default function HomeView() {
         variant="displaySmall"
         style={{
           marginBottom: 50,
+          fontWeight: "bold",
+          textAlign: "center",
         }}
       >
         Welcome Back, {user?.name} 💪
@@ -66,7 +68,7 @@ export default function HomeView() {
           />
         </View>
         <View>
-          <HomeBox text="Your Calories" color="#3FBD86" />
+          <HomeBox text="Just DO It" color="#F1C231" />
         </View>
       </View>
     </ScrollView>
@@ -78,7 +80,8 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    gap: 20,
+    gap: 5,
+    padding: 10,
   },
   firstInnerContainer: {
     flexDirection: "row",

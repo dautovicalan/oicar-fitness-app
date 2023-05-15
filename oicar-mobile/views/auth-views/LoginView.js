@@ -40,7 +40,7 @@ export default function LoginView({ navigation }) {
         body: JSON.stringify({ email, password }),
       });
 
-      if (response.status === 403) {
+      if (response.status === 403 || response.status === 400) {
         setLoading(false);
         return Alert.alert("Wrong email or password");
       }
@@ -59,7 +59,7 @@ export default function LoginView({ navigation }) {
       }
 
       setBasicInfo({
-        id: result.id,
+        id: result.idUser,
         isRegister: result.isRegister,
       });
 

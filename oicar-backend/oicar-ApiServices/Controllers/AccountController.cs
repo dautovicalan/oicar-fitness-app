@@ -93,6 +93,7 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpPost("ChangePassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ChangePasswordInput changePassword)
         {
             // Get references

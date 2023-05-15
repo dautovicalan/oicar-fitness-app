@@ -39,9 +39,14 @@ export default function SingleTutorialView({ route }) {
       <Text variant="displaySmall" style={{ marginTop: 10 }}>
         {workoutName}
       </Text>
-      <Image source={{ uri: workoutGif }} style={{ width: 100, height: 100 }} />
+      <Image source={{ uri: workoutGif }} style={{ width: 150, height: 150 }} />
       {generatedText ? (
-        <Text variant="bodyLarge">{generatedText}</Text>
+        <Text
+          variant="titleMedium"
+          style={{ textAlign: "center", padding: 10 }}
+        >
+          {generatedText}
+        </Text>
       ) : (
         <ActivityIndicator animating={true} />
       )}

@@ -35,10 +35,11 @@ export default function NewsletterView({ navigation }) {
           }),
         }
       );
-      const result = await response.json();
       if (!response.ok) {
         return Alert.alert("Something went wrong");
       }
+      const result = await response.json();
+
       console.log(result);
 
       //set main context
@@ -49,7 +50,7 @@ export default function NewsletterView({ navigation }) {
         surname: currentNewUser.lastName,
       });
 
-      navigation.reset({
+      return navigation.reset({
         index: 0,
         routes: [{ name: "MainApp" }],
       });
