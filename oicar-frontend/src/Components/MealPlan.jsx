@@ -39,6 +39,8 @@ const MealPlan = () => {
 						alignItems: "center",
 						justifyContent: "center",
 						width: "50%",
+						height: "70vh",
+						backgroundColor: "whitesmoke",
 						m: 1,
 						p: 1,
 					}}

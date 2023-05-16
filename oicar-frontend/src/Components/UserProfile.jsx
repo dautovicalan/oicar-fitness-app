@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/UserContext";
-import { Avatar, Container, TextField } from "@mui/material";
+import { Alert, Avatar, Container, TextField } from "@mui/material";
 import { Box, Button } from "@material-ui/core";
 import "../Styles/UserProfile.css";
 import { UserPreferencesContext } from "../Context/UserPreferencesContext";
@@ -36,11 +36,11 @@ const UserProfile = () => {
 
   useEffect(() => {
     fetch(`http://localhost:5280/api/Account/GetUser?id=${userID}`, {
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + userJWT, // add the JWT token here
-		  }
-	})
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userJWT, // add the JWT token here
+      },
+    })
       .then((response) => response.json())
       .then((data) => setUserData(data));
   }, []);
@@ -52,6 +52,31 @@ const UserProfile = () => {
       .then((response) => response.json())
       .then((data) => setUserPreferencesData(data));
   }, []);
+
+  const handleChangePasswordClick = async (event) => {
+    var textField = document.getElementById("passwordChange");
+    var newPasswordValue = textField.value;
+
+    try {
+      const response = await fetch("/api/Account/ChangePassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userData.email,
+          password: newPasswordValue,
+        }),
+      });
+      if (response.status === 200) {
+        alert("Success")
+      } else {
+        alert("Failed!")
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   //Privremeno
   const picture = "https://freesvg.org/img/abstract-user-flat-4.png";
@@ -68,23 +93,23 @@ const UserProfile = () => {
             Change password
           </Typography>
           <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-				<Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Change
-                </Button>
+            margin="normal"
+            required
+            fullWidth
+            name="passwordChange"
+            label="Password"
+            type="password"
+            id="passwordChange"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            onClick={handleChangePasswordClick}
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Change
+          </Button>
         </Container>
       </Modal>
       <Container
@@ -333,7 +358,7 @@ const UserProfile = () => {
           }}
         >
           <h2>
-            {userPreferencesData.newsletter ? "Subscribed" : "Not suscribed"}
+            {userPreferencesData.newsletter ? "Subscribed" : "Not subscribed"}
           </h2>
         </Container>
       </Container>
