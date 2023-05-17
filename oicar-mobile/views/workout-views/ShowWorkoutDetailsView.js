@@ -83,6 +83,8 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
     ]);
   };
 
+  console.log(data);
+
   return (
     <SafeAreaView style={styles.container}>
       {isPending && <ActivityIndicator animating={true} />}
@@ -93,7 +95,7 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
           contentContainerStyle={{ width: "90%", marginBottom: 20 }}
           data={exercises}
           numColumns={2}
-          keyExtractor={(item) => item}
+          keyExtractor={(item) => item.id}
           renderItem={(item) => (
             <ExerciseItemBox
               exerciseName={item.item.name}

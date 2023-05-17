@@ -13,14 +13,6 @@ import useFetch from "../../hooks/useFetch";
 import { useUserContext } from "../../context/UserContext";
 import { format } from "date-fns";
 
-const exerciseNames = [
-  "bench press",
-  "squat",
-  "deadlift",
-  "overhead press",
-  "barbell row",
-];
-
 const ExerciseItemBox = ({
   addExercise,
   removeExercise,
@@ -107,20 +99,21 @@ export default function AddExerciseView({ route, navigation }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(selectedExercises.map((item) => item.id)),
+          body: JSON.stringify(selectedExercises.map((item) => parseInt(item))),
         }
       );
-
-      console.log(requestAddExercises.status);
+      if (requestAddExercises.status === 500) {
+        return Alert.alert("Exercise already added");
+      }
       if (requestAddExercises.status !== 200) {
         return Alert.alert("Error adding exercises");
       }
 
-      Alert.alert("You created workout", "", [
+      Alert.alert("You added Exercise", "", [
         {
           text: "Go Back",
           onPress: () =>
-            navigation.reset({
+            navigation.g({
               index: 0,
               routes: [{ name: "Workout Dashboard" }],
             }),

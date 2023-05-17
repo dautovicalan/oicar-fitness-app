@@ -1,15 +1,35 @@
-import { View, Text, SafeAreaView, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { validateExerciseForm } from "../../utils/FormValidatonUtils";
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
+import { LineChart } from "react-native-chart-kit";
+
+const data = {
+  labels: ["January", "February", "March"],
+  datasets: [
+    {
+      data: [20, 35, 45],
+    },
+  ],
+};
+
+const chartConfig = {
+  backgroundColor: "#ffffff",
+  backgroundGradientFrom: "#ffffff",
+  backgroundGradientTo: "#ffffff",
+  decimalPlaces: 0,
+  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+  style: {
+    borderRadius: 16,
+  },
+};
 
 export default function ShowExerciseDetailsView({ route }) {
   const { workoutId } = route.params;
@@ -33,8 +53,14 @@ export default function ShowExerciseDetailsView({ route }) {
   };
 
   return (
-    <SafeAreaView style={style.container}>
-      <Text>Graph Stuff</Text>
+    <ScrollView contentContainerStyle={style.container}>
+      <LineChart
+        data={data}
+        width={400}
+        height={220}
+        chartConfig={chartConfig}
+        bezier
+      />
       <TextInput
         label={"Set Sets"}
         value={sets}
@@ -59,7 +85,7 @@ export default function ShowExerciseDetailsView({ route }) {
       <Button mode="contained" onPress={handleSubmit}>
         Save
       </Button>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
