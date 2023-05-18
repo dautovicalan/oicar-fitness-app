@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, SafeAreaView, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -73,30 +81,33 @@ export default function AddPRView({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={style.container}>
-      <View style={style.dateSelect}>
-        <Text>Select Date</Text>
-        <DateTimePicker
-          value={workoutDate}
-          onChange={(date, selectedDate) => setWorkoutDate(selectedDate)}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={style.container}>
+        <View style={style.dateSelect}>
+          <Text>Select Date</Text>
+          <DateTimePicker
+            value={workoutDate}
+            onChange={(date, selectedDate) => setWorkoutDate(selectedDate)}
+          />
+        </View>
+        <TextInput
+          label={"Enter Workout Name"}
+          value={workoutName}
+          error={errors?.workoutName}
+          onChangeText={(text) => setWorkoutName(text)}
         />
-      </View>
-      <TextInput
-        label={"Enter Workout Name"}
-        value={workoutName}
-        error={errors?.workoutName}
-        onChangeText={(text) => setWorkoutName(text)}
-      />
-      <TextInput
-        label={"Enter Weight"}
-        value={workoutWeight}
-        error={errors?.workoutWeight}
-        onChangeText={(text) => setWorkoutWeight(text)}
-      />
-      <Button mode="contained" onPress={handleClick}>
-        Add PR
-      </Button>
-    </SafeAreaView>
+        <TextInput
+          label={"Enter Weight"}
+          value={workoutWeight}
+          keyboardType="numeric"
+          error={errors?.workoutWeight}
+          onChangeText={(text) => setWorkoutWeight(text.replace(/[^0-9]/g, ""))}
+        />
+        <Button mode="contained" onPress={handleClick}>
+          Add PR
+        </Button>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 

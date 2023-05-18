@@ -1,4 +1,11 @@
-import { View, StyleSheet, FlatList, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { TextInput, Text } from "react-native-paper";
 
@@ -25,32 +32,34 @@ export default function SearchFood({ navigation, route }) {
   }, [searchTerm]);
 
   return (
-    <View style={style.container}>
-      <TextInput
-        label="Search food"
-        value={searchTerm}
-        onChangeText={(text) => setSearchTerm(text)}
-        style={{ marginBottom: 10 }}
-      />
-      <FlatList
-        contentContainerStyle={{ marginHorizontal: 10 }}
-        data={foods}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <Pressable
-            onPress={() =>
-              navigation.navigate("Add Food", {
-                food: item,
-              })
-            }
-            style={style.foodRow}
-          >
-            <Text variant="titleMedium">{item}</Text>
-            <Text style={{ fontWeight: "bold" }}>123 cal.</Text>
-          </Pressable>
-        )}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={style.container}>
+        <TextInput
+          label="Search food"
+          value={searchTerm}
+          onChangeText={(text) => setSearchTerm(text)}
+          style={{ marginBottom: 10 }}
+        />
+        <FlatList
+          contentContainerStyle={{ marginHorizontal: 10 }}
+          data={foods}
+          keyExtractor={(item) => item}
+          renderItem={({ item }) => (
+            <Pressable
+              onPress={() =>
+                navigation.navigate("Add Food", {
+                  food: item,
+                })
+              }
+              style={style.foodRow}
+            >
+              <Text variant="titleMedium">{item}</Text>
+              <Text style={{ fontWeight: "bold" }}>123 cal.</Text>
+            </Pressable>
+          )}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 

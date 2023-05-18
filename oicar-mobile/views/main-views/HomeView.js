@@ -14,25 +14,8 @@ import HomeBox from "../../components/home/HomeBox";
 export default function HomeView() {
   const { user } = useUserContext();
 
-  console.log("HOME");
-  console.log(user);
-
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  };
-
   return (
-    <ScrollView
-      contentContainerStyle={style.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+    <ScrollView contentContainerStyle={style.container}>
       <Text
         variant="displaySmall"
         style={{

@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Pressable,
+  KeyboardAvoidingView,
+} from "react-native";
 import {
   Button,
   Dialog,
@@ -21,6 +29,10 @@ const ChangePasswordDialog = ({ visible, setVisible }) => {
 
   const handleChangePassword = async () => {
     setLoading(true);
+    if (newPassword === "" || repeatNewPassword === "") {
+      setLoading(false);
+      return Alert.alert("Please fill all fields");
+    }
     if (newPassword !== repeatNewPassword) {
       setLoading(false);
       return Alert.alert("Passwords do not match");
@@ -66,31 +78,33 @@ const ChangePasswordDialog = ({ visible, setVisible }) => {
 
   return (
     <Portal>
-      <Dialog visible={visible} onDismiss={setVisible}>
-        <Dialog.Title>Change Password</Dialog.Title>
-        <Dialog.Content style={style.innerContainer}>
-          <TextInput
-            label={"New Password"}
-            value={newPassword}
-            onChangeText={(text) => setNewPassword(text)}
-            secureTextEntry={true}
-          />
-          <TextInput
-            label={"Repeat New Password"}
-            value={repeatNewPassword}
-            onChangeText={(text) => setRepeatNewPassword(text)}
-            secureTextEntry={true}
-          />
-        </Dialog.Content>
-        <Dialog.Actions>
-          <Button onPress={handleClose} disabled={loading}>
-            Cancel
-          </Button>
-          <Button onPress={handleChangePassword} disabled={loading}>
-            Change
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Dialog visible={visible} onDismiss={setVisible}>
+          <Dialog.Title>Change Password</Dialog.Title>
+          <Dialog.Content style={style.innerContainer}>
+            <TextInput
+              label={"New Password"}
+              value={newPassword}
+              onChangeText={(text) => setNewPassword(text)}
+              secureTextEntry={true}
+            />
+            <TextInput
+              label={"Repeat New Password"}
+              value={repeatNewPassword}
+              onChangeText={(text) => setRepeatNewPassword(text)}
+              secureTextEntry={true}
+            />
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={handleClose} disabled={loading}>
+              Cancel
+            </Button>
+            <Button onPress={handleChangePassword} disabled={loading}>
+              Change
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </TouchableWithoutFeedback>
     </Portal>
   );
 };
@@ -98,6 +112,7 @@ const ChangePasswordDialog = ({ visible, setVisible }) => {
 const style = StyleSheet.create({
   innerContainer: {
     gap: 20,
+    paddingBottom: 90,
   },
 });
 

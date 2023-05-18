@@ -45,7 +45,10 @@ export default function ProfileView() {
         </>
       )}
       {editProfile && (
-        <EditProfile onSave={() => setEditProfile((prevVal) => !prevVal)} />
+        <EditProfile
+          onSave={() => setEditProfile((prevVal) => !prevVal)}
+          userData={user}
+        />
       )}
       {!editProfile && (
         <View style={style.buttonsContainer}>

@@ -1,4 +1,9 @@
-import { View, StyleSheet } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, Button } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
@@ -30,30 +35,32 @@ export default function AddFood({ navigation, route }) {
   };
 
   return (
-    <View style={style.container}>
-      <Text variant="headlineLarge" style={{ textAlign: "center" }}>
-        {food.toUpperCase()}
-      </Text>
-      <TextInput
-        label="Quantity in Grams"
-        keyboardType="numeric"
-        value={quantity}
-        onChangeText={handleChangeText}
-      />
-      <View style={style.nutritionRow}>
-        <View style={[style.circle, { borderColor: "red" }]}>
-          <Text variant="titleMedium">{calories}</Text>
-          <Text variant="titleSmall">Cal.</Text>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={style.container}>
+        <Text variant="headlineLarge" style={{ textAlign: "center" }}>
+          {food.toUpperCase()}
+        </Text>
+        <TextInput
+          label="Quantity in Grams"
+          keyboardType="numeric"
+          value={quantity}
+          onChangeText={handleChangeText}
+        />
+        <View style={style.nutritionRow}>
+          <View style={[style.circle, { borderColor: "red" }]}>
+            <Text variant="titleMedium">{calories}</Text>
+            <Text variant="titleSmall">Cal.</Text>
+          </View>
+          <View style={[style.circle, { borderColor: "green" }]}>
+            <Text variant="titleMedium">{calories}</Text>
+            <Text variant="titleSmall">Protein</Text>
+          </View>
         </View>
-        <View style={[style.circle, { borderColor: "green" }]}>
-          <Text variant="titleMedium">{calories}</Text>
-          <Text variant="titleSmall">Protein</Text>
-        </View>
+        <Button mode="contained" icon={"plus"} onPress={handlePress}>
+          Add
+        </Button>
       </View>
-      <Button mode="contained" icon={"plus"} onPress={handlePress}>
-        Add
-      </Button>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 

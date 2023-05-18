@@ -113,7 +113,7 @@ export default function AddExerciseView({ route, navigation }) {
         {
           text: "Go Back",
           onPress: () =>
-            navigation.g({
+            navigation.reset({
               index: 0,
               routes: [{ name: "Workout Dashboard" }],
             }),

@@ -28,7 +28,7 @@ export const heightDataItems = (isFeet) => {
           <Picker.Item
             key={`${i}-${j}`}
             label={`${i}'${j}"`}
-            value={i * 12 + j}
+            value={Math.round(i * 30.48 + j * 2.54)}
           />
         );
       }
@@ -46,7 +46,7 @@ export const weightDataItems = (isPound) => {
   } else {
     for (let i = 30; i <= 440; i++) {
       items.push(
-        <Picker.Item key={i} label={`${i} LBS`} value={Math.round(i / 2.205)} />
+        <Picker.Item key={i} label={`${i} LBS`} value={Math.round(i * 0.453)} />
       );
     }
   }
