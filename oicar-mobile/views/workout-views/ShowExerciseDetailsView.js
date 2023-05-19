@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { validateExerciseForm } from "../../utils/FormValidatonUtils";
 import { LineChart } from "react-native-chart-kit";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 const data = {
   labels: ["January", "February", "March"],
@@ -73,7 +74,7 @@ export default function ShowExerciseDetailsView({ route }) {
             bezier
           />
           <TextInput
-            style={style.textInput}
+            style={[style.textInput, textInputStyles.textInput]}
             label={"Set Sets"}
             value={sets}
             keyboardType="numeric"
@@ -81,7 +82,7 @@ export default function ShowExerciseDetailsView({ route }) {
             error={errors?.sets}
           />
           <TextInput
-            style={style.textInput}
+            style={[style.textInput, textInputStyles.textInput]}
             label={"Set Repetition"}
             value={repetition}
             keyboardType="numeric"
@@ -89,7 +90,7 @@ export default function ShowExerciseDetailsView({ route }) {
             error={errors?.repetition}
           />
           <TextInput
-            style={style.textInput}
+            style={[style.textInput, textInputStyles.textInput]}
             label={"Set Weight"}
             value={weight}
             keyboardType="numeric"

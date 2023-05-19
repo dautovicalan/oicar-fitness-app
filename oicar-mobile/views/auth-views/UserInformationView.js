@@ -12,6 +12,7 @@ import { useRegistrationProcess } from "../../context/RegistrationProcessContext
 import { Text } from "react-native-paper";
 import GoogleLogin from "../../components/GoogleLogin";
 import { validateUserRegistration } from "../../utils/FormValidatonUtils";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 export default function UserInformationView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
@@ -92,6 +93,7 @@ export default function UserInformationView({ navigation }) {
             <TextInput
               label={"Name"}
               value={name}
+              style={textInputStyles.textInput}
               error={errors?.name}
               onChangeText={(text) => setName(text)}
               left={<TextInput.Icon icon="account" />}
@@ -101,6 +103,7 @@ export default function UserInformationView({ navigation }) {
             <TextInput
               label={"Surname"}
               value={surname}
+              style={textInputStyles.textInput}
               error={errors?.surname}
               onChangeText={(text) => setSurname(text)}
               left={<TextInput.Icon icon="account" />}
@@ -110,6 +113,7 @@ export default function UserInformationView({ navigation }) {
             <TextInput
               label={"Email"}
               value={email}
+              style={textInputStyles.textInput}
               error={errors?.email}
               onChangeText={(text) => setEmail(text)}
               left={<TextInput.Icon icon="email" />}
@@ -119,6 +123,7 @@ export default function UserInformationView({ navigation }) {
             <TextInput
               label={"Password"}
               value={password}
+              style={textInputStyles.textInput}
               secureTextEntry={true}
               error={errors?.password}
               onChangeText={(text) => setPassword(text)}
@@ -130,6 +135,7 @@ export default function UserInformationView({ navigation }) {
               label={"Repeat Password"}
               value={passwordRepeat}
               secureTextEntry={true}
+              style={textInputStyles.textInput}
               error={errors?.passwordRepeat}
               onChangeText={(text) => setPasswordRepeat(text)}
               left={<TextInput.Icon icon="lock" />}

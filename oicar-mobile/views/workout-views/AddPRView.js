@@ -15,6 +15,7 @@ import { readFromStorage, writeToStorage } from "../../utils/StorageUtils";
 import { useUserContext } from "../../context/UserContext";
 import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 export default function AddPRView({ navigation }) {
   const { user } = useUserContext();
@@ -93,12 +94,14 @@ export default function AddPRView({ navigation }) {
         <TextInput
           label={"Enter Workout Name"}
           value={workoutName}
+          style={textInputStyles.textInput}
           error={errors?.workoutName}
           onChangeText={(text) => setWorkoutName(text)}
         />
         <TextInput
           label={"Enter Weight"}
           value={workoutWeight}
+          style={textInputStyles.textInput}
           keyboardType="numeric"
           error={errors?.workoutWeight}
           onChangeText={(text) => setWorkoutWeight(text.replace(/[^0-9]/g, ""))}

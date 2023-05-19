@@ -7,6 +7,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, Button } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 export default function AddFood({ navigation, route }) {
   const { food } = route.params;
@@ -43,6 +44,7 @@ export default function AddFood({ navigation, route }) {
         <TextInput
           label="Quantity in Grams"
           keyboardType="numeric"
+          style={textInputStyles.textInput}
           value={quantity}
           onChangeText={handleChangeText}
         />

@@ -70,7 +70,7 @@ export default function EditProfile({ onSave, userData }) {
                 <Text
                   style={{
                     padding: 10,
-                    borderColor: fitnessGoal.text === goal ? "red" : "grey",
+                    borderColor: fitnessGoal.text === goal ? "orange" : "grey",
                     borderWidth: 1,
                     borderRadius: 5,
                   }}

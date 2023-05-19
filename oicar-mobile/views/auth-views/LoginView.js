@@ -14,6 +14,7 @@ import GoogleLogin from "../../components/GoogleLogin";
 import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
 import { validateLoginForm } from "../../utils/FormValidatonUtils";
 import { useUserContext } from "../../context/UserContext";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 export default function LoginView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
@@ -86,6 +87,7 @@ export default function LoginView({ navigation }) {
           <TextInput
             label={"Email"}
             value={email}
+            style={textInputStyles.textInput}
             error={errors?.email}
             onChangeText={(text) => setEmail(text)}
             left={<TextInput.Icon icon="email" />}
@@ -93,6 +95,7 @@ export default function LoginView({ navigation }) {
           <TextInput
             label={"Password"}
             value={password}
+            style={textInputStyles.textInput}
             secureTextEntry={true}
             error={errors?.password}
             onChangeText={(text) => setPassword(text)}

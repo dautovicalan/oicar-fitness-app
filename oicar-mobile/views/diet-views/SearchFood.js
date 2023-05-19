@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { TextInput, Text } from "react-native-paper";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 const data = ["apple", "banana", "orange", "pear", "grape", "pineapple"];
 
@@ -38,7 +39,7 @@ export default function SearchFood({ navigation, route }) {
           label="Search food"
           value={searchTerm}
           onChangeText={(text) => setSearchTerm(text)}
-          style={{ marginBottom: 10 }}
+          style={[{ marginBottom: 10 }, textInputStyles.textInput]}
         />
         <FlatList
           contentContainerStyle={{ marginHorizontal: 10 }}

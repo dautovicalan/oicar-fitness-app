@@ -32,7 +32,7 @@ const dates = eachWeekOfInterval(
 
 const DateSlider = ({ selectedDate, setSelectedDate }) => {
   return (
-    <PagerView style={styles.container} initialPage={0}>
+    <PagerView style={styles.container} initialPage={dates.length - 1}>
       {dates.map((week, i) => {
         return (
           <View key={i}>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     padding: 3,
   },
   selectedDay: {
-    backgroundColor: "#6750A4",
+    backgroundColor: "orange",
     borderRadius: 5,
   },
 });

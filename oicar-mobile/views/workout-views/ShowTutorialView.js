@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import SingleWorkoutBox from "../../components/workout/SingleWorkoutBox";
 import { ActivityIndicator, TextInput } from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 export default function ShowTutorialView({ navigation }) {
   const { data, isPending, error } = useFetch(
@@ -30,7 +31,7 @@ export default function ShowTutorialView({ navigation }) {
     <View style={style.container}>
       <TextInput
         label={"Search for workout"}
-        style={{ width: "90%", marginTop: 10 }}
+        style={[{ width: "90%", marginTop: 10 }, textInputStyles.textInput]}
         value={searchTerm}
         onChangeText={(text) => setSearchTerm(text)}
       />

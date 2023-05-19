@@ -24,6 +24,9 @@ export default function MainAppStack() {
           <BottomNavigation.Bar
             navigationState={state}
             safeAreaInsets={insets}
+            activeColor="orange"
+            inactiveColor="black"
+            style={{ backgroundColor: "white" }}
             onTabPress={({ route, preventDefault }) => {
               const event = navigation.emit({
                 type: "tabPress",
