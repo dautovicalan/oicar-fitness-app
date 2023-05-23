@@ -36,7 +36,7 @@ namespace Repository.Implementation
         public async Task AddExercises(int idWorkout, List<int> exerciseId)
         {
             CustomWorkout? workout =await _repositoryContext.CustomWorkout.FirstOrDefaultAsync(cw => cw.Id == idWorkout);
-            exerciseId = new List<int> { 1, 2, 3, 1, 5 };
+
             foreach (var id in exerciseId.Distinct())
             {
                 Exercise? dbExercise = await _repositoryContext.Exercise.FirstOrDefaultAsync(e => e.Id == id);

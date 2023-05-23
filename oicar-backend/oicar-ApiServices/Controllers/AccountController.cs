@@ -91,17 +91,16 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpPost("ChangePassword")]
-        public async Task<IActionResult> ForgotPassword(ChangePasswordInput changePassword)
+        public async Task<IActionResult> ChangePassword(ChangePasswordInput changePassword)
         {
             // Get references
             string email = changePassword.Email;
-            string code = changePassword.Code;
             string password = changePassword.Password;
 
             if (!await _repository.User.IsEmailExist(email))
                 return BadRequest(new HttpError("User doesn't exist"));
 
-            User? user = await _repository.User.ChangePassword(email, code, password);
+            User? user = await _repository.User.ChangePassword(email, password);
 
             if (user == null)
                 return BadRequest(new HttpError("Wrong code"));
