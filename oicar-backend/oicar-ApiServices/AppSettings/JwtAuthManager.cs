@@ -32,7 +32,7 @@ namespace oicar_ApiServices.AppSettings
         public async Task<AccountTokenDto> GenerateToken(int idUser)
         {
             User? user = await _userRepository.GetUser(idUser);
-
+            
             List<Claim> claims = new()
             {
                 new Claim(ClaimTypes.Email, user.Email),
@@ -40,9 +40,12 @@ namespace oicar_ApiServices.AppSettings
                 new Claim(ClaimTypes.Role, user.RoleId.ToString())
             };
 
+            var shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)?.Value);
+
+
             var jwtToken = new JwtSecurityToken(
                 _jwtConfiguration.ValidIssuer,
-                _jwtConfiguration.ValidAudience,
+                shouldAddAudienceClaim ? _jwtConfiguration.ValidAudience : string.Empty,
                 claims,
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: new SigningCredentials(new SymmetricSecurityKey(_secret), SecurityAlgorithms.HmacSha256Signature));
@@ -56,13 +59,5 @@ namespace oicar_ApiServices.AppSettings
                 AccessToken = accesToken
             };
         }
-    }
-
-
-    public class JwtAuthResult
-    {
-        [JsonPropertyName("accessToken")]
-        public string? AccessToken { get; set; }
-
     }
 }

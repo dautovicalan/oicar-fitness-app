@@ -36,7 +36,6 @@ namespace oicar_ApiServices.Controllers
             if (await _repository.User.CheckLogin(userLogin.Email, userLogin.Password))
             {
                 User? user = await _repository.User.GetUserByEmail(userLogin.Email);
-                var test = await _jwtAuthManager.GenerateToken(user.Id);
                 return Ok(await _jwtAuthManager.GenerateToken(user!.Id));
             }
 
@@ -107,6 +106,13 @@ namespace oicar_ApiServices.Controllers
             if (user == null)
                 return BadRequest(new HttpError("Wrong code"));
 
+            return Ok();
+        }
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteUser(int idUser)
+        {
+            await _repository.User.DeleteUser(idUser);
             return Ok();
         }
 

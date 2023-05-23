@@ -10,7 +10,7 @@ namespace oicar_ApiServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class CustomWorkoutController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
@@ -26,9 +26,9 @@ namespace oicar_ApiServices.Controllers
         public async Task<IActionResult> CreateCustomWorkout(CustomWorkoutInput input)
         {
             CustomWorkout customWorkout = _mapper.Map<CustomWorkout>(input);
-            await _repository.CustomWorkout.CreateWorkout(customWorkout);
+           int workoutId = await _repository.CustomWorkout.CreateWorkout(customWorkout);
 
-            return Ok();
+            return Ok(workoutId);
         }
 
 
