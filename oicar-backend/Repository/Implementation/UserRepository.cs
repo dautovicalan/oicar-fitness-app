@@ -57,11 +57,11 @@ namespace Repository.Implementation
         }
 
 
-        public async Task<User?> ChangePassword(string email, string code, string password)
+        public async Task<User?> ChangePassword(string email, string password)
         {
             User? user = await GetUserByEmail(email);
 
-            if (user is null || user.ForgotPasswordCode != code)
+            if (user is null)
                 return null;
             
             user.Password = password.SHA512Hash();
