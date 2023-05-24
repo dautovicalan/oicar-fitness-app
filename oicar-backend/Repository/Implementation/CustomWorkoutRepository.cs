@@ -29,9 +29,9 @@ namespace Repository.Implementation
         public async Task<List<CustomWorkout>> GetUserCustomWorkouts(int idUser)
             => await _repositoryContext.CustomWorkout.Where(cw => cw.UserId == idUser && !cw.Deleted).ToListAsync();
 
-        public async Task<WorkoutSchedule?> GetWorkoutsByDate(int idUser, string date)
-              => await _repositoryContext.WorkoutSchedule.Include(ws => ws.CustomWorkout).Where(ws => ws.CustomWorkout.UserId == idUser && !ws.CustomWorkout.Deleted
-                          && ws.Date.ToString().Equals(date)).FirstOrDefaultAsync();
+        public async Task<CustomWorkout?> GetWorkoutsByDate(int idUser, DateTime date)
+              => await _repositoryContext.CustomWorkout.Where(ws => ws.UserId == idUser && !ws.Deleted
+                          && ws.Date.Equals(date)).FirstOrDefaultAsync();
 
         public async Task AddExercises(int idWorkout, List<int> exerciseId)
         {
