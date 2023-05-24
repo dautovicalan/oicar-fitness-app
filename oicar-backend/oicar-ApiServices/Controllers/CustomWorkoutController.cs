@@ -60,12 +60,12 @@ namespace oicar_ApiServices.Controllers
         public async Task<IActionResult> GetWorkoutByDate(int idUser, string date)
         {
             DateTime datetime = DateTime.Parse(date);
-            var workoutSchedule = await _repository.CustomWorkout.GetWorkoutsByDate(idUser, datetime);        
+            var workout = await _repository.CustomWorkout.GetWorkoutsByDate(idUser, datetime);        
 
-            if (workoutSchedule is null)
+            if (workout is null)
                 return NotFound();
 
-            return Ok(workoutSchedule.Id);
+            return Ok(workout);
         }
 
         [HttpDelete("Delete")]
