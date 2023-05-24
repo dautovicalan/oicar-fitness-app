@@ -44,5 +44,12 @@ namespace oicar_ApiServices.Controllers
             await _repositoryManager.ExerciseProgress.CreateExerciseProgress(exerciseProgress);
             return Ok();
         }
+        [HttpGet("GetBodyParts")]
+        public async Task<IActionResult> GetBodyParts()
+        {
+            var bodyParts = await _repositoryManager.BodyPart.GetAllAsync();
+
+            return Ok(bodyParts);
+        }
     }
 }

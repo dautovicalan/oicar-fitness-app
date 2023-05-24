@@ -1,10 +1,18 @@
-import * as reactNative from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
 import { Text } from "react-native-paper";
 import GoogleLogin from "../../components/GoogleLogin";
 import { validateUserRegistration } from "../../utils/FormValidatonUtils";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 export default function UserInformationView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
@@ -44,10 +52,12 @@ export default function UserInformationView({ navigation }) {
           body: JSON.stringify({ name, surname, email, password }),
         }
       );
+      console.log(response);
       const result = await response.json();
       if (response.status === 400 && result.message) {
-        return reactNative.Alert.alert(result.message);
+        return Alert.alert(result.message);
       }
+      console.log("User id is: " + result.id);
       setBasicInfo({
         id: result.id,
         name: result.name,
@@ -56,7 +66,7 @@ export default function UserInformationView({ navigation }) {
         isRegister: result.isRegister,
       });
 
-      reactNative.Alert.alert(
+      Alert.alert(
         "Thank you for creating account. Continue with creating your preferances"
       );
 
@@ -66,72 +76,75 @@ export default function UserInformationView({ navigation }) {
       });
     } catch (error) {
       console.error(error);
-      reactNative.Alert.alert("Something went wrong. Please try again");
+      Alert.alert("Something went wrong. Please try again");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <reactNative.KeyboardAvoidingView
-      behavior={reactNative.Platform.OS === "ios" ? "padding" : "height"}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={style.container}
     >
-      <reactNative.TouchableWithoutFeedback
-        onPress={reactNative.Keyboard.dismiss}
-      >
-        <reactNative.View style={style.innerContainer}>
-          <reactNative.View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={style.innerContainer}>
+          <View>
             <TextInput
               label={"Name"}
               value={name}
+              style={textInputStyles.textInput}
               error={errors?.name}
               onChangeText={(text) => setName(text)}
               left={<TextInput.Icon icon="account" />}
             />
-          </reactNative.View>
-          <reactNative.View>
+          </View>
+          <View>
             <TextInput
               label={"Surname"}
               value={surname}
+              style={textInputStyles.textInput}
               error={errors?.surname}
               onChangeText={(text) => setSurname(text)}
               left={<TextInput.Icon icon="account" />}
             />
-          </reactNative.View>
-          <reactNative.View>
+          </View>
+          <View>
             <TextInput
               label={"Email"}
               value={email}
+              style={textInputStyles.textInput}
               error={errors?.email}
               onChangeText={(text) => setEmail(text)}
               left={<TextInput.Icon icon="email" />}
             />
-          </reactNative.View>
-          <reactNative.View>
+          </View>
+          <View>
             <TextInput
               label={"Password"}
               value={password}
+              style={textInputStyles.textInput}
               secureTextEntry={true}
               error={errors?.password}
               onChangeText={(text) => setPassword(text)}
               left={<TextInput.Icon icon="lock" />}
             />
-          </reactNative.View>
-          <reactNative.View>
+          </View>
+          <View>
             <TextInput
               label={"Repeat Password"}
               value={passwordRepeat}
               secureTextEntry={true}
+              style={textInputStyles.textInput}
               error={errors?.passwordRepeat}
               onChangeText={(text) => setPasswordRepeat(text)}
               left={<TextInput.Icon icon="lock" />}
             />
-          </reactNative.View>
-          <reactNative.View style={style.oauthConatiner}>
+          </View>
+          <View style={style.oauthConatiner}>
             <Text variant="titleMedium">Or Register With...</Text>
             <GoogleLogin />
-          </reactNative.View>
+          </View>
           <Button
             mode="contained"
             onPress={handleClick}
@@ -140,13 +153,13 @@ export default function UserInformationView({ navigation }) {
           >
             Next
           </Button>
-        </reactNative.View>
-      </reactNative.TouchableWithoutFeedback>
-    </reactNative.KeyboardAvoidingView>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
-const style = reactNative.StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",

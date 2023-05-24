@@ -28,7 +28,6 @@ namespace oicar_ApiServices.Controllers
         {
             CustomWorkout customWorkout = _mapper.Map<CustomWorkout>(input);
             int workoutId = await _repository.CustomWorkout.CreateWorkout(customWorkout);
-
             return Ok(workoutId);
         }
 

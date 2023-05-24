@@ -7,6 +7,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ProfileView from "../views/main-views/ProfileView";
 import WorkoutView from "../views/main-views/WorkoutView";
 import SettingsView from "../views/main-views/SettingsView";
+import WorkoutStack from "./WorkoutStack";
+import DietView from "../views/main-views/DietView";
+import DietStack from "./DietStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,6 +24,9 @@ export default function MainAppStack() {
           <BottomNavigation.Bar
             navigationState={state}
             safeAreaInsets={insets}
+            activeColor="orange"
+            inactiveColor="black"
+            style={{ backgroundColor: "white" }}
             onTabPress={({ route, preventDefault }) => {
               const event = navigation.emit({
                 type: "tabPress",
@@ -71,7 +77,7 @@ export default function MainAppStack() {
         />
         <Tab.Screen
           name="Workouts"
-          component={WorkoutView}
+          component={WorkoutStack}
           options={{
             tabBarLabel: "Workouts",
             tabBarIcon: ({ color, size }) => {
@@ -81,7 +87,7 @@ export default function MainAppStack() {
         />
         <Tab.Screen
           name="Diet"
-          component={HomeView}
+          component={DietStack}
           options={{
             tabBarLabel: "Diet",
             tabBarIcon: ({ color, size }) => {

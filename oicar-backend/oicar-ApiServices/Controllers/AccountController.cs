@@ -54,6 +54,7 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpGet("GetUser")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUser(int id)
         {
             User? user = await _repository.User.GetUser(id);

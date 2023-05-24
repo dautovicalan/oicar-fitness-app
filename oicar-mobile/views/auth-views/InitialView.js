@@ -1,5 +1,5 @@
-import { StyleSheet, SafeAreaView, Image } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet, SafeAreaView, Image, View } from "react-native";
+import { Button, Text } from "react-native-paper";
 
 export const InitialView = ({ navigation }) => {
   const handleGetStartedClick = () => {
@@ -8,6 +8,10 @@ export const InitialView = ({ navigation }) => {
 
   const handleAlreadyHaveAnAccountClick = () => {
     navigation.navigate("Login");
+  };
+
+  const handleGdprClick = () => {
+    navigation.navigate("GDPR");
   };
 
   return (
@@ -30,6 +34,12 @@ export const InitialView = ({ navigation }) => {
       >
         I Already Have An Account
       </Button>
+      <View style={{ marginTop: 50 }}>
+        <Text variant="titleSmall" style={{ textAlign: "center" }}>
+          By clicking Get Started you agree to our Terms of Service and Privacy.
+        </Text>
+        <Button onPress={handleGdprClick}>GDPR Policy</Button>
+      </View>
     </SafeAreaView>
   );
 };
