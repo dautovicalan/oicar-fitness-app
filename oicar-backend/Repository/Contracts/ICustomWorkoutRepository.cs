@@ -7,7 +7,7 @@ namespace Repository.Contracts
         Task<int> CreateWorkout(CustomWorkout workout);
         Task<List<CustomWorkout>> GetUserCustomWorkouts(int idUser);
         Task<CustomWorkout?> GetUserCustomWorkout(int idUser, int idWorkout);
-        Task<WorkoutSchedule?> GetWorkoutsByDate(int idUser, string date);
+        Task<CustomWorkout?> GetWorkoutsByDate(int idUser, DateTime date);
         Task AddExercises(int idWorkout, List<int> exerciseId);
         Task UpdateWorkout(CustomWorkout workout);
         Task DeleteWorkout(CustomWorkout workout);

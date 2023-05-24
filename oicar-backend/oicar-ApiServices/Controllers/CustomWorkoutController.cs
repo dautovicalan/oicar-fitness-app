@@ -59,7 +59,9 @@ namespace oicar_ApiServices.Controllers
         [HttpGet("ByDate")]
         public async Task<IActionResult> GetWorkoutByDate(int idUser, string date)
         {
-            var workoutSchedule = await _repository.CustomWorkout.GetWorkoutsByDate(idUser, date);
+            DateTime datetime = DateTime.Parse(date);
+            var workoutSchedule = await _repository.CustomWorkout.GetWorkoutsByDate(idUser, datetime);        
+
             if (workoutSchedule is null)
                 return NotFound();
 
@@ -78,19 +80,19 @@ namespace oicar_ApiServices.Controllers
             return Ok();
         }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> UpdateWorkout(UpdateWorkoutInput input)
-        {
-            CustomWorkout? workout = await _repository.CustomWorkout.GetUserCustomWorkout(input.idUser, input.idWorkout);
+        //[HttpPut("Update")]
+        //public async Task<IActionResult> UpdateWorkout(UpdateWorkoutInput input)
+        //{
+        //    CustomWorkout? workout = await _repository.CustomWorkout.GetUserCustomWorkout(input.idUser, input.idWorkout);
 
-            if (workout == null)
-                return NotFound(new HttpError("Workout doesn't exist"));
+        //    if (workout == null)
+        //        return NotFound(new HttpError("Workout doesn't exist"));
 
-            workout.Name = input.Name;
-            await _repository.CustomWorkout.UpdateWorkout(workout);
+        //    workout.Name = input.Name;
+        //    await _repository.CustomWorkout.UpdateWorkout(workout);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
     }
 }
