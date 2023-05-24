@@ -8,13 +8,13 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateSlider from "../../components/workout/DateSlider";
-import { Button } from "react-native-paper";
+import { ActivityIndicator, Button } from "react-native-paper";
 import SingleUserEnteredWorkoutBox from "../../components/workout/SingleUserEnteredWorkoutBox";
 import { Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useUserContext } from "../../context/UserContext";
 import useFetch from "../../hooks/useFetch";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 
 export default function WorkoutView({ navigation }) {
   const { user } = useUserContext();
@@ -22,14 +22,19 @@ export default function WorkoutView({ navigation }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const [selectedDateWorkouts, setSelectedDateWorkouts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  console.log(selectedDateWorkouts);
 
   useEffect(() => {
     const getWorkouts = async () => {
       try {
+        setLoading(true);
+        setSelectedDateWorkouts([]);
         const request = await fetch(
           `http://localhost:5280/api/CustomWorkout/ByDate?idUser=${
             user.id
-          }&date=${format(selectedDate, "yyyy-MM-dd")}"`,
+          }&date=${format(selectedDate, "yyyy-MM-dd")}`,
           {
             method: "GET",
             headers: {
@@ -38,35 +43,28 @@ export default function WorkoutView({ navigation }) {
             },
           }
         );
-        console.log(request);
+        if (request.status !== 200) {
+          setSelectedDateWorkouts([]);
+          setLoading(false);
+          return;
+        }
         const data = await request.json();
-        console.log(data);
-        setSelectedDateWorkouts(data);
+        setSelectedDateWorkouts([data]);
       } catch (error) {
         console.error(error);
         Alert.alert("Something went wrong");
+      } finally {
+        setLoading(false);
       }
     };
     getWorkouts();
   }, [selectedDate]);
 
-  const [loading, setLoading] = useState(false);
-
-  const handleDateChange = async (date) => {
-    // fetch API
-    setLoading(true);
-
-    setSelectedDate(date);
-    // setSelectedDateWorkouts([]);
-
-    setLoading(false);
-  };
-
   return (
     <SafeAreaView style={style.container}>
       <DateSlider
         selectedDate={selectedDate}
-        setSelectedDate={handleDateChange}
+        setSelectedDate={(date) => setSelectedDate(date)}
       />
       <View style={style.column}>
         <Text
@@ -81,13 +79,16 @@ export default function WorkoutView({ navigation }) {
           backgroundColor="#6750A4"
           onPress={() =>
             navigation.navigate("Add Workout", {
-              selectedDate: format(selectedDate, "dd-MM-yyyy"),
+              selectedDate: format(selectedDate, "yyyy-MM-dd"),
             })
           }
         >
           Add Workout
         </Button>
       </View>
+      {loading && (
+        <ActivityIndicator animating={true} color="#6750A4" size="large" />
+      )}
       <FlatList
         contentContainerStyle={style.workouts}
         data={selectedDateWorkouts}

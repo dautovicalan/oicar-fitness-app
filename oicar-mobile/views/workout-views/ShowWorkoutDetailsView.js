@@ -13,6 +13,7 @@ import { ActivityIndicator, Button } from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
 import { useUserContext } from "../../context/UserContext";
 import { format } from "date-fns";
+import { th } from "date-fns/locale";
 
 const ExerciseItemBox = ({ exerciseName, navigation, renderFullWidth }) => {
   const handleDelete = () => {
@@ -52,8 +53,6 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
   const { workoutId, selectedDate } = route.params;
   const { user } = useUserContext();
 
-  // TODO USER: 76, WORKOUT: 2
-
   const { data, isPending, error } = useFetch(
     `http://localhost:5280/api/CustomWorkout/GetWorkout?idUser=${user.id}&idWorkout=${workoutId}`,
     "GET"
@@ -76,8 +75,26 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
       },
       {
         text: "Delete",
-        onPress: () => {
-          // TODO: delete workout
+        onPress: async () => {
+          try {
+            const request = await fetch(
+              `http://localhost:5280/api/CustomWorkout/Delete?idUser=${user.id}&idWorkout=${workoutId}`,
+              {
+                method: "DELETE",
+              }
+            );
+            if (request.status === 200) {
+              Alert.alert("Success", "Workout deleted successfully");
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Workouts" }],
+              });
+            } else {
+              throw new Error("Something went wrong");
+            }
+          } catch (error) {
+            Alert.alert("Error", "Something went wrong");
+          }
         },
       },
     ]);

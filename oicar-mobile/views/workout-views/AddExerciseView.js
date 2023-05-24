@@ -83,6 +83,7 @@ export default function AddExerciseView({ route, navigation }) {
           body: JSON.stringify({
             userId: user.id,
             name: muscleName.toUpperCase(),
+            date: selectedDate,
           }),
         }
       );
