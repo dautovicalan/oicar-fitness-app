@@ -13,9 +13,12 @@ import { TextInput, Text, Button } from "react-native-paper";
 import GoogleLogin from "../../components/GoogleLogin";
 import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
 import { validateLoginForm } from "../../utils/FormValidatonUtils";
+import { useUserContext } from "../../context/UserContext";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 export default function LoginView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();
+  const { setUserInfo } = useUserContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(null);
@@ -38,7 +41,7 @@ export default function LoginView({ navigation }) {
         body: JSON.stringify({ email, password }),
       });
 
-      if (response.status === 403) {
+      if (response.status === 403 || response.status === 400) {
         setLoading(false);
         return Alert.alert("Wrong email or password");
       }
@@ -46,18 +49,18 @@ export default function LoginView({ navigation }) {
       const result = await response.json();
 
       if (result?.isRegister && result.isRegister === true) {
+        setUserInfo({
+          id: result.idUser,
+          accessToken: result.accessToken,
+        });
         return navigation.reset({
           index: 0,
           routes: [{ name: "MainApp" }],
         });
       }
 
-      console.log(result);
       setBasicInfo({
-        id: result.id,
-        name: result.name,
-        surname: result.surname,
-        email: result.email,
+        id: result.idUser,
         isRegister: result.isRegister,
       });
 
@@ -84,6 +87,7 @@ export default function LoginView({ navigation }) {
           <TextInput
             label={"Email"}
             value={email}
+            style={textInputStyles.textInput}
             error={errors?.email}
             onChangeText={(text) => setEmail(text)}
             left={<TextInput.Icon icon="email" />}
@@ -91,6 +95,7 @@ export default function LoginView({ navigation }) {
           <TextInput
             label={"Password"}
             value={password}
+            style={textInputStyles.textInput}
             secureTextEntry={true}
             error={errors?.password}
             onChangeText={(text) => setPassword(text)}
@@ -98,12 +103,7 @@ export default function LoginView({ navigation }) {
           />
           <Button
             mode="contained"
-            onPress={() =>
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "MainApp" }],
-              })
-            }
+            onPress={handleLogin}
             icon="lock-open"
             disabled={loading}
           >

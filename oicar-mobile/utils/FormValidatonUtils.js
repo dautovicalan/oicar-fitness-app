@@ -1,7 +1,10 @@
 import {
   aboutYouValidationSchema,
+  addPRValidationSchema,
+  editExerciseValidationSchema,
   loginValidationSchema,
   userValidationSchema,
+  workoutValidationSchema,
 } from "../schema/ValidationSchemas";
 
 export const formValid = (inputFields) => {
@@ -24,6 +27,11 @@ export const emailValid = (email) => {
 
 export const isPasswordMatch = (password, repeatPassword) => {
   return password === repeatPassword;
+};
+
+export const isNumber = (number) => {
+  const re = /^[0-9]+$/;
+  return re.test(number);
 };
 
 export const validateUserRegistration = async (newUser) => {
@@ -78,6 +86,67 @@ export const validateAboutYouForm = async (data) => {
       {
         abortEarly: false,
       }
+    );
+    return { isValid: true, errors: {} };
+  } catch (err) {
+    const errors = {};
+    err.inner.forEach((e) => {
+      errors[e.path] = e.message;
+    });
+    return { isValid: false, errors };
+  }
+};
+
+export const validateWorkoutForm = async (data) => {
+  try {
+    await workoutValidationSchema.validate(
+      {
+        workoutName: data.workoutName,
+        workoutSets: data.workoutSets,
+        workoutReps: data.workoutReps,
+        workoutWeight: data.workoutWeight,
+      },
+      { abortEarly: false }
+    );
+    return { isValid: true, errors: {} };
+  } catch (err) {
+    const errors = {};
+    err.inner.forEach((e) => {
+      errors[e.path] = e.message;
+    });
+    return { isValid: false, errors };
+  }
+};
+
+export const validateAddPRForm = async (data) => {
+  try {
+    await addPRValidationSchema.validate(
+      {
+        workoutDate: data.workoutDate,
+        workoutName: data.workoutName,
+        workoutWeight: data.workoutWeight,
+      },
+      { abortEarly: false }
+    );
+    return { isValid: true, errors: {} };
+  } catch (err) {
+    const errors = {};
+    err.inner.forEach((e) => {
+      errors[e.path] = e.message;
+    });
+    return { isValid: false, errors };
+  }
+};
+
+export const validateExerciseForm = async (data) => {
+  try {
+    await editExerciseValidationSchema.validate(
+      {
+        sets: data.sets,
+        repetition: data.repetition,
+        weight: data.weight,
+      },
+      { abortEarly: false }
     );
     return { isValid: true, errors: {} };
   } catch (err) {

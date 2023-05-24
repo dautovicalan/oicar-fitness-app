@@ -5,51 +5,53 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
-import React, { useState } from "react";
-import GoalBox from "../../components/home/GoalBox";
-import CaloriesBox from "../../components/home/CaloriesBox";
-import WorkoutBox from "../../components/home/WorkoutBox";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native-paper";
+import { useUserContext } from "../../context/UserContext";
+import useFetch from "../../hooks/useFetch";
+import HomeBox from "../../components/home/HomeBox";
 
 export default function HomeView() {
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  };
+  const { user } = useUserContext();
 
   return (
-    <ScrollView
-      contentContainerStyle={style.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+    <ScrollView contentContainerStyle={style.container}>
       <Text
         variant="displaySmall"
         style={{
           marginBottom: 50,
+          fontWeight: "bold",
+          textAlign: "center",
         }}
       >
-        Welcome Back, Alan
+        Welcome Back, {user?.name} 💪
       </Text>
       <View style={style.firstInnerContainer}>
-        <View style={style.firstInnerItem}>
-          <GoalBox />
+        <View>
+          <HomeBox
+            text="Follow Your Goal"
+            userText={user?.goal}
+            color="#FF5668"
+          />
         </View>
         <View>
-          <CaloriesBox />
+          <HomeBox
+            text="Your Workouts"
+            userText={user?.workoutNumberPerWeek}
+            color="#3FBD86"
+          />
         </View>
       </View>
       <View style={style.secondInnerContainer}>
         <View>
-          <WorkoutBox />
+          <HomeBox
+            text="Current Weight"
+            userText={user?.weight}
+            color="#FE7F61"
+          />
         </View>
         <View>
-          <WorkoutBox />
+          <HomeBox text="Just DO It" color="#F1C231" />
         </View>
       </View>
     </ScrollView>
@@ -61,17 +63,20 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    gap: 20,
+    gap: 5,
+    padding: 10,
   },
   firstInnerContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     height: "25%",
+    gap: 20,
   },
   firstInnerItem: {},
   secondInnerContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     height: "25%",
+    gap: 20,
   },
 });

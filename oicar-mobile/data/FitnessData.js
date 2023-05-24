@@ -28,7 +28,7 @@ export const heightDataItems = (isFeet) => {
           <Picker.Item
             key={`${i}-${j}`}
             label={`${i}'${j}"`}
-            value={i * 12 + j}
+            value={Math.round(i * 30.48 + j * 2.54)}
           />
         );
       }
@@ -46,9 +46,16 @@ export const weightDataItems = (isPound) => {
   } else {
     for (let i = 30; i <= 440; i++) {
       items.push(
-        <Picker.Item key={i} label={`${i} LBS`} value={Math.round(i / 2.205)} />
+        <Picker.Item key={i} label={`${i} LBS`} value={Math.round(i * 0.453)} />
       );
     }
   }
   return items;
 };
+
+export const workoutTypes = Array.of(
+  { id: 1, name: "Chest" },
+  { id: 2, name: "Back" },
+  { id: 3, name: "Legs" },
+  { id: 4, name: "Shoulders" }
+);

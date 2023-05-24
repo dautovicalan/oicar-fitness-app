@@ -46,9 +46,6 @@ export const RegistrationProcessContextProvider = ({ children }) => {
         return {
           ...prevVal,
           id: userBasicInfo.id,
-          name: userBasicInfo.name,
-          surname: userBasicInfo.surname,
-          email: userBasicInfo.email,
           isRegister: userBasicInfo.isRegister,
         };
       });

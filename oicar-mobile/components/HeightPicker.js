@@ -5,7 +5,11 @@ import { Switch } from "react-native-paper";
 import TabSelector from "./TabSelector";
 import { heightDataItems } from "../data/FitnessData";
 
-export default function HeightPicker({ selectedHeight, onHeightChange }) {
+export default function HeightPicker({
+  selectedHeight,
+  onHeightChange,
+  width,
+}) {
   const [isFeet, setIsFeet] = useState(false);
 
   const handleChange = () => {
@@ -13,8 +17,8 @@ export default function HeightPicker({ selectedHeight, onHeightChange }) {
   };
 
   return (
-    <View style={{ width: "50%" }}>
-      <TabSelector tabs={Array.of("CM", "FEET")} onChange={handleChange} />
+    <View style={{ width: width ? width : "50%" }}>
+      <TabSelector tabs={Array.of("CM", "FT")} onChange={handleChange} />
       <Picker
         selectedValue={selectedHeight}
         onValueChange={(itemValue, itemIndex) => onHeightChange(itemValue)}
