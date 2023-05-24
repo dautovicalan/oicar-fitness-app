@@ -11,6 +11,7 @@ namespace Repository
         public ITargetMuscleRepository TargetMuscle { get; }
         public IExerciseRepository Exercise { get; }
         public ICustomWorkoutRepository CustomWorkout { get; }
+        public IExerciseProgressRepository ExerciseProgress { get; }
         Task SaveAsync();
         void Save();
     }

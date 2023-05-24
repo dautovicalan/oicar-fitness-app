@@ -16,6 +16,7 @@ namespace oicar_ApiServices.AppSettings
             CreateMap<CustomWorkout, CustomWorkoutInput>().ReverseMap();
             CreateMap<Exercise, ExercisesDto>().ReverseMap();
             CreateMap<CustomWorkout, WorkoutDto>();
+            CreateMap<ExerciseProgress, ExerciseProgressInput>().ReverseMap();
         }
     }
 }
