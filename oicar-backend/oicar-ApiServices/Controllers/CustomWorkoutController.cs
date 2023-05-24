@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.ErrorModel;
 using Domain.Model;
 using FitPal_Models.Dto;
 using FitPal_Models.JsonModels;
@@ -23,12 +24,10 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpPost("Create")]
-        [AllowAnonymous]
         public async Task<IActionResult> CreateCustomWorkout(CustomWorkoutInput input)
         {
             CustomWorkout customWorkout = _mapper.Map<CustomWorkout>(input);
-           int workoutId = await _repository.CustomWorkout.CreateWorkout(customWorkout);
-
+            int workoutId = await _repository.CustomWorkout.CreateWorkout(customWorkout);
             return Ok(workoutId);
         }
 
@@ -41,7 +40,6 @@ namespace oicar_ApiServices.Controllers
             return Ok(workoutsList);
         }
         [HttpGet("GetWorkout")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetUserWorkout(int idUser, int idWorkout)
         {
             CustomWorkout? workout = await _repository.CustomWorkout.GetUserCustomWorkout(idUser, idWorkout);
@@ -51,7 +49,6 @@ namespace oicar_ApiServices.Controllers
             return Ok(_mapper.Map<WorkoutDto>(workout));
         }
         [HttpPost("AddExercises")]
-        [AllowAnonymous]
         public async Task<IActionResult> AddExercisesToWorkout(int idWorkout, List<int> exerciseIds)
         {
             await _repository.CustomWorkout.AddExercises(idWorkout, exerciseIds);
@@ -60,14 +57,39 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpGet("ByDate")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetWorkoutByDate(int idUser, string date)
         {
             var workoutSchedule = await _repository.CustomWorkout.GetWorkoutsByDate(idUser, date);
             if (workoutSchedule is null)
                 return NotFound();
 
-            return Ok(workoutSchedule);
+            return Ok(workoutSchedule.Id);
+        }
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteWorkout(int idUser, int idWorkout)
+        {
+            CustomWorkout? workout = await _repository.CustomWorkout.GetUserCustomWorkout(idUser,idWorkout);
+
+            if (workout is null)
+                return NotFound();
+
+            await _repository.CustomWorkout.DeleteWorkout(workout);
+            return Ok();
+        }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateWorkout(UpdateWorkoutInput input)
+        {
+            CustomWorkout? workout = await _repository.CustomWorkout.GetUserCustomWorkout(input.idUser, input.idWorkout);
+
+            if (workout == null)
+                return NotFound(new HttpError("Workout doesn't exist"));
+
+            workout.Name = input.Name;
+            await _repository.CustomWorkout.UpdateWorkout(workout);
+
+            return Ok();
         }
 
     }

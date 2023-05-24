@@ -1,4 +1,3 @@
-{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
@@ -11,13 +10,12 @@
   "profiles": {
     "http": {
       "commandName": "Project",
+
       "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5249",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -28,4 +26,3 @@
       }
     }
   }
-}
