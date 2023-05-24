@@ -4,6 +4,7 @@ import {
   ScrollView,
   FlatList,
   View,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateSlider from "../../components/workout/DateSlider";
@@ -20,19 +21,34 @@ export default function WorkoutView({ navigation }) {
 
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const { data, isPending, error } = useFetch(
-    `http://localhost:5280/api/CustomWorkout/GetWorkouts?idUser=${user.id}`,
-    "GET"
-  );
-
   const [selectedDateWorkouts, setSelectedDateWorkouts] = useState([]);
 
   useEffect(() => {
-    if (data) {
-      setSelectedDateWorkouts(data);
-    }
-    // TODO: fetch data for selected date
-  }, [data, selectedDate]);
+    const getWorkouts = async () => {
+      try {
+        console.log("pozdrav");
+        const request = await fetch(
+          `http://localhost:5280/api/CustomWorkout/ByDate?idUser=${
+            user.id
+          }&date=${format(selectedDate, "yyyy-MM-dd")}"`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+        );
+        const data = await request.json();
+        console.log(data);
+        setSelectedDateWorkouts(data);
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Something went wrong");
+      }
+    };
+    getWorkouts();
+  }, [selectedDate]);
 
   const [loading, setLoading] = useState(false);
 

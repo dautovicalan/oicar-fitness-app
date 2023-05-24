@@ -71,29 +71,25 @@ export default function AddExerciseView({ route, navigation }) {
 
   const handleSubmit = async () => {
     setLoading(true);
-    // const requestCreateWorkout = await fetch(
-    //   "http://localhost:5280/api/CustomWorkout/Create",
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       userId: user.id,
-    //       name: muscleName.toUpperCase(),
-    //     }),
-    //   }
-    // );
-
-    // if (requestCreateWorkout.status !== 200) {
-    //   return Alert.alert("Error creating workout");
-    // }
-
-    //const responseCreateWorkout = await requestCreateWorkout.json();
 
     try {
+      const requestCreateWorkout = await fetch(
+        "http://localhost:5280/api/CustomWorkout/Create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: user.id,
+            name: muscleName.toUpperCase(),
+          }),
+        }
+      );
+      const responseCreateWorkout = await requestCreateWorkout.json();
+
       const requestAddExercises = await fetch(
-        "http://localhost:5280/api/CustomWorkout/AddExercises?idWorkout=2",
+        `http://localhost:5280/api/CustomWorkout/AddExercises?idWorkout=${responseCreateWorkout}`,
         {
           method: "POST",
           headers: {
@@ -105,6 +101,9 @@ export default function AddExerciseView({ route, navigation }) {
       if (requestAddExercises.status === 500) {
         return Alert.alert("Exercise already added");
       }
+      console.log(
+        "TEST" + requestAddExercises.status + typeof requestAddExercises.status
+      );
       if (requestAddExercises.status !== 200) {
         return Alert.alert("Error adding exercises");
       }

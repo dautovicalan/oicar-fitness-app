@@ -5,9 +5,9 @@ import { UserContext, useUserContext } from "../../context/UserContext";
 import { Text } from "react-native-paper";
 
 export default function SettingsView({ navigation }) {
-  const { logout } = useUserContext();
+  const { user, logout } = useUserContext();
 
-  const handleDeleteProfile = () => {
+  const handleDeleteProfile = async () => {
     Alert.alert(
       "Delete Profile",
       "Are you sure you want to delete your profile?",
@@ -18,8 +18,28 @@ export default function SettingsView({ navigation }) {
         },
         {
           text: "Delete",
-          onPress: () => {
-            console.log("delete");
+          onPress: async () => {
+            try {
+              const request = await fetch(
+                `http://localhost:5280/api/Account/Delete?idUser=${user.id}`,
+                {
+                  method: "DELETE",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.accessToken}`,
+                  },
+                }
+              );
+              if (request.status === 200) {
+                logout();
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Welcome" }],
+                });
+              }
+            } catch (error) {
+              Alert.alert("Something went wrong");
+            }
           },
         },
       ],
