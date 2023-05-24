@@ -34,6 +34,15 @@ namespace oicar_ApiServices.Controllers
             var exercies = await _repositoryManager.Exercise.GetExerciseByBodyPart(bodyPartId);
 
             return Ok(exercies);
+        }        
+
+        [HttpGet("CreateProgress")]
+        public async Task<IActionResult> CreateExerciseProgress(ExerciseProgressInput input)
+        {
+            ExerciseProgress exerciseProgress = _mapper.Map<ExerciseProgress>(input);
+
+            await _repositoryManager.ExerciseProgress.CreateExerciseProgress(exerciseProgress);
+            return Ok();
         }
 
         [HttpGet("CreateProgress")]
@@ -50,6 +59,6 @@ namespace oicar_ApiServices.Controllers
             var bodyParts = await _repositoryManager.BodyPart.GetAllAsync();
 
             return Ok(bodyParts);
-        }
+        }        
     }
 }

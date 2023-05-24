@@ -26,7 +26,6 @@ export default function WorkoutView({ navigation }) {
   useEffect(() => {
     const getWorkouts = async () => {
       try {
-        console.log("pozdrav");
         const request = await fetch(
           `http://localhost:5280/api/CustomWorkout/ByDate?idUser=${
             user.id
@@ -39,6 +38,7 @@ export default function WorkoutView({ navigation }) {
             },
           }
         );
+        console.log(request);
         const data = await request.json();
         console.log(data);
         setSelectedDateWorkouts(data);
