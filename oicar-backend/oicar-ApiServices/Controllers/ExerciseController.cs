@@ -41,6 +41,7 @@ namespace oicar_ApiServices.Controllers
             var bodyParts = await _repositoryManager.BodyPart.GetAllAsync();
 
             return Ok(bodyParts);
+        }
 
         [HttpGet("CreateProgress")]
         public async Task<IActionResult> CreateExerciseProgress(ExerciseProgressInput input)
