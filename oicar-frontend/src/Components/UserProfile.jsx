@@ -38,7 +38,7 @@ const UserProfile = () => {
     fetch(`http://localhost:5280/api/Account/GetUser?id=${userID}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + userJWT, // add the JWT token here
+        Authorization: "Bearer " + userJWT // add the JWT token here
       },
     })
       .then((response) => response.json())
@@ -56,12 +56,14 @@ const UserProfile = () => {
   const handleChangePasswordClick = async (event) => {
     var textField = document.getElementById("passwordChange");
     var newPasswordValue = textField.value;
+    var jwt = sessionStorage.getItem("jwt");
 
     try {
       const response = await fetch("/api/Account/ChangePassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer " + userJWT
         },
         body: JSON.stringify({
           email: userData.email,
