@@ -60,7 +60,6 @@ const UserProfile = () => {
   const handleChangePasswordClick = async (event) => {
     var textField = document.getElementById("passwordChange");
     var newPasswordValue = textField.value;
-    var jwt = sessionStorage.getItem("jwt");
 
     try {
       const response = await fetch("/api/Account/ChangePassword", {
@@ -87,15 +86,12 @@ const UserProfile = () => {
   const handleDeleteAccountClick = async (event) => {
 
     try {
-      const response = await fetch("/api/Account/Delete", {
+      const response = await fetch(`http://localhost:5280/api/Account/Delete?idUser=${userID}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",  
           "Authorization": "Bearer " + userJWT
         },
-        body: JSON.stringify({
-          idUser: userID
-        }),
       });
       if (response.status === 200) {
         alert("Success")
