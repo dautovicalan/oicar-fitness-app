@@ -28,6 +28,10 @@ const UserProfile = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const handleOpenDelete = () => setOpenDelete(true);
+  const handleCloseDelete = () => setOpenDelete(false);
+
   // Get data from session storage
   const userID = sessionStorage.getItem("id");
   const userJWT = sessionStorage.getItem("jwt");
@@ -80,6 +84,33 @@ const UserProfile = () => {
     }
   };
 
+  const handleDeleteAccountClick = async (event) => {
+
+    try {
+      const response = await fetch("/api/Account/Delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",  
+          "Authorization": "Bearer " + userJWT
+        },
+        body: JSON.stringify({
+          idUser: userID
+        }),
+      });
+      if (response.status === 200) {
+        alert("Success")
+        sessionStorage.clear("id");
+        sessionStorage.clear("jwt");
+        window.location.href = "/login";
+      } else {
+        alert("Failed!")
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   //Privremeno
   const picture = "https://freesvg.org/img/abstract-user-flat-4.png";
   return (
@@ -111,6 +142,28 @@ const UserProfile = () => {
             sx={{ mt: 3, mb: 2 }}
           >
             Change
+          </Button>
+        </Container>
+      </Modal>
+      <Modal
+        open={openDelete}
+        onClose={handleCloseDelete}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Container sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Delete Account
+          </Typography>
+          <p>Are you sure?</p>
+          <Button
+            type="submit"
+            fullWidth
+            onClick={handleDeleteAccountClick}
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Delete
           </Button>
         </Container>
       </Modal>
@@ -378,7 +431,15 @@ const UserProfile = () => {
           style={{ backgroundColor: "darkblue", color: "white" }}
         >
           Change password
-        </Button>{" "}
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={handleOpenDelete}
+          style={{ backgroundColor: "red", color: "white" }}
+        >
+          Delete Account
+        </Button>
       </Container>
     </div>
   );
