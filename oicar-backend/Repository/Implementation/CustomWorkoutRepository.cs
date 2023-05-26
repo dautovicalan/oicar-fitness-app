@@ -63,5 +63,15 @@ namespace Repository.Implementation
             workout.Deleted = true;
             await _repositoryContext.SaveChangesAsync();
         }
+
+        public async Task<CustomWorkout?> GetWorkout(int idWorkout)
+        => await _repositoryContext.CustomWorkout.Include(cw=> cw.Exercises).FirstOrDefaultAsync(cw => cw.Id == idWorkout);
+
+        public async Task DeleteWorkoutExercise(CustomWorkout workout, int idExercise)
+        {
+            var exercise = await _repositoryContext.Exercise.FirstAsync(e => e.Id == idExercise);
+            workout.Exercises.Remove(exercise);
+            await _repositoryContext.SaveChangesAsync();
+        }
     }
 }

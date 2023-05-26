@@ -11,5 +11,7 @@ namespace Repository.Contracts
         Task AddExercises(int idWorkout, List<int> exerciseId);
         Task UpdateWorkout(CustomWorkout workout);
         Task DeleteWorkout(CustomWorkout workout);
+        Task<CustomWorkout?> GetWorkout(int idWorkout);
+        Task DeleteWorkoutExercise(CustomWorkout workout, int idExercise);
     }
 }

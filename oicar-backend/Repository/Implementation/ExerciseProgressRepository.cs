@@ -1,12 +1,8 @@
 ﻿using Domain.Model;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.Base;
 using Repository.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Implementation
 {
@@ -23,5 +19,11 @@ namespace Repository.Implementation
             Create(exerciseProgress);
             await _repositoryContext.SaveChangesAsync();
         }
+
+        public async Task<ExerciseProgress?> Get(int idExerciseProgress) => 
+            await _repositoryContext.ExerciseProgress.FirstOrDefaultAsync(ep => ep.Id == idExerciseProgress);
+
+        public async Task<List<ExerciseProgress>> GetUserExerciseProgress(int idUser, int idExercise)
+        => await _repositoryContext.ExerciseProgress.Where(ep=> ep.ExerciseId == idExercise && ep.UserId == idUser).ToListAsync();
     }
 }

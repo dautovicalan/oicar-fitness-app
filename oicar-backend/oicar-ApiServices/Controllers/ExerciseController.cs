@@ -35,14 +35,23 @@ namespace oicar_ApiServices.Controllers
             return Ok(exercies);
         }
 
-        [HttpGet("CreateProgress")]
+        [HttpGet("GetProgress")]
+        public async Task<IActionResult> GetExerciseProgress(int idUser, int exerciseId)
+        {
+            var exerciseProgresss = await _repositoryManager.ExerciseProgress.GetUserExerciseProgress(idUser,exerciseId);
+            return Ok(exerciseProgresss);
+
+        }
+
+         [HttpPost("CreateProgress")]
         public async Task<IActionResult> CreateExerciseProgress(ExerciseProgressInput input)
         {
             ExerciseProgress exerciseProgress = _mapper.Map<ExerciseProgress>(input);
 
             await _repositoryManager.ExerciseProgress.CreateExerciseProgress(exerciseProgress);
-            return Ok();
+            return Ok(exerciseProgress.Id);
         }
+
         [HttpGet("GetBodyParts")]
         public async Task<IActionResult> GetBodyParts()
         {

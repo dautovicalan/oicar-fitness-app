@@ -56,11 +56,26 @@ namespace oicar_ApiServices.Controllers
             return Ok();
         }
 
+        [HttpDelete("DeleteExercise")]
+        public async Task<IActionResult> DeleteExerciseFromWorkout(int idWorkout, int exerciseId)
+        {
+            var workout = await _repository.CustomWorkout.GetWorkout(idWorkout);
+            if (workout is null)
+                return NotFound(new HttpError("workout not found"));
+
+            bool exerciseExist = workout.Exercises.Any(w => w.Id == exerciseId);
+            if (!exerciseExist)
+                return NotFound(new HttpError("Workout exercise not found"));
+
+            await _repository.CustomWorkout.DeleteWorkoutExercise(workout, exerciseId);
+            return Ok();
+        }
+
         [HttpGet("ByDate")]
         public async Task<IActionResult> GetWorkoutByDate(int idUser, string date)
         {
             DateTime datetime = DateTime.Parse(date);
-            var workout = await _repository.CustomWorkout.GetWorkoutsByDate(idUser, datetime);        
+            var workout = await _repository.CustomWorkout.GetWorkoutsByDate(idUser, datetime);
 
             if (workout is null)
                 return NotFound();
@@ -71,7 +86,7 @@ namespace oicar_ApiServices.Controllers
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteWorkout(int idUser, int idWorkout)
         {
-            CustomWorkout? workout = await _repository.CustomWorkout.GetUserCustomWorkout(idUser,idWorkout);
+            CustomWorkout? workout = await _repository.CustomWorkout.GetUserCustomWorkout(idUser, idWorkout);
 
             if (workout is null)
                 return NotFound();
