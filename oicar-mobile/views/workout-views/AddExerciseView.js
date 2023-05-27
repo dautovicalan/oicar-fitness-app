@@ -18,7 +18,6 @@ import {
 } from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
 import { useUserContext } from "../../context/UserContext";
-import { format } from "date-fns";
 import { textInputStyles } from "../../styles/TextInputStyles";
 
 const ExerciseItemBox = ({
@@ -54,7 +53,7 @@ const ExerciseItemBox = ({
 };
 
 export default function AddExerciseView({ route, navigation }) {
-  const { muscleId, selectedDate, muscleName } = route.params;
+  const { muscleId, selectedDate, muscleName, workoutId } = route.params;
   const { user } = useUserContext();
 
   const { data, isPending, error } = useFetch(
@@ -81,24 +80,28 @@ export default function AddExerciseView({ route, navigation }) {
     setLoading(true);
 
     try {
-      const requestCreateWorkout = await fetch(
-        "http://localhost:5280/api/CustomWorkout/Create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user.id,
-            name: muscleName.toUpperCase(),
-            date: selectedDate,
-          }),
-        }
-      );
-      const responseCreateWorkout = await requestCreateWorkout.json();
+      let workoutIdHolder = workoutId;
+      if (workoutIdHolder === null) {
+        const requestCreateWorkout = await fetch(
+          "http://localhost:5280/api/CustomWorkout/Create",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: user.id,
+              name: muscleName.toUpperCase(),
+              date: selectedDate,
+            }),
+          }
+        );
+        const responseCreateWorkout = await requestCreateWorkout.json();
+        workoutIdHolder = responseCreateWorkout;
+      }
 
       const requestAddExercises = await fetch(
-        `http://localhost:5280/api/CustomWorkout/AddExercises?idWorkout=${responseCreateWorkout}`,
+        `http://localhost:5280/api/CustomWorkout/AddExercises?idWorkout=${workoutIdHolder}`,
         {
           method: "POST",
           headers: {
@@ -143,8 +146,6 @@ export default function AddExerciseView({ route, navigation }) {
     );
     setFilteredData(filteredData);
   };
-
-  console.log(data);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

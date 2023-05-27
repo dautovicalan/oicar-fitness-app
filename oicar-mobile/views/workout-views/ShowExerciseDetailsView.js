@@ -55,9 +55,7 @@ export default function ShowExerciseDetailsView({ route }) {
 
   useEffect(() => {
     if (data && data.length > 0) {
-      setSets(`${data[0].numberOfSets}`);
-      setRepetition(`${data[0].numberOfReps}`);
-      setWeight(`${data[0].weight}`);
+      console.log(data);
     }
   }, [data]);
 
@@ -99,9 +97,6 @@ export default function ShowExerciseDetailsView({ route }) {
     } catch (error) {
       Alert.alert("Error", "Something went wrong");
     } finally {
-      setSets("");
-      setRepetition("");
-      setWeight("");
       setErrors(null);
     }
   };
@@ -147,7 +142,7 @@ export default function ShowExerciseDetailsView({ route }) {
             error={errors?.weight}
           />
           <Button mode="contained" onPress={handleSubmit}>
-            Save
+            Add Progress
           </Button>
         </View>
       </KeyboardAvoidingView>

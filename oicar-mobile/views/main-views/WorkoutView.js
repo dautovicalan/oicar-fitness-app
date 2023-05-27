@@ -80,6 +80,7 @@ export default function WorkoutView({ navigation }) {
           onPress={() =>
             navigation.navigate("Add Workout", {
               selectedDate: format(selectedDate, "yyyy-MM-dd"),
+              workoutId: null,
             })
           }
         >

@@ -13,27 +13,49 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Button } from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
 import { useUserContext } from "../../context/UserContext";
-import { format } from "date-fns";
-import { th } from "date-fns/locale";
 
 const ExerciseItemBox = ({
+  workoutId,
+  exerciseId,
   exerciseName,
   navigation,
   renderFullWidth,
   gifUrl,
+  deleteCallback,
 }) => {
   const handleDelete = () => {
-    Alert.alert("Are you sure you want to delete this exercise?", "", [
-      {
-        text: "Cancel",
-        onPress: () => {},
-        style: "cancel",
-      },
-      {
-        text: "Delete",
-        onPress: () => {},
-      },
-    ]);
+    Alert.alert(
+      "Delete exercise",
+      "Are you sure you want to delete this exercise?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: async () => {
+            try {
+              const request = await fetch(
+                `http://localhost:5280/api/CustomWorkout/DeleteExercise?idWorkout=${workoutId}&exerciseId=${exerciseId}`,
+                {
+                  method: "DELETE",
+                }
+              );
+              if (request.status === 200) {
+                Alert.alert("Success", "Exercise deleted successfully");
+                deleteCallback();
+              } else {
+                throw new Error("Something went wrong");
+              }
+            } catch (error) {
+              Alert.alert("Error", "Something went wrong");
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -119,8 +141,15 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
           keyExtractor={(item) => item.id}
           renderItem={(item) => (
             <ExerciseItemBox
+              workoutId={workoutId}
+              exerciseId={item.item.id}
               exerciseName={item.item.name}
               gifUrl={item.item.gifUrl}
+              deleteCallback={() => {
+                setExercises(
+                  exercises.filter((exercise) => exercise.id !== item.item.id)
+                );
+              }}
               navigation={() =>
                 navigation.navigate("Exercise Details", {
                   workoutId,
@@ -144,6 +173,7 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
           onPress={() =>
             navigation.navigate("Add Workout", {
               selectedDate,
+              workoutId,
             })
           }
         >
