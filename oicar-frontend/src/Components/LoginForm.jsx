@@ -17,6 +17,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate } from "react-router-dom";
 
 import { emailValid } from "../Utils/FormValidation";
+import { Alert } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -69,14 +70,13 @@ export default function LoginForm() {
         }),
       });
       const data = await response.json();
+      console.log(data)
       if (data.isRegister) {
         window.location.href = "/workoutplan"
         localStorage.setItem("id", data.idUser);
         sessionStorage.setItem("id", data.idUser);
         sessionStorage.setItem("jwt", data.accessToken)
-
-
-      } else if (data == null) {
+      } else if (data == null) {        
         return false;
       } else if(data.isRegister == false) {
         window.location.href = "/register"
@@ -84,6 +84,8 @@ export default function LoginForm() {
         sessionStorage.setItem("id", data.idUser);
         sessionStorage.setItem("jwt", data.accessToken)
 
+      } else {
+          alert("User doesn't exist")
       }
     } catch (error) {
       console.error(error);
