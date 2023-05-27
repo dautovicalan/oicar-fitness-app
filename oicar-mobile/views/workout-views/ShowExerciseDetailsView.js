@@ -9,14 +9,18 @@ import {
   Keyboard,
   Platform,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { validateExerciseForm } from "../../utils/FormValidatonUtils";
 import { LineChart } from "react-native-chart-kit";
 import { textInputStyles } from "../../styles/TextInputStyles";
+import { useUserContext } from "../../context/UserContext";
+import { format, set } from "date-fns";
+import useFetch from "../../hooks/useFetch";
 
-const data = {
+const testData = {
   labels: ["January", "February", "March"],
   datasets: [
     {
@@ -37,12 +41,25 @@ const chartConfig = {
 };
 
 export default function ShowExerciseDetailsView({ route }) {
-  const { workoutId } = route.params;
-  const [sets, setSets] = useState("");
-  const [repetition, setRepetition] = useState("");
-  const [weight, setWeight] = useState("");
+  const { user } = useUserContext();
+  const { workoutId, exerciseId } = route.params;
+  const [sets, setSets] = useState("0");
+  const [repetition, setRepetition] = useState("0");
+  const [weight, setWeight] = useState("0");
 
   const [errors, setErrors] = useState(null);
+
+  const { data, isPending, error } = useFetch(
+    `http://localhost:5280/api/Exercise/GetProgress?idUser=${user.id}&exerciseId=${exerciseId}`
+  );
+
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setSets(`${data[0].numberOfSets}`);
+      setRepetition(`${data[0].numberOfReps}`);
+      setWeight(`${data[0].weight}`);
+    }
+  }, [data]);
 
   const handleSubmit = async () => {
     setErrors(null);
@@ -54,7 +71,39 @@ export default function ShowExerciseDetailsView({ route }) {
     if (!validateData.isValid) {
       return setErrors(validateData.errors);
     }
-    // TODO - API call
+
+    try {
+      const request = await fetch(
+        `http://localhost:5280/api/Exercise/CreateProgress`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: user.id,
+            exerciseId: exerciseId,
+            numberOfSets: sets,
+            numberOfReps: repetition,
+            weight: weight,
+            date: format(new Date(), "yyyy-MM-dd"),
+          }),
+        }
+      );
+
+      if (request.status === 200) {
+        Alert.alert("Success", "Data saved successfully");
+      } else {
+        throw new Error("Something went wrong");
+      }
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong");
+    } finally {
+      setSets("");
+      setRepetition("");
+      setWeight("");
+      setErrors(null);
+    }
   };
 
   return (
@@ -67,7 +116,7 @@ export default function ShowExerciseDetailsView({ route }) {
         <View style={style.innerContainer}>
           <LineChart
             style={{ marginHorizontal: 20 }}
-            data={data}
+            data={testData}
             width={400}
             height={220}
             chartConfig={chartConfig}

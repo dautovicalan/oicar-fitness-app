@@ -6,12 +6,20 @@ import {
   Image,
   Pressable,
   Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
-import { Button, Checkbox, ActivityIndicator } from "react-native-paper";
+import {
+  Button,
+  Checkbox,
+  ActivityIndicator,
+  TextInput,
+} from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
 import { useUserContext } from "../../context/UserContext";
 import { format } from "date-fns";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 const ExerciseItemBox = ({
   addExercise,
@@ -47,7 +55,6 @@ const ExerciseItemBox = ({
 
 export default function AddExerciseView({ route, navigation }) {
   const { muscleId, selectedDate, muscleName } = route.params;
-
   const { user } = useUserContext();
 
   const { data, isPending, error } = useFetch(
@@ -55,7 +62,10 @@ export default function AddExerciseView({ route, navigation }) {
     "GET"
   );
 
+  const [searchterm, setSearchterm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedExercises, setSelectedExercises] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const addExercise = (exerciseId) => {
     setSelectedExercises((prevVal) => [...prevVal, exerciseId]);
@@ -66,8 +76,6 @@ export default function AddExerciseView({ route, navigation }) {
       prevVal.filter((item) => item !== exerciseId)
     );
   };
-
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -102,9 +110,6 @@ export default function AddExerciseView({ route, navigation }) {
       if (requestAddExercises.status === 500) {
         return Alert.alert("Exercise already added");
       }
-      console.log(
-        "TEST" + requestAddExercises.status + typeof requestAddExercises.status
-      );
       if (requestAddExercises.status !== 200) {
         return Alert.alert("Error adding exercises");
       }
@@ -126,44 +131,72 @@ export default function AddExerciseView({ route, navigation }) {
     }
   };
 
-  console.log(selectedExercises.length);
+  const filterData = (searchterm) => {
+    setSearchterm(searchterm);
+    if (searchterm.length === 0) {
+      setFilteredData([]);
+      return;
+    }
+
+    const filteredData = data.filter((item) =>
+      item.name.toLowerCase().includes(searchterm.toLowerCase())
+    );
+    setFilteredData(filteredData);
+  };
+
+  console.log(data);
+
   return (
-    <View style={styles.container}>
-      {isPending ? (
-        <ActivityIndicator animating={true} />
-      ) : (
-        <>
-          <FlatList
-            contentContainerStyle={{ width: "90%", marginBottom: 20 }}
-            data={data}
-            keyExtractor={(item) => item.id}
-            renderItem={(item) => (
-              <ExerciseItemBox
-                addExercise={addExercise}
-                removeExercise={removeExercise}
-                exerciseId={item.item.id}
-                exerciseName={item.item.name}
-                exerciseGif={item.item.gifUrl}
-              />
-            )}
-          />
-          <Button
-            mode="contained"
-            onPress={handleSubmit}
-            disabled={selectedExercises.length === 0 || loading}
-            style={styles.buttonStyle}
-          >
-            Add Exercises
-          </Button>
-        </>
-      )}
-    </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        {isPending ? (
+          <ActivityIndicator animating={true} />
+        ) : (
+          <>
+            <TextInput
+              label={"Search exercises"}
+              value={searchterm}
+              style={[textInputStyles.textInput, { width: "90%" }]}
+              onChangeText={filterData}
+            />
+            <FlatList
+              contentContainerStyle={{ width: "90%", marginBottom: 20 }}
+              data={filteredData.length === 0 ? data : filteredData}
+              keyExtractor={(item) => item.id}
+              renderItem={(item) => (
+                <ExerciseItemBox
+                  addExercise={addExercise}
+                  removeExercise={removeExercise}
+                  exerciseId={item.item.id}
+                  exerciseName={item.item.name}
+                  exerciseGif={item.item.gifUrl}
+                />
+              )}
+            />
+            <Button
+              mode="contained"
+              onPress={handleSubmit}
+              disabled={selectedExercises.length === 0 || loading}
+              style={styles.buttonStyle}
+            >
+              Add Exercises
+            </Button>
+          </>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+  },
+  innerContainer: {
+    width: "90%",
     justifyContent: "center",
     alignItems: "center",
   },

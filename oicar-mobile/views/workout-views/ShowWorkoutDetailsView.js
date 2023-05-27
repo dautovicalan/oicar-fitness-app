@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   FlatList,
   Alert,
+  Image,
   Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -15,7 +16,12 @@ import { useUserContext } from "../../context/UserContext";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
 
-const ExerciseItemBox = ({ exerciseName, navigation, renderFullWidth }) => {
+const ExerciseItemBox = ({
+  exerciseName,
+  navigation,
+  renderFullWidth,
+  gifUrl,
+}) => {
   const handleDelete = () => {
     Alert.alert("Are you sure you want to delete this exercise?", "", [
       {
@@ -38,10 +44,8 @@ const ExerciseItemBox = ({ exerciseName, navigation, renderFullWidth }) => {
       ]}
       onLongPress={handleDelete}
     >
+      <Image source={{ uri: gifUrl }} style={{ width: 100, height: 100 }} />
       <Text>{exerciseName}</Text>
-      <Text>3 sets</Text>
-      <Text>12 reps</Text>
-      <Text>50kg</Text>
       <Button mode="contained" onPress={navigation}>
         Details
       </Button>
@@ -116,10 +120,12 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
           renderItem={(item) => (
             <ExerciseItemBox
               exerciseName={item.item.name}
+              gifUrl={item.item.gifUrl}
               navigation={() =>
                 navigation.navigate("Exercise Details", {
                   workoutId,
                   exerciseName: item.item.name,
+                  exerciseId: item.item.id,
                 })
               }
               renderFullWidth={
