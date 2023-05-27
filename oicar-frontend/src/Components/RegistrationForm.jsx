@@ -249,6 +249,7 @@ export default function SignUp({ handleNext }) {
                     NEXT
                   </Button>
                 )}
+                <p>by signing up you agree to our <a href="/useragreement">terms of service</a></p>
                 <Button
                   fullWidth
                   variant="contained"
