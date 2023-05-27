@@ -10,6 +10,7 @@ import ShowTutorialView from "../views/workout-views/ShowTutorialView";
 import AddExerciseView from "../views/workout-views/AddExerciseView";
 import ShowWorkoutDetailsView from "../views/workout-views/ShowWorkoutDetailsView";
 import ShowExerciseDetailsView from "../views/workout-views/ShowExerciseDetailsView";
+import AddWorkoutNameView from "../views/workout-views/AddWorkoutNameView";
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,11 @@ export default function WorkoutStack() {
             />
           ),
         })}
+      />
+      <Stack.Screen
+        name="Add Workout Name"
+        component={AddWorkoutNameView}
+        options={({ route }) => ({ title: "Add Workout Name" })}
       />
       <Stack.Screen
         name="Add Workout"

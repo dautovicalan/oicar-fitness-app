@@ -78,7 +78,7 @@ export default function WorkoutView({ navigation }) {
           icon="plus"
           backgroundColor="#6750A4"
           onPress={() =>
-            navigation.navigate("Add Workout", {
+            navigation.navigate("Add Workout Name", {
               selectedDate: format(selectedDate, "yyyy-MM-dd"),
               workoutId: null,
             })

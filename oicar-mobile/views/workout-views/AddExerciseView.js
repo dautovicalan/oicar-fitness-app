@@ -53,7 +53,8 @@ const ExerciseItemBox = ({
 };
 
 export default function AddExerciseView({ route, navigation }) {
-  const { muscleId, selectedDate, muscleName, workoutId } = route.params;
+  const { muscleId, selectedDate, muscleName, workoutId, workoutName } =
+    route.params;
   const { user } = useUserContext();
 
   const { data, isPending, error } = useFetch(
@@ -91,7 +92,7 @@ export default function AddExerciseView({ route, navigation }) {
             },
             body: JSON.stringify({
               userId: user.id,
-              name: muscleName.toUpperCase(),
+              name: workoutName,
               date: selectedDate,
             }),
           }

@@ -14,7 +14,7 @@ import useFetch from "../../hooks/useFetch";
 import { textInputStyles } from "../../styles/TextInputStyles";
 
 export default function AddWorkoutView({ route, navigation }) {
-  const { selectedDate, workoutId } = route.params;
+  const { selectedDate, workoutId, workoutName } = route.params;
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
@@ -64,6 +64,7 @@ export default function AddWorkoutView({ route, navigation }) {
                     muscleName: item.item.name,
                     selectedDate,
                     workoutId,
+                    workoutName,
                   })
                 }
               />
