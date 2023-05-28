@@ -20,7 +20,6 @@ export default function WorkoutView({ navigation }) {
   const { user } = useUserContext();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
-
   const [selectedDateWorkouts, setSelectedDateWorkouts] = useState([]);
   const [loading, setLoading] = useState(false);
 

@@ -23,6 +23,8 @@ const ExerciseItemBox = ({
   gifUrl,
   deleteCallback,
 }) => {
+  console.log(exerciseName + " " + renderFullWidth);
+
   const handleDelete = () => {
     Alert.alert(
       "Delete exercise",
@@ -159,7 +161,7 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
               }
               renderFullWidth={
                 exercises.length % 2 !== 0 &&
-                item.key === exercises[exercises.length - 1].key
+                item.item.id === exercises[exercises.length - 1].id
               }
             />
           )}

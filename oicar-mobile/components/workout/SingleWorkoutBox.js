@@ -10,6 +10,7 @@ export default function SingleWorkoutBox({
   workoutGif,
   renderFullWidth,
 }) {
+  console.log(workoutName + " " + renderFullWidth);
   return (
     <View
       style={[
@@ -36,7 +37,7 @@ const style = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 5,
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
     gap: 10,
     margin: 8,

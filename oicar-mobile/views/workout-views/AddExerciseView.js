@@ -154,7 +154,7 @@ export default function AddExerciseView({ route, navigation }) {
         {isPending ? (
           <ActivityIndicator animating={true} />
         ) : (
-          <>
+          <View style={{ width: "90%", alignItems: "center" }}>
             <TextInput
               label={"Search exercises"}
               value={searchterm}
@@ -162,7 +162,8 @@ export default function AddExerciseView({ route, navigation }) {
               onChangeText={filterData}
             />
             <FlatList
-              contentContainerStyle={{ width: "90%", marginBottom: 20 }}
+              style={{ width: "100%", height: "80%" }}
+              contentContainerStyle={{ width: "100%", marginBottom: 20 }}
               data={filteredData.length === 0 ? data : filteredData}
               keyExtractor={(item) => item.id}
               renderItem={(item) => (
@@ -175,16 +176,15 @@ export default function AddExerciseView({ route, navigation }) {
                 />
               )}
             />
-            <Button
-              mode="contained"
-              onPress={handleSubmit}
-              disabled={selectedExercises.length === 0 || loading}
-              style={styles.buttonStyle}
-            >
-              Add Exercises
-            </Button>
-          </>
+          </View>
         )}
+        <Button
+          mode="contained"
+          onPress={handleSubmit}
+          disabled={selectedExercises.length === 0 || loading}
+        >
+          Add Exercises
+        </Button>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -193,17 +193,8 @@ export default function AddExerciseView({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    gap: 10,
-  },
-  innerContainer: {
-    width: "90%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonStyle: {
-    marginVertical: 10,
+    gap: 2,
   },
   exerciseItemContainer: {
     backgroundColor: "#fff",
@@ -211,7 +202,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 15,
     shadowColor: "#000",
-    width: "95%",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
