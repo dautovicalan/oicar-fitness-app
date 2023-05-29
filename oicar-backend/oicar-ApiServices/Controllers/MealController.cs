@@ -55,5 +55,17 @@ namespace oicar_ApiServices.Controllers
 
             return BadRequest(new HttpError("Error while deleting food from meal"));
         }
+
+        [HttpPost("AddFood")]
+        public async Task<IActionResult> AddFoodToMeal(int idMeal, int foodId)
+        {
+            var meal = await _repository.Meal.GetMeal(idMeal);
+            if (meal is null)
+                return NotFound(new HttpError("Meal doesn't exist"));
+
+            await _repository.Meal.AddFood(meal,foodId);
+
+            return Ok();
+        }     
     }
 }

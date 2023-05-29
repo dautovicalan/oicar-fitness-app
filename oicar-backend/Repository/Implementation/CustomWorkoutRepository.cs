@@ -30,7 +30,7 @@ namespace Repository.Implementation
             => await _repositoryContext.CustomWorkout.Where(cw => cw.UserId == idUser && !cw.Deleted).ToListAsync();
 
         public async Task<CustomWorkout?> GetWorkoutsByDate(int idUser, DateTime date)
-              => await _repositoryContext.CustomWorkout.Where(ws => ws.UserId == idUser && !ws.Deleted
+              => await _repositoryContext.CustomWorkout.Include(cw=> cw.Exercises).Where(ws => ws.UserId == idUser && !ws.Deleted
                           && ws.Date.Equals(date)).FirstOrDefaultAsync();
 
         public async Task AddExercises(int idWorkout, List<int> exerciseId)

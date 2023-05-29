@@ -13,6 +13,7 @@ namespace Repository
         public ICustomWorkoutRepository CustomWorkout { get; }
         public IExerciseProgressRepository ExerciseProgress { get; }
         public IMealRepository Meal { get; }
+        public IFoodRepository Food { get; }
         Task SaveAsync();
         void Save();
     }

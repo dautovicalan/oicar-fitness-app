@@ -1,4 +1,5 @@
-﻿using Domain.Model;
+﻿using Domain.Migrations;
+using Domain.Model;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Base;
@@ -12,6 +13,18 @@ namespace Repository.Implementation
         public MealRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
             _repositoryContext = repositoryContext;
+        }
+
+        public async Task AddFood(Meal meal, int foodId)
+        {
+            var food = await _repositoryContext.Food.FirstOrDefaultAsync(f=> f.Id == foodId);
+
+            if(food is not null && !meal.Foods.Any(f=> f.Id == food.Id))
+            {
+                meal.Foods.Add(food);
+                await _repositoryContext.SaveChangesAsync();
+            }
+            
         }
 
         public async Task<Meal> CreateMeal(int idUser, int mealTypeId, DateTime parsedDate)

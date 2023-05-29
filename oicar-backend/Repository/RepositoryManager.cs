@@ -17,6 +17,7 @@ namespace Repository
         private readonly Lazy<ICustomWorkoutRepository> _customWorkoutRepository;
         private readonly Lazy<IExerciseProgressRepository> _exerciseProgressRepository;
         private readonly Lazy<IMealRepository> _mealRepository;
+        private readonly Lazy<IFoodRepository> _foodRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -30,6 +31,7 @@ namespace Repository
             _customWorkoutRepository = new Lazy<ICustomWorkoutRepository>(()=> new CustomWorkoutRepository(repositoryContext));
             _exerciseProgressRepository = new Lazy<IExerciseProgressRepository> (() => new ExerciseProgressRepository(repositoryContext));
             _mealRepository = new Lazy<IMealRepository>(() => new MealRepository(repositoryContext));
+            _foodRepository = new Lazy<IFoodRepository>(() => new FoodRepository(repositoryContext));
         }
 
         public IUserRepository User => _userRepository.Value;
@@ -42,6 +44,8 @@ namespace Repository
         public IExerciseProgressRepository ExerciseProgress => _exerciseProgressRepository.Value;
 
         public IMealRepository Meal => _mealRepository.Value;
+
+        public IFoodRepository Food => _foodRepository.Value;
 
         public void Save() => _repositoryContext.SaveChanges();
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();

@@ -80,7 +80,7 @@ namespace oicar_ApiServices.Controllers
             if (workout is null)
                 return NotFound();
 
-            return Ok(workout);
+            return Ok(_mapper.Map<WorkoutDto>(workout));
         }
 
         [HttpDelete("Delete")]
