@@ -15,6 +15,7 @@ const WorkoutPlan = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [workoutID, setWorkoutID] = useState(0);
   const [workoutExists, setWorkoutExists] = useState(true);
+  const [dateClicked, setDateClicked] = useState(false);
   const userID = sessionStorage.getItem("id");
   const navigate = useNavigate();
 
@@ -32,7 +33,31 @@ const WorkoutPlan = () => {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    setDateClicked(true);
     console.log(date);
+  };
+
+  const handleDeleteWorkoutClick = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5280/api/CustomWorkout/Delete?idUser=${userID}&idWorkout=${workoutID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            //"Authorization": "Bearer " + userJWT
+          },
+        }
+      );
+      if (response.status === 200) {
+        alert("Success");
+        window.location.href = "/workoutplan";
+      } else {
+        alert("Failed!");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -62,7 +87,7 @@ const WorkoutPlan = () => {
           return response.json();
         })
         .then((data) => {
-          //setWorkoutID(data.id);
+          setWorkoutID(data.id);
           fetch(
             `http://localhost:5280/api/CustomWorkout/GetWorkout?idUser=${userID}&idWorkout=${data.id}`,
             {
@@ -139,6 +164,12 @@ const WorkoutPlan = () => {
               sx={{
                 width: "80%",
                 height: "600px",
+                "& .MuiPickersDay-root": {
+                  "&:hover": {
+                    backgroundColor: "orange",
+                    color: "black",
+                  },
+                },
               }}
             />
           </LocalizationProvider>
@@ -147,9 +178,35 @@ const WorkoutPlan = () => {
             onClick={handleDateClick}
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2, width: "50%" }}
+            sx={{
+              mt: 3,
+              mb: 2,
+              width: "50%",
+              backgroundColor: "black",
+              "&:hover": {
+                backgroundColor: "orange",
+                color: "black",
+              },
+            }}
           >
             Add a workout
+          </Button>
+          <Button
+            onClick={handleDeleteWorkoutClick}
+            width="100"
+            variant="contained"
+            sx={{
+              mt: 3,
+              mb: 2,
+              width: "50%",
+              backgroundColor: "black",
+              "&:hover": {
+                backgroundColor: "orange",
+                color: "black",
+              },
+            }}
+          >
+            Delete
           </Button>
         </Box>
         <Box
@@ -164,21 +221,40 @@ const WorkoutPlan = () => {
             {workoutExists && copyList.length > 0 ? (
               copyList[0].map((item) => (
                 <div key={item.id} className="item">
-                  <Paper className="item-box" onClick={() => handleClick(item)}>
+                  <Paper className="item-box">
                     <h3>{item.name}</h3>
+                    <Button
+                      onClick={() => handleClick(item)}
+                      width="100"
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2, width: "50%" }}
+                    >
+                      Details
+                    </Button>
                     {/* <p>Sets: {item.sets}</p>
         <p>Reps: {item.reps}</p>
         <p>Weight: {item.weight} kg</p> */}
                   </Paper>
                 </div>
               ))
+            ) : copyList === [] ? (
+              <div
+                style={{
+                  textDecoration: "bold",
+                  fontSize: "10vh",
+                }}
+              >
+                No workouts found for this day.
+              </div>
             ) : (
               <div
-              style={{
-                textDecoration:"bold",
-                fontSize:"10vh"
-              }}
-              >No workouts found for this day.</div>
+                style={{
+                  textDecoration: "bold",
+                  fontSize: "10vh",
+                }}
+              >
+                No workouts found for this day.
+              </div>
             )}
           </div>
         </Box>

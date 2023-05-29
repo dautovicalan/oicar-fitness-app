@@ -92,6 +92,7 @@ const AddWorkout = () => {
 		});
 		if(response.status === 200) {
 			alert("Added")
+
 		}
 		console.log("workout id: "+workoutId)
 		console.log("userid : " + sessionStorage.getItem("id"));
