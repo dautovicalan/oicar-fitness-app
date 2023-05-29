@@ -5,10 +5,10 @@
     "version": "1.0.0",
     "schema": "oicar-mobile",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/fitpal.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/fitpal.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/fitpal.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.oicar.fitness"

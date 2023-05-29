@@ -10,33 +10,22 @@ export default function PersonalRecordView({ navigation }) {
   const { user } = useUserContext();
   const [personalRecords, setPersonalRecords] = useState([]);
 
-  useEffect(() => {
-    const getPersonalRecords = async () => {
-      const personalRecords = await readFromStorage(
-        user.id + "_" + "personalRecords"
-      );
-      if (personalRecords === null || personalRecords === undefined) {
-        return setPersonalRecords([]);
-      }
-      console.log(personalRecords);
-      setPersonalRecords(personalRecords);
-    };
+  const getPersonalRecords = async () => {
+    const personalRecords = await readFromStorage(
+      user.id + "_" + "personalRecords"
+    );
+    if (personalRecords === null || personalRecords === undefined) {
+      return setPersonalRecords([]);
+    }
+    setPersonalRecords(personalRecords);
+  };
 
+  useEffect(() => {
     getPersonalRecords();
   }, []);
 
   useFocusEffect(
     React.useCallback(() => {
-      const getPersonalRecords = async () => {
-        const personalRecords = await readFromStorage(
-          user.id + "_" + "personalRecords"
-        );
-        if (personalRecords === null || personalRecords === undefined) {
-          return setPersonalRecords([]);
-        }
-        setPersonalRecords(personalRecords);
-      };
-
       getPersonalRecords();
     }, [])
   );

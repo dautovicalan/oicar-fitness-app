@@ -11,21 +11,25 @@ export default function ShowTutorialView({ navigation }) {
   );
 
   const [workouts, setWorkouts] = useState(data);
+  const [filteredWorkouts, setFilteredWorkouts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (data) {
       setWorkouts(data);
     }
-    if (searchTerm === "") {
-      setWorkouts(data);
-    } else {
-      const filtered = workouts.filter((workout) => {
-        return workout.name.toUpperCase().includes(searchTerm.toUpperCase());
-      });
-      setWorkouts(filtered);
+  }, [data]);
+
+  const handleFilter = (text) => {
+    setSearchTerm(text);
+    if (text.length === 0) {
+      return setFilteredWorkouts([]);
     }
-  }, [data, searchTerm]);
+    const filterData = workouts.filter((workout) => {
+      return workout.name.toUpperCase().includes(text.toUpperCase());
+    });
+    setFilteredWorkouts(filterData);
+  };
 
   return (
     <View style={style.container}>
@@ -33,28 +37,29 @@ export default function ShowTutorialView({ navigation }) {
         label={"Search for workout"}
         style={[{ width: "90%", marginTop: 10 }, textInputStyles.textInput]}
         value={searchTerm}
-        onChangeText={(text) => setSearchTerm(text)}
+        onChangeText={handleFilter}
       />
       {!isPending ? (
         <FlatList
-          data={workouts}
+          style={{ width: "100%" }}
+          data={filteredWorkouts.length > 0 ? filteredWorkouts : workouts}
           contentContainerStyle={style.listContainer}
           numColumns={2}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
+          renderItem={(item) => (
             <SingleWorkoutBox
-              workoutId={item.id}
-              workoutName={item.name}
-              workoutGif={item.gifUrl}
+              workoutId={item.item.id}
+              workoutName={item.item.name}
+              workoutGif={item.item.gifUrl}
               navigation={() =>
                 navigation.navigate("Single Tutorial", {
-                  workoutName: item.name,
-                  workoutGif: item.gifUrl,
+                  workoutName: item.item.name,
+                  workoutGif: item.item.gifUrl,
                 })
               }
               renderFullWidth={
-                workouts.length % 2 !== 0 &&
-                item.key === workouts[workouts.length - 1].key
+                filteredWorkouts.length % 2 !== 0 &&
+                item.index === filteredWorkouts.length - 1
               }
             />
           )}

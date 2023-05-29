@@ -1,12 +1,6 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  Pressable,
-} from "react-native";
+import { View, StyleSheet, Image, ScrollView, Pressable } from "react-native";
 import React from "react";
+import { Text } from "react-native-paper";
 import { IconButton } from "react-native-paper";
 
 export default function ExerciseMuscleBox({
@@ -18,10 +12,10 @@ export default function ExerciseMuscleBox({
     <Pressable onPress={navigation}>
       <View style={styles.container}>
         <Image
-          source={require("../../assets/bench.gif")}
-          style={{ width: 100, height: 100 }}
+          source={require("../../assets/workout.webp")}
+          style={{ width: 50, height: 50 }}
         />
-        <Text>{muscleName}</Text>
+        <Text variant="titleMedium">{muscleName}</Text>
         <IconButton icon={"arrow-right-thick"} />
       </View>
     </Pressable>
@@ -40,7 +34,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 5,
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
     gap: 5,
     margin: 10,

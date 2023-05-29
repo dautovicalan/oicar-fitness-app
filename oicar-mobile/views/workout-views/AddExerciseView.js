@@ -6,12 +6,19 @@ import {
   Image,
   Pressable,
   Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
-import { Button, Checkbox, ActivityIndicator } from "react-native-paper";
+import {
+  Button,
+  Checkbox,
+  ActivityIndicator,
+  TextInput,
+} from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
 import { useUserContext } from "../../context/UserContext";
-import { format } from "date-fns";
+import { textInputStyles } from "../../styles/TextInputStyles";
 
 const ExerciseItemBox = ({
   addExercise,
@@ -46,8 +53,8 @@ const ExerciseItemBox = ({
 };
 
 export default function AddExerciseView({ route, navigation }) {
-  const { muscleId, selectedDate, muscleName } = route.params;
-
+  const { muscleId, selectedDate, muscleName, workoutId, workoutName } =
+    route.params;
   const { user } = useUserContext();
 
   const { data, isPending, error } = useFetch(
@@ -55,7 +62,10 @@ export default function AddExerciseView({ route, navigation }) {
     "GET"
   );
 
+  const [searchterm, setSearchterm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedExercises, setSelectedExercises] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const addExercise = (exerciseId) => {
     setSelectedExercises((prevVal) => [...prevVal, exerciseId]);
@@ -67,30 +77,32 @@ export default function AddExerciseView({ route, navigation }) {
     );
   };
 
-  const [loading, setLoading] = useState(false);
-
   const handleSubmit = async () => {
     setLoading(true);
 
     try {
-      const requestCreateWorkout = await fetch(
-        "http://localhost:5280/api/CustomWorkout/Create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user.id,
-            name: muscleName.toUpperCase(),
-            date: selectedDate,
-          }),
-        }
-      );
-      const responseCreateWorkout = await requestCreateWorkout.json();
+      let workoutIdHolder = workoutId;
+      if (workoutIdHolder === null) {
+        const requestCreateWorkout = await fetch(
+          "http://localhost:5280/api/CustomWorkout/Create",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: user.id,
+              name: workoutName,
+              date: selectedDate,
+            }),
+          }
+        );
+        const responseCreateWorkout = await requestCreateWorkout.json();
+        workoutIdHolder = responseCreateWorkout;
+      }
 
       const requestAddExercises = await fetch(
-        `http://localhost:5280/api/CustomWorkout/AddExercises?idWorkout=${responseCreateWorkout}`,
+        `http://localhost:5280/api/CustomWorkout/AddExercises?idWorkout=${workoutIdHolder}`,
         {
           method: "POST",
           headers: {
@@ -102,9 +114,6 @@ export default function AddExerciseView({ route, navigation }) {
       if (requestAddExercises.status === 500) {
         return Alert.alert("Exercise already added");
       }
-      console.log(
-        "TEST" + requestAddExercises.status + typeof requestAddExercises.status
-      );
       if (requestAddExercises.status !== 200) {
         return Alert.alert("Error adding exercises");
       }
@@ -126,49 +135,66 @@ export default function AddExerciseView({ route, navigation }) {
     }
   };
 
-  console.log(selectedExercises.length);
+  const filterData = (searchterm) => {
+    setSearchterm(searchterm);
+    if (searchterm.length === 0) {
+      setFilteredData([]);
+      return;
+    }
+
+    const filteredData = data.filter((item) =>
+      item.name.toLowerCase().includes(searchterm.toLowerCase())
+    );
+    setFilteredData(filteredData);
+  };
+
   return (
-    <View style={styles.container}>
-      {isPending ? (
-        <ActivityIndicator animating={true} />
-      ) : (
-        <>
-          <FlatList
-            contentContainerStyle={{ width: "90%", marginBottom: 20 }}
-            data={data}
-            keyExtractor={(item) => item.id}
-            renderItem={(item) => (
-              <ExerciseItemBox
-                addExercise={addExercise}
-                removeExercise={removeExercise}
-                exerciseId={item.item.id}
-                exerciseName={item.item.name}
-                exerciseGif={item.item.gifUrl}
-              />
-            )}
-          />
-          <Button
-            mode="contained"
-            onPress={handleSubmit}
-            disabled={selectedExercises.length === 0 || loading}
-            style={styles.buttonStyle}
-          >
-            Add Exercises
-          </Button>
-        </>
-      )}
-    </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        {isPending ? (
+          <ActivityIndicator animating={true} />
+        ) : (
+          <View style={{ width: "90%", alignItems: "center" }}>
+            <TextInput
+              label={"Search exercises"}
+              value={searchterm}
+              style={[textInputStyles.textInput, { width: "90%" }]}
+              onChangeText={filterData}
+            />
+            <FlatList
+              style={{ width: "100%", height: "80%" }}
+              contentContainerStyle={{ width: "100%", marginBottom: 20 }}
+              data={filteredData.length === 0 ? data : filteredData}
+              keyExtractor={(item) => item.id}
+              renderItem={(item) => (
+                <ExerciseItemBox
+                  addExercise={addExercise}
+                  removeExercise={removeExercise}
+                  exerciseId={item.item.id}
+                  exerciseName={item.item.name}
+                  exerciseGif={item.item.gifUrl}
+                />
+              )}
+            />
+          </View>
+        )}
+        <Button
+          mode="contained"
+          onPress={handleSubmit}
+          disabled={selectedExercises.length === 0 || loading}
+        >
+          Add Exercises
+        </Button>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-  },
-  buttonStyle: {
-    marginVertical: 10,
+    gap: 2,
   },
   exerciseItemContainer: {
     backgroundColor: "#fff",
@@ -176,7 +202,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 15,
     shadowColor: "#000",
-    width: "95%",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,

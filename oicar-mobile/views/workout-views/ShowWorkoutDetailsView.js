@@ -6,28 +6,58 @@ import {
   SafeAreaView,
   FlatList,
   Alert,
+  Image,
   Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Button } from "react-native-paper";
 import useFetch from "../../hooks/useFetch";
 import { useUserContext } from "../../context/UserContext";
-import { format } from "date-fns";
-import { th } from "date-fns/locale";
 
-const ExerciseItemBox = ({ exerciseName, navigation, renderFullWidth }) => {
+const ExerciseItemBox = ({
+  workoutId,
+  exerciseId,
+  exerciseName,
+  navigation,
+  renderFullWidth,
+  gifUrl,
+  deleteCallback,
+}) => {
+  console.log(exerciseName + " " + renderFullWidth);
+
   const handleDelete = () => {
-    Alert.alert("Are you sure you want to delete this exercise?", "", [
-      {
-        text: "Cancel",
-        onPress: () => {},
-        style: "cancel",
-      },
-      {
-        text: "Delete",
-        onPress: () => {},
-      },
-    ]);
+    Alert.alert(
+      "Delete exercise",
+      "Are you sure you want to delete this exercise?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: async () => {
+            try {
+              const request = await fetch(
+                `http://localhost:5280/api/CustomWorkout/DeleteExercise?idWorkout=${workoutId}&exerciseId=${exerciseId}`,
+                {
+                  method: "DELETE",
+                }
+              );
+              if (request.status === 200) {
+                Alert.alert("Success", "Exercise deleted successfully");
+                deleteCallback();
+              } else {
+                throw new Error("Something went wrong");
+              }
+            } catch (error) {
+              Alert.alert("Error", "Something went wrong");
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -38,10 +68,8 @@ const ExerciseItemBox = ({ exerciseName, navigation, renderFullWidth }) => {
       ]}
       onLongPress={handleDelete}
     >
+      <Image source={{ uri: gifUrl }} style={{ width: 100, height: 100 }} />
       <Text>{exerciseName}</Text>
-      <Text>3 sets</Text>
-      <Text>12 reps</Text>
-      <Text>50kg</Text>
       <Button mode="contained" onPress={navigation}>
         Details
       </Button>
@@ -115,16 +143,25 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
           keyExtractor={(item) => item.id}
           renderItem={(item) => (
             <ExerciseItemBox
+              workoutId={workoutId}
+              exerciseId={item.item.id}
               exerciseName={item.item.name}
+              gifUrl={item.item.gifUrl}
+              deleteCallback={() => {
+                setExercises(
+                  exercises.filter((exercise) => exercise.id !== item.item.id)
+                );
+              }}
               navigation={() =>
                 navigation.navigate("Exercise Details", {
                   workoutId,
                   exerciseName: item.item.name,
+                  exerciseId: item.item.id,
                 })
               }
               renderFullWidth={
                 exercises.length % 2 !== 0 &&
-                item.key === exercises[exercises.length - 1].key
+                item.item.id === exercises[exercises.length - 1].id
               }
             />
           )}
@@ -138,6 +175,7 @@ export default function ShowWorkoutDetailsView({ route, navigation }) {
           onPress={() =>
             navigation.navigate("Add Workout", {
               selectedDate,
+              workoutId,
             })
           }
         >
