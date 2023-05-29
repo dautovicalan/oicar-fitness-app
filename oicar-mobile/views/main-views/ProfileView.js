@@ -31,6 +31,10 @@ export default function ProfileView() {
             <Text>{user.goal}</Text>
           </View>
           <View style={style.innerContainer}>
+            <Text style={style.headerText}>Your Workouts</Text>
+            <Text>{user.workoutNumberPerWeek}</Text>
+          </View>
+          <View style={style.innerContainer}>
             <Text style={style.headerText}>Weight</Text>
             <Text>{user.weight} KG</Text>
           </View>

@@ -16,6 +16,7 @@ export default function EditProfile({ onSave, userData }) {
     userData.workoutNumberPerWeek
   );
   const [newsletter, setNewsletter] = useState(userData.newsletter);
+  const [loading, setLoading] = useState(false);
 
   const handleWeightChange = (weight) => {
     setWeight(weight);
@@ -25,19 +26,12 @@ export default function EditProfile({ onSave, userData }) {
     setHeight(height);
   };
 
-  const handleGoalChange = (goal) => {
-    setGoal(goal);
-  };
-
-  const handleWorkoutNumberPerWeekChange = (workoutNumberPerWeek) => {
-    setWorkoutNumberPerWeek(workoutNumberPerWeek);
-  };
-
   const handleNewsletterChange = () => {
     setNewsletter((prevVal) => !prevVal);
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const request = await fetch(
         `http://localhost:5280/api/UserPreferences/Update`,
@@ -65,6 +59,7 @@ export default function EditProfile({ onSave, userData }) {
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
+      setLoading(false);
       onSave();
     }
   };
@@ -110,7 +105,7 @@ export default function EditProfile({ onSave, userData }) {
             {fitnessGoals.map((fitnessGoal) => (
               <Pressable
                 key={fitnessGoal.id}
-                onPress={() => handleGoalChange(fitnessGoal.text)}
+                onPress={() => setGoal(fitnessGoal.text)}
               >
                 <Text
                   style={{
@@ -143,7 +138,7 @@ export default function EditProfile({ onSave, userData }) {
             {workoutsPerWeek.map((workoutPerWeek) => (
               <Pressable
                 key={workoutPerWeek.id}
-                onPress={() => handleGoalChange(workoutPerWeek.id)}
+                onPress={() => setWorkoutNumberPerWeek(workoutPerWeek.id)}
               >
                 <Text
                   style={{
@@ -172,9 +167,20 @@ export default function EditProfile({ onSave, userData }) {
           <Switch value={newsletter} onChange={handleNewsletterChange} />
         }
       />
-      <Button mode="contained" onPress={handleSubmit}>
-        Save
-      </Button>
+      <View
+        style={{
+          flexDirection: "row",
+          width: "90%",
+          justifyContent: "space-around",
+        }}
+      >
+        <Button mode="outlined" onPress={onSave} disabled={loading}>
+          Cancel
+        </Button>
+        <Button mode="contained" onPress={handleSubmit} disabled={loading}>
+          Save
+        </Button>
+      </View>
     </>
   );
 }
