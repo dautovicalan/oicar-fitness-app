@@ -13,10 +13,10 @@ const WorkoutPlan = () => {
   const [myList, setMyList] = useState({});
   const [copyList, setCopyList] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [workoutID, setWorkoutID] = useState(null);
+  const [workoutID, setWorkoutID] = useState(0);
+  const [workoutExists, setWorkoutExists] = useState(true);
   const userID = sessionStorage.getItem("id");
   const navigate = useNavigate();
-
 
   const handleClick = (item) => {
     const state = {
@@ -30,45 +30,14 @@ const WorkoutPlan = () => {
     navigate(`/workoutdetails?state=${urlEncodedState}`);
   };
 
-
-  // const handleDateChange = (date) => {
-  //   setSelectedDate(date);
-  //   console.log(selectedDate)
-    
-  //     const dateObj = new Date(selectedDate); // Convert selectedDate to a Date object
-  //     const year = dateObj.getFullYear();
-  //     const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-  //     const day = String(dateObj.getDate()).padStart(2, "0");
-  //     const formattedDate = `${year}-${month}-${day}`;
-    
-  //     //console.log("trenutni datum: "+ formattedDate);
-    
-  //     fetch(`http://localhost:5280/api/CustomWorkout/ByDate?idUser=${userID}&date=${formattedDate}`, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //       .then((response) => {
-  //         if (!response.ok) {
-  //           throw new Error("Invalid call"); // Throw an error for 404 response
-  //         }
-  //         return response.json();
-  //       })
-  //       .then((data) => {
-  //         setMyList(data);
-  //         copyList.push(data);
-  //         console.log(copyList);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         alert("Invalid call"); // Display an alert for the error
-  //       });
-  // };
-
   const handleDateChange = (date) => {
     setSelectedDate(date);
     console.log(date);
   };
+
+  useEffect(() => {
+    console.log(copyList);
+  }, [copyList]);
 
   useEffect(() => {
     if (selectedDate !== null) {
@@ -77,52 +46,59 @@ const WorkoutPlan = () => {
       const month = String(dateObj.getMonth() + 1).padStart(2, "0");
       const day = String(dateObj.getDate()).padStart(2, "0");
       const formattedDate = `${year}-${month}-${day}`;
-  
-      fetch(`http://localhost:5280/api/CustomWorkout/ByDate?idUser=${userID}&date=${formattedDate}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+
+      fetch(
+        `http://localhost:5280/api/CustomWorkout/ByDate?idUser=${userID}&date=${formattedDate}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Invalid call"); // Throw an error for 404 response
+            setWorkoutExists(false);
           }
           return response.json();
         })
         .then((data) => {
-          //setMyList(data);
-          setWorkoutID(data.id)
-          console.log(workoutID)
-          //setCopyList([...copyList, data]);
+          //setWorkoutID(data.id);
+          fetch(
+            `http://localhost:5280/api/CustomWorkout/GetWorkout?idUser=${userID}&idWorkout=${data.id}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+            .then((response) => {
+              if (!response.ok) {
+                setWorkoutExists(false);
+              }
+              setWorkoutExists(true);
+
+              return response.json();
+            })
+            .then((data_2) => {
+              const exerciseList = data_2.exercises.map((exercise) => ({
+                id: exercise.id,
+                name: exercise.name,
+                gifUrl: exercise.gifUrl,
+              }));
+              console.log(data_2);
+              setCopyList([...copyList, exerciseList]);
+            })
+            .catch((error) => {
+              console.error(error);
+              setWorkoutExists(false);
+            });
         })
         .catch((error) => {
           console.error(error);
-          alert("Invalid call"); // Display an alert for the error
-        });
-
-
-        fetch(`http://localhost:5280/api/CustomWorkout/GetWorkout?idUser=${userID}&idWorkout=${workoutID}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Invalid call"); // Throw an error for 404 response
-          }
-          return response.json();
-        })
-        .then((data) => {
-         
-          setCopyList([...copyList, data]);
-          console.log(copyList);
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("Invalid call"); // Display an alert for the error
+          setWorkoutExists(false);
         });
     }
-  }, [selectedDate, userID]);
+  }, [selectedDate]);
 
   const handleDateClick = () => {
     if (!selectedDate) return; // Handle case when selectedDate is null or undefined
@@ -185,18 +161,25 @@ const WorkoutPlan = () => {
           }}
         >
           <div className="item-row">
-            {copyList.map((item) => {
-              return (
+            {workoutExists && copyList.length > 0 ? (
+              copyList[0].map((item) => (
                 <div key={item.id} className="item">
                   <Paper className="item-box" onClick={() => handleClick(item)}>
-                    <h3>{item.workoutName}</h3>
-                    <p>Sets: {item.sets}</p>
-                    <p>Reps: {item.reps}</p>
-                    <p>Weight: {item.weight} kg</p>
+                    <h3>{item.name}</h3>
+                    {/* <p>Sets: {item.sets}</p>
+        <p>Reps: {item.reps}</p>
+        <p>Weight: {item.weight} kg</p> */}
                   </Paper>
                 </div>
-              );
-            })}
+              ))
+            ) : (
+              <div
+              style={{
+                textDecoration:"bold",
+                fontSize:"10vh"
+              }}
+              >No workouts found for this day.</div>
+            )}
           </div>
         </Box>
       </div>
