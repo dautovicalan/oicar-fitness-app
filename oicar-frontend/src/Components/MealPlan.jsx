@@ -67,7 +67,7 @@ const MealPlan = () => {
 						{myList.map((item) => {
 							return (
 								<div className="item">
-									<Paper className="item-box" onClick={() => handleClick(item)}>
+									<Paper className="item-box-meal" onClick={() => handleClick(item)}>
 										<h3>{item.mealType}</h3>
 										
 									</Paper>
