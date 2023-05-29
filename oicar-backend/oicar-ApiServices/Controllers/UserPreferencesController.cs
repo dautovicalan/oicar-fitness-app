@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.ErrorModel;
 using Domain.Model;
 using FitPal_Models.Dto;
 using FitPal_Models.JsonModels;
@@ -39,11 +40,11 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterUserPreferences(UserPreferencesRegistrationInput input)
+        public async Task<IActionResult> RegisterUserPreferences(UserPreferencesInput input)
         {
             try
             {
-               UserPreferences newUserPreferences = await _repository.UserPreferences.RegisterUserPreferences(input);
+                UserPreferences newUserPreferences = await _repository.UserPreferences.RegisterUserPreferences(input);
 
                 return Ok(_mapper.Map<UserPreferencesDto>(newUserPreferences));
             }
@@ -52,6 +53,24 @@ namespace oicar_ApiServices.Controllers
 
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateUserPreferences(UserPreferencesInput input)
+        {
+            var userPref = await _repository.UserPreferences.GetUserPreferences(input.UserId);
+
+            if (userPref is null)
+                return NotFound(new HttpError("User not found"));
+
+            userPref.Weight = input.Weight;
+            userPref.Height = input.Height;
+            userPref.Goal = input.Goal;
+            userPref.Newsletter = input.Newsletter;
+
+            await _repository.UserPreferences.UpdateUserPreferences(userPref);
+            return Ok();
+
         }
     }
 }

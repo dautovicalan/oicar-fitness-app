@@ -17,6 +17,11 @@ namespace oicar_ApiServices.AppSettings
             CreateMap<Exercise, ExercisesDto>().ReverseMap();
             CreateMap<CustomWorkout, WorkoutDto>();
             CreateMap<ExerciseProgress, ExerciseProgressInput>().ReverseMap();
+
+            CreateMap<Meal, CreatedMealResponse>();
+            CreateMap<MealType, MealTypeDto>();
+            CreateMap<Meal, MealDto>();
+            CreateMap<Food, FoodDto>();
         }
     }
 }

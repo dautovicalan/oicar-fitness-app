@@ -25,6 +25,9 @@ public partial class RepositoryContext : DbContext
     public virtual DbSet<Exercise> Exercise { get; set; }
     public virtual DbSet<CustomWorkout> CustomWorkout { get; set; }
     public virtual DbSet<ExerciseProgress> ExerciseProgress { get; set; }
+    public virtual DbSet<MealType> MealTypes { get; set; }
+    public virtual DbSet<Food> Food { get; set; }
+    public virtual DbSet<Meal> Meal { get; set; }
 
     
  
