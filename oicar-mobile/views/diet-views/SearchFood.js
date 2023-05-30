@@ -7,30 +7,34 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { TextInput, Text } from "react-native-paper";
+import { TextInput, Text, ActivityIndicator } from "react-native-paper";
 import { textInputStyles } from "../../styles/TextInputStyles";
-
-const data = ["apple", "banana", "orange", "pear", "grape", "pineapple"];
+import useFetch from "../../hooks/useFetch";
 
 export default function SearchFood({ navigation, route }) {
-  const { mealType } = route.params;
+  const { mealTypeId } = route.params;
   const [searchTerm, setSearchTerm] = useState("");
   const [foods, setFoods] = useState([]);
+  const [filteredFoods, setFilteredFoods] = useState([]);
+
+  const { data, isPending, error } = useFetch("http://localhost:5280/api/Food");
 
   useEffect(() => {
-    // fetch API
     if (data) {
       setFoods(data);
     }
-    if (searchTerm === "") {
-      setFoods(data);
-    } else {
-      const filtered = foods.filter((food) => {
-        return food.toUpperCase().includes(searchTerm.toUpperCase());
-      });
-      setFoods(filtered);
+  }, [data]);
+
+  const handleFilter = (text) => {
+    setSearchTerm(text);
+    if (text.length === 0) {
+      return setFilteredFoods([]);
     }
-  }, [searchTerm]);
+    const filterData = foods.filter((food) => {
+      return food.name.toUpperCase().includes(text.toUpperCase());
+    });
+    setFilteredFoods(filterData);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -38,24 +42,27 @@ export default function SearchFood({ navigation, route }) {
         <TextInput
           label="Search food"
           value={searchTerm}
-          onChangeText={(text) => setSearchTerm(text)}
+          onChangeText={handleFilter}
           style={[{ marginBottom: 10 }, textInputStyles.textInput]}
         />
+        {isPending && <ActivityIndicator animating={true} />}
         <FlatList
           contentContainerStyle={{ marginHorizontal: 10 }}
-          data={foods}
-          keyExtractor={(item) => item}
+          data={filteredFoods.length > 0 ? filteredFoods : foods}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Pressable
               onPress={() =>
                 navigation.navigate("Add Food", {
-                  food: item,
+                  foodId: item.id,
                 })
               }
               style={style.foodRow}
             >
-              <Text variant="titleMedium">{item}</Text>
-              <Text style={{ fontWeight: "bold" }}>123 cal.</Text>
+              <Text variant="titleMedium">{item.name}</Text>
+              <Text style={{ fontWeight: "bold" }}>
+                {item.caloriesPer100g} cal.
+              </Text>
             </Pressable>
           )}
         />

@@ -1,14 +1,46 @@
 import { View, StyleSheet, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DateSlider from "../../components/workout/DateSlider";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, Text } from "react-native-paper";
+import { ActivityIndicator, Button, Text } from "react-native-paper";
 import AddedFoodBox from "../../components/diet/AddedFoodBox";
 import { useUserContext } from "../../context/UserContext";
+import { format } from "date-fns";
+import { ca } from "date-fns/locale";
 
 export default function DietView({ navigation }) {
   const { user } = useUserContext();
+
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDateMeals, setSelectedDateMeals] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getMeal = async () => {
+      setLoading(true);
+      try {
+        const request = await fetch(
+          `http://localhost:5280/api/Meal/ByDate?idUser=${
+            user.id
+          }&date=${format(selectedDate, "yyyy-MM-dd")}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (request.status === 404) {
+        }
+        console.log("HELLO" + request.status);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getMeal();
+  }, [selectedDate]);
 
   return (
     <View style={style.container}>
@@ -18,10 +50,15 @@ export default function DietView({ navigation }) {
       />
       <Text
         variant="titleMedium"
-        style={{ fontWeight: "bold", textAlign: "center", marginVertical: 10 }}
+        style={{
+          fontWeight: "bold",
+          textAlign: "center",
+          marginVertical: 10,
+        }}
       >
         Total Calories: 1,852
       </Text>
+      {loading && <ActivityIndicator animating={true} />}
       <ScrollView contentContainerStyle={style.mainSection}>
         <View style={style.mealColumn}>
           <View style={style.row}>
@@ -34,7 +71,7 @@ export default function DietView({ navigation }) {
               icon={"plus"}
               mode="contained"
               onPress={() =>
-                navigation.navigate("Search Food", { mealType: "breakfast" })
+                navigation.navigate("Search Food", { mealTypeId: 1 })
               }
             >
               Add Food
@@ -52,7 +89,7 @@ export default function DietView({ navigation }) {
             icon={"plus"}
             mode="contained"
             onPress={() =>
-              navigation.navigate("Search Food", { mealType: "lunch" })
+              navigation.navigate("Search Food", { mealTypeId: 2 })
             }
           >
             Add Food
@@ -68,7 +105,7 @@ export default function DietView({ navigation }) {
             icon={"plus"}
             mode="contained"
             onPress={() =>
-              navigation.navigate("Search Food", { mealType: "dinner" })
+              navigation.navigate("Search Food", { mealTypeId: 3 })
             }
           >
             Add Food
