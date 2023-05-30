@@ -1,5 +1,5 @@
 import React from "react";
-import '../Styles/MealPlanStyle.css'
+import "../Styles/MealPlanStyle.css";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
@@ -10,27 +10,24 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const MealPlan = () => {
-
-  const myList = [
-		{ id: 1, mealType: "Breakfast"},
-		{ id: 2, mealType: "Lunch"},
-		{ id: 3, mealType: "Dinner"},		
+	const myList = [
+		{ id: 1, mealType: "Breakfast" },
+		{ id: 2, mealType: "Lunch" },
+		{ id: 3, mealType: "Dinner" },
 	];
 
 	const navigate = useNavigate();
 	const handleClick = (item) => {
 		const state = {
-		  item,
-		  mealType: item.mealType,
+			item,
+			mealType: item.mealType,
 		};
 		const urlEncodedState = encodeURIComponent(JSON.stringify(state));
 		navigate(`/addmeal?state=${urlEncodedState}`);
-	  };
+	};
 
-
-
-  return (
-    <div>
+	return (
+		<div>
 			<div style={{ display: "flex", flexDirection: "row" }}>
 				<Box
 					sx={{
@@ -48,8 +45,20 @@ const MealPlan = () => {
 					<LocalizationProvider dateAdapter={AdapterDayjs}>
 						<DateCalendar
 							sx={{
-								width: "80%" /* Set the width to 80% of the parent container */,
-								height: "600px" /* Set the height to 600 pixels */,
+								width: "80%",
+								height: "600px",
+								"& .MuiPickersDay-root.Mui-selected": {
+									backgroundColor: "orange",
+									color: "black",
+									"&:hover": {
+										backgroundColor: "orange",
+										color: "black",
+									},
+								},
+								"& .MuiPickersDay-root.Mui-selected:not(.Mui-focusVisible)": {
+									backgroundColor: "orange",
+									color: "black",
+								},
 							}}
 						/>
 					</LocalizationProvider>
@@ -60,16 +69,17 @@ const MealPlan = () => {
 						width: "100%",
 						m: 1,
 						p: 1,
-
 					}}
 				>
 					<div className="item-row">
 						{myList.map((item) => {
 							return (
 								<div className="item">
-									<Paper className="item-box-meal" onClick={() => handleClick(item)}>
+									<Paper
+										className="item-box-meal"
+										onClick={() => handleClick(item)}
+									>
 										<h3>{item.mealType}</h3>
-										
 									</Paper>
 								</div>
 							);
@@ -78,7 +88,7 @@ const MealPlan = () => {
 				</Box>
 			</div>
 		</div>
-  )
+	);
 };
 
 export default MealPlan;
