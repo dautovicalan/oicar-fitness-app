@@ -67,6 +67,8 @@ namespace oicar_ApiServices.Controllers
             userPref.Height = input.Height;
             userPref.Goal = input.Goal;
             userPref.Newsletter = input.Newsletter;
+            userPref.WorkoutNumberPerWeek = input.WorkoutNumberPerWeek;
+
 
             await _repository.UserPreferences.UpdateUserPreferences(userPref);
             return Ok();
