@@ -47,6 +47,10 @@ export default function GoogleLogin({ navigation }) {
           id: result.idUser,
           isRegister: result.isRegister,
         });
+
+        navigation.navigate("Register", {
+          screen: "About You",
+        });
       } catch (error) {
         console.error(error);
       }
