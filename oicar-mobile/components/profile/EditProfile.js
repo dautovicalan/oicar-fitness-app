@@ -46,7 +46,7 @@ export default function EditProfile({ onSave, userData }) {
             weight,
             height,
             goal,
-            workoutNumberPerWeek: 5,
+            workoutNumberPerWeek,
             newsletter,
           }),
         }
