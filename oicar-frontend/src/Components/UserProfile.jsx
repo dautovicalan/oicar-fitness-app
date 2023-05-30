@@ -424,7 +424,7 @@ const UserProfile = () => {
         <Button
           variant="contained"
           onClick={handleOpen}
-          style={{ backgroundColor: "darkblue", color: "white" }}
+          style={{ backgroundColor: "darkblue", color: "white", margin:"10px" }}
         >
           Change password
         </Button>

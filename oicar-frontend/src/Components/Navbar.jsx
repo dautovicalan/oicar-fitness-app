@@ -144,9 +144,10 @@ function Navbar() {
                 sx={{
                   my: 2,
                   color: "black",
+                  borderRadius: "20px",
                   display: "block",
                   "&:hover": {
-                    backgroundColor: "orange", // Change the hover color value here
+                    backgroundColor: "orange",
                   },
                 }}
                 href="/"
@@ -160,6 +161,7 @@ function Navbar() {
                 sx={{
                   my: 2,
                   color: "black",
+                  borderRadius: "20px",
                   display: "block",
                   "&:hover": {
                     backgroundColor: "orange", // Change the hover color value here

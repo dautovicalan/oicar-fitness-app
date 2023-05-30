@@ -34,6 +34,7 @@ const WorkoutPlan = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setDateClicked(true);
+    setCopyList([]);
     console.log(date);
   };
 
@@ -167,7 +168,7 @@ const WorkoutPlan = () => {
                 "& .MuiPickersDay-root": {
                   "&:hover": {
                     backgroundColor: "orange",
-                    color: "black",
+                    color: "black"
                   },
                 },
               }}
@@ -227,7 +228,10 @@ const WorkoutPlan = () => {
                       onClick={() => handleClick(item)}
                       width="100"
                       variant="contained"
-                      sx={{ mt: 3, mb: 2, width: "50%" }}
+                      sx={{ mt: 3, mb: 2, width: "50%", backgroundColor:"black","&:hover": {
+                backgroundColor: "orange",
+                color: "black",
+              }, }}
                     >
                       Details
                     </Button>

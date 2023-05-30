@@ -66,7 +66,7 @@ function NavbarLoggedIn() {
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <FitnessCenterIcon
-              sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+              sx={{ display: { xs: "none", md: "flex" }, mr: 1, color:"black" }}
             />
             <Typography
               variant="h6"
@@ -146,6 +146,7 @@ function NavbarLoggedIn() {
                 sx={{
                   my: 2,
                   color: "black",
+                  borderRadius: "20px",
                   display: "block",
                   "&:hover": {
                     backgroundColor: "orange", // Change the hover color value here
@@ -163,6 +164,7 @@ function NavbarLoggedIn() {
                 sx={{
                   my: 2,
                   color: "black",
+                  borderRadius: "20px",
                   display: "block",
                   "&:hover": {
                     backgroundColor: "orange", // Change the hover color value here
@@ -180,6 +182,7 @@ function NavbarLoggedIn() {
                 sx={{
                   my: 2,
                   color: "black",
+                  borderRadius: "20px",
                   display: "block",
                   "&:hover": {
                     backgroundColor: "orange", // Change the hover color value here
@@ -231,7 +234,7 @@ function NavbarLoggedIn() {
                       onClick={handleCloseUserMenu}
                       component={Link}
                       to="/profile"
-                      sx={{"&:hover": {
+                      sx={{borderRadius: "20px","&:hover": {
                     backgroundColor: "orange", // Change the hover color value here
                   },}}
                     >
@@ -243,7 +246,7 @@ function NavbarLoggedIn() {
                       onClick={handleClickUserLogout}
                       component={Link}
                       to="/login"
-                      sx={{"&:hover": {
+                      sx={{borderRadius: "20px","&:hover": {
                     backgroundColor: "orange", // Change the hover color value here
                   },}}
                     >
