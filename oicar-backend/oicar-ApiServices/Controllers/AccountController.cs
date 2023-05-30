@@ -50,13 +50,17 @@ namespace oicar_ApiServices.Controllers
             if (payload is null)
                 return BadRequest(new HttpError("Error while login with google"));
 
+            var user = await _repository.User.GetUserByEmail(payload.Email);
+
+            if (user is not null)
+                return Ok(await _jwtAuthManager.GenerateToken(user!.Id));
+
             UserRegisterInput userForInsert = new UserRegisterInput
             {
                 Email = payload.Email,
                 Surname = payload.FamilyName,
-                Name = payload.Name
+                Name = payload.GivenName
             };
-
             var newUser = await _repository.User.RegisterUser(userForInsert);
 
             return Ok(await _jwtAuthManager.GenerateToken(newUser!.Id));
