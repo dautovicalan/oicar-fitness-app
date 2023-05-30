@@ -6,7 +6,6 @@ import { set } from "date-fns";
 import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 
 export default function GoogleLogin({ navigation }) {
-  const [token, setToken] = useState("");
   const { setBasicInfo } = useRegistrationProcess();
   const { setUserInfo } = useUserContext();
 
@@ -16,7 +15,7 @@ export default function GoogleLogin({ navigation }) {
   });
 
   useEffect(() => {
-    const getUserInfo = async () => {
+    const getUserInfo = async (token) => {
       try {
         const request = await fetch(
           "http://localhost:5280/api/Account/LoginGoogle?accessToken=" + token,
@@ -28,6 +27,7 @@ export default function GoogleLogin({ navigation }) {
           }
         );
 
+        console.log("OVO JE " + request.status);
         if (request.status !== 200) {
           throw new Error("Something went wrong");
         }
@@ -57,10 +57,9 @@ export default function GoogleLogin({ navigation }) {
     };
 
     if (response?.type === "success") {
-      setToken(response.authentication.idToken);
-      getUserInfo();
+      getUserInfo(response.authentication.idToken);
     }
-  }, [response, token]);
+  }, [response]);
 
   return (
     <Pressable style={style.singlePicture} onPress={() => promptAsync()}>

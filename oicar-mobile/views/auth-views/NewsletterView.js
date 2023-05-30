@@ -4,7 +4,8 @@ import { Text, Switch, Button } from "react-native-paper";
 import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
 import { useUserContext } from "../../context/UserContext";
 
-export default function NewsletterView({ navigation }) {
+export default function NewsletterView({ navigation, route }) {
+  const { workoutNumberPerWeek } = route.params;
   const { setUserInfo } = useUserContext();
   const { currentNewUser, setEnableNewsletter } = useRegistrationProcess();
   const [newsletter, setNewsletter] = useState(true);
@@ -30,7 +31,7 @@ export default function NewsletterView({ navigation }) {
             weight: currentNewUser.weight,
             height: currentNewUser.height,
             goal: currentNewUser.goal,
-            workoutNumberPerWeek: currentNewUser.workoutsNumber,
+            workoutNumberPerWeek: workoutNumberPerWeek,
             newsletter: newsletter,
           }),
         }

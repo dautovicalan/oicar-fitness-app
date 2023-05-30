@@ -92,6 +92,17 @@ export default function ShowExerciseDetailsView({ route }) {
       if (request.status === 200) {
         Alert.alert("Success", "Data saved successfully");
         setChartData((prevVal) => {
+          // TODO if there is no data in chartData
+          if (!prevVal?.labels) {
+            return {
+              labels: [format(new Date(), "dd/MM/yyyy")],
+              datasets: [
+                {
+                  data: [weight],
+                },
+              ],
+            };
+          }
           const newData = {
             labels: [...prevVal.labels, format(new Date(), "dd/MM/yyyy")],
             datasets: [
