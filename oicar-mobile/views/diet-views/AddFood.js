@@ -3,6 +3,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, Button, ActivityIndicator } from "react-native-paper";
@@ -12,7 +13,7 @@ import useFetch from "../../hooks/useFetch";
 import { set } from "date-fns";
 
 export default function AddFood({ navigation, route }) {
-  const { foodId } = route.params;
+  const { foodId, mealTypeId, selectedDate } = route.params;
   const { user } = useUserContext();
 
   const { data, isPending, error } = useFetch(
@@ -24,6 +25,7 @@ export default function AddFood({ navigation, route }) {
   const [protein, setProtein] = useState(0);
 
   const [quantity, setQuantity] = useState("100");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -46,13 +48,50 @@ export default function AddFood({ navigation, route }) {
   };
 
   const handlePress = async () => {
-    // fetch API
-
-    // add to user's diet
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Diet Dashboard" }],
-    });
+    setLoading(true);
+    try {
+      const request = await fetch(`http://localhost:5280/api/Meal/Create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idUser: user.id,
+          mealTypeId: mealTypeId,
+          date: selectedDate,
+        }),
+      });
+      const response = await request.json();
+      if (response && response?.id) {
+        const requestInsertFood = await fetch(
+          `http://localhost:5280/api/Meal/AddFood?idMeal=${response.id}&foodId=${foodId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (requestInsertFood.status === 200) {
+          Alert.alert("Success", "Food added to your diet", [
+            {
+              text: "OK",
+              onPress: () =>
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Diet Dashboard" }],
+                }),
+            },
+          ]);
+        }
+      } else {
+        throw new Error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -68,6 +107,7 @@ export default function AddFood({ navigation, route }) {
             <TextInput
               label="Quantity in Grams"
               keyboardType="numeric"
+              disabled={loading}
               style={textInputStyles.textInput}
               value={quantity}
               onChangeText={handleQuantityChange}
@@ -82,7 +122,12 @@ export default function AddFood({ navigation, route }) {
                 <Text variant="titleSmall">Protein</Text>
               </View>
             </View>
-            <Button mode="contained" icon={"plus"} onPress={handlePress}>
+            <Button
+              mode="contained"
+              icon={"plus"}
+              onPress={handlePress}
+              disabled={loading}
+            >
               Add
             </Button>
           </>

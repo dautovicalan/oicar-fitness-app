@@ -12,7 +12,7 @@ import { textInputStyles } from "../../styles/TextInputStyles";
 import useFetch from "../../hooks/useFetch";
 
 export default function SearchFood({ navigation, route }) {
-  const { mealTypeId } = route.params;
+  const { mealTypeId, selectedDate } = route.params;
   const [searchTerm, setSearchTerm] = useState("");
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
@@ -55,6 +55,8 @@ export default function SearchFood({ navigation, route }) {
               onPress={() =>
                 navigation.navigate("Add Food", {
                   foodId: item.id,
+                  mealTypeId,
+                  selectedDate,
                 })
               }
               style={style.foodRow}

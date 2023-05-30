@@ -1,18 +1,18 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateSlider from "../../components/workout/DateSlider";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import AddedFoodBox from "../../components/diet/AddedFoodBox";
 import { useUserContext } from "../../context/UserContext";
-import { format } from "date-fns";
-import { ca } from "date-fns/locale";
+import { format, set } from "date-fns";
 
 export default function DietView({ navigation }) {
   const { user } = useUserContext();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedDateMeals, setSelectedDateMeals] = useState([]);
+  const [selectedDateMeals, setSelectedDateMeals] = useState(null);
+  const [totalCalories, setTotalCalories] = useState(0);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -31,8 +31,11 @@ export default function DietView({ navigation }) {
           }
         );
         if (request.status === 404) {
+          setTotalCalories(0);
+          return setSelectedDateMeals(null);
         }
-        console.log("HELLO" + request.status);
+        const data = await request.json();
+        prepareData(data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -41,6 +44,79 @@ export default function DietView({ navigation }) {
     };
     getMeal();
   }, [selectedDate]);
+
+  const prepareData = (data) => {
+    const filterFoodsByMealType = (data, mealTypeId) =>
+      data.filter((meal) => meal.mealType.id === mealTypeId);
+
+    const mapFoodsWithMealId = (foods, mealId) =>
+      foods.map((food) => ({ ...food, idMeal: mealId }));
+
+    const calculateTotalCalories = (foods) =>
+      foods.reduce((total, food) => total + food.caloriesPer100g, 0);
+
+    const breakfast = filterFoodsByMealType(data, 1);
+    const breakfastFoods = breakfast.flatMap((meal) =>
+      mapFoodsWithMealId(meal.foods, meal.id)
+    );
+
+    const lunch = filterFoodsByMealType(data, 2);
+    const lunchFoods = lunch.flatMap((meal) =>
+      mapFoodsWithMealId(meal.foods, meal.id)
+    );
+
+    const dinner = filterFoodsByMealType(data, 3);
+    const dinnerFoods = dinner.flatMap((meal) =>
+      mapFoodsWithMealId(meal.foods, meal.id)
+    );
+
+    const totalCaloriesCounter =
+      calculateTotalCalories(breakfastFoods) +
+      calculateTotalCalories(lunchFoods) +
+      calculateTotalCalories(dinnerFoods);
+
+    setTotalCalories(totalCaloriesCounter);
+    setSelectedDateMeals({
+      breakfast: breakfastFoods,
+      lunch: lunchFoods,
+      dinner: dinnerFoods,
+    });
+  };
+
+  const deleteFoodFromMeal = (idMeal, idFood) => {
+    Alert.alert("Delete food", "Are you sure you want to delete this food?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        onPress: async () => {
+          setLoading(true);
+          try {
+            const request = await fetch(
+              `http://localhost:5280/api/Meal/DeleteFood?idMeal=${idMeal}&idFood=${idFood}`,
+              {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            if (request.status === 200) {
+              setSelectedDate(new Date(selectedDate));
+            } else {
+              throw new Error("Something went wrong");
+            }
+          } catch (error) {
+            console.error(error);
+          } finally {
+            setLoading(false);
+          }
+        },
+      },
+    ]);
+  };
 
   return (
     <View style={style.container}>
@@ -56,7 +132,7 @@ export default function DietView({ navigation }) {
           marginVertical: 10,
         }}
       >
-        Total Calories: 1,852
+        Total Calories: {totalCalories}
       </Text>
       {loading && <ActivityIndicator animating={true} />}
       <ScrollView contentContainerStyle={style.mainSection}>
@@ -65,13 +141,28 @@ export default function DietView({ navigation }) {
             <Text variant="titleMedium">Breakfast</Text>
             <Text>Calories</Text>
           </View>
-          <AddedFoodBox food={"Sandwich"} calories={600} />
+          {selectedDateMeals &&
+            selectedDateMeals?.breakfast &&
+            selectedDateMeals.breakfast.map((food) => {
+              return (
+                <AddedFoodBox
+                  key={food.id}
+                  food={food.name}
+                  deleteFood={() => deleteFoodFromMeal(food.idMeal, food.id)}
+                  calories={food.caloriesPer100g}
+                />
+              );
+            })}
           <View>
             <Button
               icon={"plus"}
               mode="contained"
+              disabled={loading}
               onPress={() =>
-                navigation.navigate("Search Food", { mealTypeId: 1 })
+                navigation.navigate("Search Food", {
+                  mealTypeId: 1,
+                  selectedDate: format(selectedDate, "yyyy-MM-dd"),
+                })
               }
             >
               Add Food
@@ -83,13 +174,27 @@ export default function DietView({ navigation }) {
             <Text variant="titleMedium">Lunch</Text>
             <Text>Calories</Text>
           </View>
-          <AddedFoodBox food={"Bolognese"} calories={400} />
-          <AddedFoodBox food={"Bolognese"} calories={400} />
+          {selectedDateMeals &&
+            selectedDateMeals?.lunch &&
+            selectedDateMeals.lunch.map((food) => {
+              return (
+                <AddedFoodBox
+                  key={food.id}
+                  food={food.name}
+                  deleteFood={() => deleteFoodFromMeal(food.idMeal, food.id)}
+                  calories={food.caloriesPer100g}
+                />
+              );
+            })}
           <Button
             icon={"plus"}
             mode="contained"
+            disabled={loading}
             onPress={() =>
-              navigation.navigate("Search Food", { mealTypeId: 2 })
+              navigation.navigate("Search Food", {
+                mealTypeId: 2,
+                selectedDate: format(selectedDate, "yyyy-MM-dd"),
+              })
             }
           >
             Add Food
@@ -100,12 +205,27 @@ export default function DietView({ navigation }) {
             <Text variant="titleMedium">Dinner</Text>
             <Text>Calories</Text>
           </View>
-          <AddedFoodBox food={"Bannan"} calories={200} />
+          {selectedDateMeals &&
+            selectedDateMeals?.dinner &&
+            selectedDateMeals.dinner.map((food) => {
+              return (
+                <AddedFoodBox
+                  key={food.id}
+                  food={food.name}
+                  deleteFood={() => deleteFoodFromMeal(food.idMeal, food.id)}
+                  calories={food.caloriesPer100g}
+                />
+              );
+            })}
           <Button
             icon={"plus"}
             mode="contained"
+            disabled={loading}
             onPress={() =>
-              navigation.navigate("Search Food", { mealTypeId: 3 })
+              navigation.navigate("Search Food", {
+                mealTypeId: 3,
+                selectedDate: format(selectedDate, "yyyy-MM-dd"),
+              })
             }
           >
             Add Food

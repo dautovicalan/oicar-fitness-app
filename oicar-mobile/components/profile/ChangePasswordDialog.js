@@ -50,18 +50,16 @@ const ChangePasswordDialog = ({ visible, setVisible }) => {
           body: JSON.stringify({
             email: user.email,
             password: newPassword,
-            code: "",
           }),
         }
       );
-      if (!request.ok) {
-        return Alert.alert("Something went wrong");
-      }
       if (request.status === 200) {
         setNewPassword("");
         setRepeatNewPassword("");
         setVisible();
-        return Alert.alert("Password changed");
+        Alert.alert("Password changed");
+      } else {
+        throw new Error("Something went wrong");
       }
     } catch (error) {
       console.error(error);
