@@ -1,9 +1,14 @@
 import { View, Text, Pressable, Image, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Google from "expo-auth-session/providers/google";
+import { useUserContext } from "../context/UserContext";
+import { set } from "date-fns";
+import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 
-export default function GoogleLogin() {
+export default function GoogleLogin({ navigation }) {
   const [token, setToken] = useState("");
+  const { setBasicInfo } = useRegistrationProcess();
+  const { setUserInfo } = useUserContext();
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
@@ -24,12 +29,26 @@ export default function GoogleLogin() {
         );
 
         if (request.status !== 200) {
-          return Alert.alert("Something went wrong");
+          throw new Error("Something went wrong");
         }
-        const response = await request.json();
-        console.log("POZDRAV " + response);
+        const result = await request.json();
+        if (result?.isRegister && result.isRegister === true) {
+          setUserInfo({
+            id: result.idUser,
+            accessToken: result.accessToken,
+          });
+          return navigation.reset({
+            index: 0,
+            routes: [{ name: "MainApp" }],
+          });
+        }
+
+        setBasicInfo({
+          id: result.idUser,
+          isRegister: result.isRegister,
+        });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
