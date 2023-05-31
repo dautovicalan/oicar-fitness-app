@@ -8,6 +8,14 @@ import { UserPreferencesContext } from "../Context/UserPreferencesContext";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -19,6 +27,26 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+export const fitnessGoals = Array.of(
+  { id: 1, text: "Be More Active" },
+  { id: 2, text: "Lose Weight" },
+  { id: 3, text: "Stay Toned" },
+  { id: 4, text: "Build Muscle" },
+  { id: 5, text: "Reduce Stress" }
+);
+
+export const workoutsPerWeek = Array.of(
+  { id: 2, text: "2 - 3" },
+  { id: 3, text: "3 - 4" },
+  { id: 4, text: "4 - 5" },
+  { id: 5, text: "5+" }
+);
+
+export const newsletterAnswers = Array.of(
+  { id: 1, text: "Yes" },
+  { id: 2, text: "No" }
+);
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({});
@@ -32,17 +60,19 @@ const UserProfile = () => {
   const handleOpenDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
 
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const handleOpenEdit = () => setOpenEdit(true);
+  const handleCloseEdit = () => setOpenEdit(false);
+
   // Get data from session storage
   const userID = sessionStorage.getItem("id");
   const userJWT = sessionStorage.getItem("jwt");
-
-  console.log(userID);
 
   useEffect(() => {
     fetch(`http://localhost:5280/api/Account/GetUser?id=${userID}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + userJWT // add the JWT token here
+        Authorization: "Bearer " + userJWT, // add the JWT token here
       },
     })
       .then((response) => response.json())
@@ -66,7 +96,7 @@ const UserProfile = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + userJWT
+          Authorization: "Bearer " + userJWT,
         },
         body: JSON.stringify({
           email: userData.email,
@@ -74,38 +104,41 @@ const UserProfile = () => {
         }),
       });
       if (response.status === 200) {
-        alert("Success")
+        alert("Success");
       } else {
-        alert("Failed!")
+        alert("Failed!");
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDeleteAccountClick = async (event) => {
+  const handleEditClick = () => {};
 
+  const handleDeleteAccountClick = async (event) => {
     try {
-      const response = await fetch(`http://localhost:5280/api/Account/Delete?idUser=${userID}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",  
-          "Authorization": "Bearer " + userJWT
-        },
-      });
+      const response = await fetch(
+        `http://localhost:5280/api/Account/Delete?idUser=${userID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + userJWT,
+          },
+        }
+      );
       if (response.status === 200) {
-        alert("Success")
+        alert("Success");
         sessionStorage.clear("id");
         sessionStorage.clear("jwt");
         window.location.href = "/login";
       } else {
-        alert("Failed!")
+        alert("Failed!");
       }
     } catch (error) {
       console.error(error);
     }
   };
-
 
   //Privremeno
   const picture = "https://freesvg.org/img/abstract-user-flat-4.png";
@@ -138,6 +171,128 @@ const UserProfile = () => {
             sx={{ mt: 3, mb: 2 }}
           >
             Change
+          </Button>
+        </Container>
+      </Modal>
+      <Modal
+        open={openEdit}
+        onClose={handleCloseEdit}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Container sx={style}>
+          <FormControl sx={{ m: 1, minWidth: 300 }}>
+            <InputLabel id="demo-simple-select-helper-label">
+              Fitness goal
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              label="Goal"
+              required // added this
+              // error={!fitnessGoalSelected} // added this
+              // value={fitnessGoalSelected}
+              // onChange={(e) => setFitnessGoalSelected(e.target.value)}
+            >
+              {fitnessGoals.map((goal) => (
+                <MenuItem key={goal.id} value={goal.id}>
+                  {goal.text}
+                </MenuItem>
+              ))}
+            </Select>
+            {/* {!fitnessGoalSelected && (
+              <FormHelperText error>Select a fitness goal</FormHelperText>
+            )} */}
+          </FormControl>
+
+          <FormControl sx={{ m: 1, minWidth: 300 }}>
+            <InputLabel id="demo-simple-select-helper-label">
+              Workout goal
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              label="Workout"
+              required // added this
+              // error={!workoutSelected} // added this
+              // value={workoutSelected}
+              // onChange={(e) => setWorkoutSelected(e.target.value)}
+            >
+              {workoutsPerWeek.map((workout) => (
+                <MenuItem key={workout.id} value={workout.id}>
+                  {workout.text}
+                </MenuItem>
+              ))}
+            </Select>
+            {/* {!workoutSelected && (
+              <FormHelperText error>Select a workout goal</FormHelperText>
+            )} */}
+          </FormControl>
+          <FormControl sx={{ m: 1, minWidth: 300 }}>
+            <TextField
+              margin="normal"
+              required
+              width="50%"
+              id="height"
+              name="height"
+              label="Height (cm)"
+              type="number"
+              // value={formik.values.height}
+              // onChange={formik.handleChange}
+              // onBlur={formik.handleBlur}
+              // error={formik.touched.height && Boolean(formik.errors.height)}
+              // helperText={formik.touched.height && formik.errors.height}
+            />
+            <TextField
+              margin="normal"
+              required
+              width="50%"
+              id="weight"
+              name="weight"
+              label="Weight (kg)"
+              type="number"
+              // value={formik.values.weight}
+              // onChange={formik.handleChange}
+              // onBlur={formik.handleBlur}
+              // error={formik.touched.weight && Boolean(formik.errors.weight)}
+              // helperText={formik.touched.weight && formik.errors.weight}
+            />
+          </FormControl>
+
+          <FormControl sx={{ m: 1, minWidth: 300 }}>
+            <InputLabel id="demo-simple-select-helper-label">
+              Newsletter
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              label="Newsletter"
+              required // added this
+              // error={!workoutSelected} // added this
+              // value={workoutSelected}
+              // onChange={(e) => setWorkoutSelected(e.target.value)}
+            >
+              {newsletterAnswers.map((answer) => (
+                <MenuItem key={answer.id} value={answer.id}>
+                  {answer.text}
+                </MenuItem>
+              ))}
+            </Select>
+            {/* {!workoutSelected && (
+              <FormHelperText error>Select a workout goal</FormHelperText>
+            )} */}
+          </FormControl>
+
+          <Button
+            type="submit"
+            fullWidth
+            href="/login"
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            // onClick={handleUserPreferences}
+            // disabled={!fitnessGoalSelected || !workoutSelected}
+          >
+            Finish
           </Button>
         </Container>
       </Modal>
@@ -424,9 +579,21 @@ const UserProfile = () => {
         <Button
           variant="contained"
           onClick={handleOpen}
-          style={{ backgroundColor: "darkblue", color: "white", margin:"10px" }}
+          style={{
+            backgroundColor: "darkblue",
+            color: "white",
+            margin: "10px",
+          }}
         >
           Change password
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={handleOpenEdit}
+          style={{ backgroundColor: "yellow", color: "black", margin: "10px" }}
+        >
+          Edit
         </Button>
 
         <Button
