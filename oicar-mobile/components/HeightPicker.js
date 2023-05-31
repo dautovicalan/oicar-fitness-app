@@ -20,6 +20,7 @@ export default function HeightPicker({
     <View style={{ width: width ? width : "50%" }}>
       <TabSelector tabs={Array.of("CM", "FT")} onChange={handleChange} />
       <Picker
+        testID="height-picker"
         selectedValue={selectedHeight}
         onValueChange={(itemValue, itemIndex) => onHeightChange(itemValue)}
       >

@@ -41,7 +41,11 @@ const DateSlider = ({ selectedDate, setSelectedDate }) => {
                 const txt = format(day, "EEEEE");
                 const dateWithoutTime = selectedDate.setHours(0, 0, 0, 0);
                 return (
-                  <Pressable key={day} onPress={() => setSelectedDate(day)}>
+                  <Pressable
+                    testID="day"
+                    key={day}
+                    onPress={() => setSelectedDate(day)}
+                  >
                     <View
                       style={[
                         styles.day,

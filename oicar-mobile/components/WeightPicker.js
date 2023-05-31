@@ -22,6 +22,7 @@ export default function WeightPicker({
       </View>
       <View>
         <Picker
+          testID="weight-picker"
           selectedValue={selectedWeight}
           onValueChange={(itemValue, itemIndex) => onWeightChange(itemValue)}
         >
