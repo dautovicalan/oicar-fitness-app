@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { Button, Container } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
@@ -90,7 +90,8 @@ const AddWorkout = () => {
 		  ),
 		});
 		if(response.status === 200) {
-			alert("Added")
+      alert("Workout added successfully!");
+			navigate("/workoutplan");
 
 		}
 		console.log("workout id: "+workoutId)

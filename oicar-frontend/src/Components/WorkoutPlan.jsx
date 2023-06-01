@@ -48,10 +48,10 @@ const WorkoutPlan = () => {
 				}
 			);
 			if (response.status === 200) {
-				alert("Success");
+				alert("Exercise deleted successfully!");
 				window.location.href = "/workoutplan";
 			} else {
-				alert("Failed!");
+				alert("Exercise deletion failed!");
 			}
 		} catch (error) {
 			console.error(error);
@@ -78,10 +78,10 @@ const WorkoutPlan = () => {
 				}
 			);
 			if (response.status === 200) {
-				alert("Success");
+				alert("Workout deleted successfully!");
 				window.location.href = "/workoutplan";
 			} else {
-				alert("Failed!");
+				alert("Workout delete failed!");
 			}
 		} catch (error) {
 			console.error(error);
@@ -323,9 +323,6 @@ const WorkoutPlan = () => {
 											{item.name.charAt(0).toUpperCase() + item.name.slice(1)}
 										</h3>
 
-										{/* <p>Sets: {item.sets}</p>
-        <p>Reps: {item.reps}</p>
-        <p>Weight: {item.weight} kg</p> */}
 									</Paper>
 								</div>
 							))

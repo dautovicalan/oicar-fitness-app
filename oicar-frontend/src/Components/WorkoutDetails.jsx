@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { InputAdornment } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -33,6 +34,15 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		height: "100%",
 	},
+	footer: {
+		position: "sticky",
+		bottom: 0,
+		width: "100%",
+		backgroundColor: "red",
+		color: "white",
+		textAlign: "center",
+		padding: theme.spacing(2),
+	},
 }));
 
 const WorkoutDetails = () => {
@@ -48,11 +58,12 @@ const WorkoutDetails = () => {
 	const [exerciseDate, setExerciseDate] = useState("");
 	const location = useLocation();
 	const classes = useStyles();
+	const [exerciseHistory, setExerciseHistory] = useState([]);
 	const opts = {
 		height: "315",
 		width: "100%",
 	};
-  var isSameDate = false;
+	var isSameDate = false;
 	useEffect(() => {
 		const searchParams = new URLSearchParams(location.search);
 		const stateParam = searchParams.get("state");
@@ -83,29 +94,25 @@ const WorkoutDetails = () => {
 					console.log(data);
 					setExerciseExists(false);
 					setDateExists(false);
-
 				} else {
 					setExerciseExists(true);
-          data.map((item) => {
-					const exerciseDateTemp = new Date(exerciseDate);
-					const dataDate = new Date(item.date);
-          console.log("tempdate"+exerciseDateTemp);
-          console.log("api date"+dataDate);
-					isSameDate =
-          exerciseDateTemp.getDay() === dataDate.getDay() &&
-          exerciseDateTemp.getMonth() === dataDate.getMonth() &&
-          exerciseDateTemp.getFullYear() === dataDate.getFullYear();
-          });
-					
-					
-
-					if (isSameDate) {
-            setDateExists(true);
-						setReps(data[0].numberOfReps);
-						setSets(data[0].numberOfSets);
-						setWeight(data[0].weight);
-					}
-          console.log("is same date" + isSameDate + dateExists);
+					setExerciseHistory(data);
+					data.map((item) => {
+						const exerciseDateTemp = new Date(exerciseDate);
+						const dataDate = new Date(item.date);
+						console.log("tempdate" + exerciseDateTemp);
+						console.log("api date" + dataDate);
+						isSameDate =
+							exerciseDateTemp.getDay() === dataDate.getDay() &&
+							exerciseDateTemp.getMonth() === dataDate.getMonth() &&
+							exerciseDateTemp.getFullYear() === dataDate.getFullYear();
+						if (isSameDate) {
+							setDateExists(true);
+							setReps(item.numberOfReps);
+							setSets(item.numberOfSets);
+							setWeight(item.weight);
+						}
+					});
 				}
 			})
 			.catch((error) => {
@@ -146,7 +153,7 @@ const WorkoutDetails = () => {
 	const isButtonDisabled = !sets || !reps || !weight;
 
 	return (
-		<Box sx={{ height: "72vh" }}>
+		<Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
 			<Paper className={classes.root}>
 				<Typography variant="h5" component="h2" gutterBottom>
 					{exerciseName.toUpperCase()}
@@ -154,14 +161,15 @@ const WorkoutDetails = () => {
 				<hr />
 				<br />
 				<div>
-        <h4 style={{ color: "grey", textTransform: "uppercase" }}>Date of this exercise: {exerciseDate}</h4>
+					<h4 style={{ color: "grey", textTransform: "uppercase" }}>
+						Date of this exercise: {exerciseDate}
+					</h4>
 					<img
 						src={exerciseGif}
 						alt="Gif"
 						style={{
 							borderRadius: "30%",
 							border: "5px solid #ccc",
-
 							width: "300px",
 							height: "300px",
 							objectFit: "cover",
@@ -170,8 +178,9 @@ const WorkoutDetails = () => {
 				</div>
 				{dateExists ? (
 					<div>
+						<br />
+						<h3>Information about this exercise</h3>
 						<Typography color="textSecondary" gutterBottom>
-							<br />
 							Number of sets: {sets}
 						</Typography>
 						<Typography color="textSecondary" gutterBottom>
@@ -271,7 +280,52 @@ const WorkoutDetails = () => {
 						</Button>
 					</div>
 				)}
+
+				<div>
+					<br />
+					<hr />
+					{exerciseHistory.length<=0 ? <h3>You have not done this exercise before.</h3> : <h3>You also did this exercise on the following dates:</h3>}
+					
+					{exerciseHistory.map((item) => {
+						if (item.date === exerciseDate) {
+							console.log("PROVJERA DATUMA" + item.date + " " + exerciseDate);
+							return null; // Exclude the item if the date matches exerciseDate
+						}
+						if (item.date === null) return null; // Exclude the item if the date is null
+						return (
+							<Paper
+								style={{backgroundColor: "orange", width: "50%", margin: "auto", borderRadius: "15px"}}
+								sx={{
+									border: "1px solid",
+									borderColor: "secondary.main",
+									padding: "16px",
+									margin: "30px",
+								}}
+							>
+								<Typography color="textSecondary" gutterBottom>
+									<span style={{ fontWeight: "bold" }}>
+										{new Date(item.date).toLocaleDateString()}
+									</span>
+								</Typography>
+								<Typography color="textSecondary" gutterBottom>
+									Number of sets: {item.numberOfSets}
+								</Typography>
+								<Typography color="textSecondary" gutterBottom>
+									Reps per set: {item.numberOfReps}
+								</Typography>
+								<Typography
+									color="textSecondary"
+									gutterBottom
+									style={{ marginBottom: "16px" }}
+								>
+									Weight used: {item.weight} kg
+								</Typography>
+							</Paper>
+						);
+					})}
+				</div>
 			</Paper>
+			<Box sx={{ flex: 1 }} />
 		</Box>
 	);
 };
