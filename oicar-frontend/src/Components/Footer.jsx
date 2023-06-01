@@ -6,7 +6,7 @@ const Footer = () => {
   const location = useLocation();
   
   // Check if the current location matches the "/workoutdetails" route to hide the footer
-  const shouldHideFooter = location.pathname === "/workoutdetails";
+  const shouldHideFooter = location.pathname === "/workoutdetails" || location.pathname === "/addmeal";
 
   if (shouldHideFooter) {
     return null; // Return null to not render the footer on the "/workoutdetails" route
