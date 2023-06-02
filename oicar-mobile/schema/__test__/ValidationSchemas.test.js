@@ -35,10 +35,7 @@ describe("Validation Schemas", () => {
       email: "john.doe@example.com",
       password: "password123",
     });
-
-    // Add more test cases for other validation schemas...
   });
-
   it("should fail validation for invalid data", async () => {
     const invalidUser = {
       name: "",
@@ -66,7 +63,5 @@ describe("Validation Schemas", () => {
           password: "",
         })
     ).rejects.toThrow();
-
-    // Add more test cases for other validation schemas...
   });
 });
