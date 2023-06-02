@@ -1,4 +1,4 @@
-import { emailValid } from '../FormValidation.js'; // Replace 'yourFile' with the actual file path
+import { emailValid } from '../FormValidation.js'; 
 
 describe('emailValid', () => {
   it('should return true for a valid email', () => {
