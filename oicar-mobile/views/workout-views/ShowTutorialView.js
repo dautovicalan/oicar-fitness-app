@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import SingleWorkoutBox from "../../components/workout/SingleWorkoutBox";
 import { ActivityIndicator, TextInput } from "react-native-paper";

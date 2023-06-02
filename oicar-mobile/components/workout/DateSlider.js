@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, FlatList, StyleSheet, Text, Pressable } from "react-native";
+import React from "react";
+import { View, StyleSheet, Text, Pressable } from "react-native";
 import {
   addDays,
   eachDayOfInterval,

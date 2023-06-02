@@ -10,13 +10,12 @@ import { Text, TextInput, Button, ActivityIndicator } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
 import { textInputStyles } from "../../styles/TextInputStyles";
 import useFetch from "../../hooks/useFetch";
-import { set } from "date-fns";
 
 export default function AddFood({ navigation, route }) {
   const { foodId, mealTypeId, selectedDate } = route.params;
   const { user } = useUserContext();
 
-  const { data, isPending, error } = useFetch(
+  const { data, isPending } = useFetch(
     `http://localhost:5280/api/Food/GetById?idFood=${foodId}`
   );
 

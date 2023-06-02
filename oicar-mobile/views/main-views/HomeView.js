@@ -1,14 +1,7 @@
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  RefreshControl,
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
+import React from "react";
 import { Text } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
-import useFetch from "../../hooks/useFetch";
 import HomeBox from "../../components/home/HomeBox";
 
 export default function HomeView() {

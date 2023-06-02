@@ -1,8 +1,7 @@
-import { View, Text, Pressable, Image, Alert } from "react-native";
-import React, { useEffect, useState } from "react";
+import { Pressable, Image } from "react-native";
+import React, { useEffect } from "react";
 import * as Google from "expo-auth-session/providers/google";
 import { useUserContext } from "../context/UserContext";
-import { set } from "date-fns";
 import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 
 export default function GoogleLogin({ navigation }) {

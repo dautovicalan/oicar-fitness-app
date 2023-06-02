@@ -1,7 +1,6 @@
 import { View, StyleSheet, Image } from "react-native";
 import React from "react";
 import { Button } from "react-native-paper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Text } from "react-native-paper";
 
 export default function SingleWorkoutBox({

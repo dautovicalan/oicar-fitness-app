@@ -1,13 +1,7 @@
 import { View } from "react-native";
 import React, { useState, useRef } from "react";
-import {
-  TouchableOpacity,
-  Pressable,
-  StyleSheet,
-  Animated,
-} from "react-native";
+import { Pressable, StyleSheet, Animated } from "react-native";
 import * as Animatable from "react-native-animatable";
-import WeightPicker from "../WeightPicker";
 import { Text } from "react-native-paper";
 
 export default function AnimatedAccordion({ title, value, content, height }) {

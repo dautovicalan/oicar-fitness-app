@@ -1,20 +1,11 @@
-import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  FlatList,
-  View,
-  Alert,
-} from "react-native";
+import { StyleSheet, SafeAreaView, FlatList, View, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateSlider from "../../components/workout/DateSlider";
 import { ActivityIndicator, Button } from "react-native-paper";
 import SingleUserEnteredWorkoutBox from "../../components/workout/SingleUserEnteredWorkoutBox";
 import { Text } from "react-native-paper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useUserContext } from "../../context/UserContext";
-import useFetch from "../../hooks/useFetch";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 
 export default function WorkoutView({ navigation }) {
   const { user } = useUserContext();

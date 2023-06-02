@@ -1,11 +1,10 @@
 import { View, StyleSheet, ScrollView, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateSlider from "../../components/workout/DateSlider";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import AddedFoodBox from "../../components/diet/AddedFoodBox";
 import { useUserContext } from "../../context/UserContext";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 
 export default function DietView({ navigation }) {
   const { user } = useUserContext();

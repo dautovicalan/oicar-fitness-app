@@ -2,22 +2,11 @@ import React, { useState } from "react";
 import {
   Alert,
   StyleSheet,
-  View,
   TouchableWithoutFeedback,
   Keyboard,
-  Pressable,
-  KeyboardAvoidingView,
 } from "react-native";
-import {
-  Button,
-  Dialog,
-  Portal,
-  Provider,
-  Text,
-  TextInput,
-} from "react-native-paper";
+import { Button, Dialog, Portal, TextInput } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
-import { useFocusEffect } from "@react-navigation/native";
 
 const ChangePasswordDialog = ({ visible, setVisible }) => {
   const { user } = useUserContext();

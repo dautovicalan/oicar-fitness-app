@@ -2,13 +2,12 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   FlatList,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
 import React, { useState } from "react";
-import { ActivityIndicator, Button, TextInput } from "react-native-paper";
+import { ActivityIndicator, TextInput } from "react-native-paper";
 import ExerciseMuscleBox from "../../components/workout/ExerciseMuscleBox";
 import useFetch from "../../hooks/useFetch";
 import { textInputStyles } from "../../styles/TextInputStyles";

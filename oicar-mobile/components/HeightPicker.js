@@ -1,7 +1,6 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
-import { Switch } from "react-native-paper";
 import TabSelector from "./TabSelector";
 import { heightDataItems } from "../data/FitnessData";
 

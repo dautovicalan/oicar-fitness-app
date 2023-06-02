@@ -90,7 +90,22 @@ export default function ShowExerciseDetailsView({ route }) {
       );
 
       if (request.status === 200) {
-        Alert.alert("Success", "Data saved successfully");
+        if (chartData.labels.length === 0) {
+          Alert.alert(
+            "Success",
+            "Data saved successfully, please refresh the page to see the changes"
+          );
+          return;
+        }
+
+        if (chartData.labels.length === 4) {
+          const newLabels = chartData.labels.slice(1);
+          const newDatasets = chartData.datasets.map((dataset) => ({
+            ...dataset,
+            data: dataset.data.slice(1),
+          }));
+          setChartData({ labels: newLabels, datasets: newDatasets });
+        }
         setChartData((prevVal) => {
           const newLabel = format(new Date(), "dd/MM/yyyy");
           const newData = {
@@ -108,6 +123,7 @@ export default function ShowExerciseDetailsView({ route }) {
 
           return newData;
         });
+        Alert.alert("Success", "Data saved successfully");
       } else {
         throw new Error("Something went wrong");
       }

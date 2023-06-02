@@ -1,6 +1,6 @@
 import { View, StyleSheet, FlatList, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import PersonalRecordBox from "../../components/workout/PersonalRecordBox";
 import { useUserContext } from "../../context/UserContext";
 import { readFromStorage, writeToStorage } from "../../utils/StorageUtils";
