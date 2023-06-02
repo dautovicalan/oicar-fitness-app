@@ -55,16 +55,35 @@ const MealPlan = () => {
 				})
 				.then((data) => {
 					console.log("data1" + data[0].foods[0].name);
-					mealTypeIdTemp = data[0].mealType.id;
-					if (mealTypeIdTemp === 1) {
-						setBreakfastFood(data[0].foods);
+					console.log(data[0].foods)
+					console.log(data)
+					// mealTypeIdTemp = data[0].mealType.id;
+					for (let i = 0; i < data.length; i++) {
+						mealTypeIdTemp = data[i].mealType.id;
+						if (mealTypeIdTemp === 1) {
+							setBreakfastFood(data[i].foods);
+						}
+						if (mealTypeIdTemp === 2) {
+							setLunchFood(data[i].foods);
+						}
+						if (mealTypeIdTemp === 3) {
+							setDinnerFood(data[i].foods);
+						}
+						
 					}
-					if (mealTypeIdTemp === 2) {
-						setLunchFood(data[0].foods);
-					}
-					if (mealTypeIdTemp === 3) {
-						setDinnerFood(data[0].foods);
-					}
+					// if (mealTypeIdTemp === 1) {
+					// 	setBreakfastFood(data[0].foods);
+					// }
+					// if (mealTypeIdTemp === 2) {
+					// 	setLunchFood(data[1].foods);
+					// }
+					// if (mealTypeIdTemp === 3) {
+					// 	setDinnerFood(data[2].foods);
+					// }
+
+					console.log(breakfastFood);
+					console.log(lunchFood);
+					console.log(dinnerFood);
 
 					// console.log("breakfastFood" + breakfastFood);
 					//console.log("lunchFood" + lunchFood);
@@ -247,11 +266,11 @@ const MealPlan = () => {
 						style={{
 							textAlign: "center",
 							alignItems: "flex-start",
+							borderStyle: "solid" 
 						}}
 						sx={{
 							display: "flex",
 							flexDirection: "column",
-							backgroundColor: "yellow",
 							width: "33%",
 							justifyContent: "flex-start",
 							display: "grid",
@@ -263,8 +282,9 @@ const MealPlan = () => {
 						<div className="item-row">
 							{breakfastFood.map((item) => {
 								return (
-									<div className="item" style={{ marginBottom: "10px" }}>
+									<div className="item" style={{ margin:"30px"}}>
 										<Paper
+											id={item.id}
 											className="item-box-meal"
 											onClick={() => handleClick(item)}
 										>
@@ -283,11 +303,11 @@ const MealPlan = () => {
 						style={{
 							textAlign: "center",
 							alignItems: "flex-start",
+							borderStyle: "solid" 
 						}}
 						sx={{
 							display: "flex",
 							flexDirection: "column",
-							backgroundColor: "green",
 							width: "33%",
 							justifyContent: "flex-start",
 							display: "grid",
@@ -299,7 +319,7 @@ const MealPlan = () => {
 						<div className="item-row">
 							{lunchFood.map((item) => {
 								return (
-									<div className="item">
+									<div className="item" style={{ margin:"30px" }}>
 										<Paper
 											className="item-box-meal"
 											onClick={() => handleClick(item)}
@@ -319,11 +339,11 @@ const MealPlan = () => {
 						style={{
 							textAlign: "center",
 							alignItems: "flex-start",
+							borderStyle: "solid" 
 						}}
 						sx={{
 							display: "flex",
 							flexDirection: "column",
-							backgroundColor: "red",
 							width: "33%",
 							justifyContent: "flex-start",
 							display: "grid",
@@ -335,7 +355,7 @@ const MealPlan = () => {
 						<div className="item-row">
 							{dinnerFood.map((item) => {
 								return (
-									<div className="item-meal">
+									<div className="item-meal" style={{ margin:"30px" }}>
 										<Paper
 											className="item-box-meal"
 											onClick={() => handleClick(item)}
