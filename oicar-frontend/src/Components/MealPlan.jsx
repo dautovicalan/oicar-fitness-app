@@ -9,6 +9,8 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Close";
 
 const MealPlan = () => {
 	const [selectedDate, setSelectedDate] = useState(null);
@@ -18,13 +20,70 @@ const MealPlan = () => {
 	const [lunchFood, setLunchFood] = useState([]);
 	const [dinnerFood, setDinnerFood] = useState([]);
 	const [formattedDate, setFromattedDate] = useState("");
+	const [breakfastMealId, setBreakfastMealId] = useState(null);
+	const [lunchMealId, setLunchMealId] = useState(null);
+	const [dinnerMealId, setDinnerMealId] = useState(null);
 
 	const userId = sessionStorage.getItem("id");
 
 	const handleDateChange = (date) => {
 		setSelectedDate(date);
 		setDateClicked(true);
-		console.log(date);
+	};
+
+	const handleDeleteClick = async (item, mealtype) => {
+		try {
+			var mealId = 0;
+			const dateObj = new Date(selectedDate);
+			const year = dateObj.getFullYear();
+			const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+			const day = String(dateObj.getDate()).padStart(2, "0");
+			var formattedDateTemp = `${year}-${month}-${day}`;
+
+			const response = await fetch(
+				`http://localhost:5280/api/Meal/ByDate?idUser=${userId}&date=${formattedDateTemp}`,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (response.ok) {
+				const data = await response.json();
+
+				for (let i = 0; i < data.length; i++) {
+					if (data[i].mealType.id === mealtype) {
+						mealId = data[i].id;
+						console.log("mealId FIRST FETCH" + mealId);
+						break;
+					}
+				}
+
+				console.log("mealId SECOND FETCH" + mealId);
+				console.log("food id = " + item.id);
+				const deleteResponse = await fetch(
+					`http://localhost:5280/api/Meal/DeleteFood?idMeal=${mealId}&idFood=${item.id}`,
+					{
+						method: "DELETE",
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+				);
+
+				if (deleteResponse.status === 200) {
+					alert("Food deleted successfully!");
+					window.location.href = "/mealplan";
+				} else {
+					alert("Food deletion failed!");
+				}
+			} else {
+				alert("Error retrieving meal data!");
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {
@@ -39,8 +98,6 @@ const MealPlan = () => {
 			const day = String(dateObj.getDate()).padStart(2, "0");
 			var formattedDateTemp = `${year}-${month}-${day}`;
 			setFromattedDate(`${year}-${month}-${day}`);
-			console.log("formattedDateTemp" + formattedDateTemp);
-			console.log("userID" + userId);
 
 			fetch(
 				`http://localhost:5280/api/Meal/ByDate?idUser=${userId}&date=${formattedDateTemp}`,
@@ -54,9 +111,6 @@ const MealPlan = () => {
 					return response.json();
 				})
 				.then((data) => {
-					console.log("data1" + data[0].foods[0].name);
-					console.log(data[0].foods)
-					console.log(data)
 					// mealTypeIdTemp = data[0].mealType.id;
 					for (let i = 0; i < data.length; i++) {
 						mealTypeIdTemp = data[i].mealType.id;
@@ -69,25 +123,7 @@ const MealPlan = () => {
 						if (mealTypeIdTemp === 3) {
 							setDinnerFood(data[i].foods);
 						}
-						
 					}
-					// if (mealTypeIdTemp === 1) {
-					// 	setBreakfastFood(data[0].foods);
-					// }
-					// if (mealTypeIdTemp === 2) {
-					// 	setLunchFood(data[1].foods);
-					// }
-					// if (mealTypeIdTemp === 3) {
-					// 	setDinnerFood(data[2].foods);
-					// }
-
-					console.log(breakfastFood);
-					console.log(lunchFood);
-					console.log(dinnerFood);
-
-					// console.log("breakfastFood" + breakfastFood);
-					//console.log("lunchFood" + lunchFood);
-					// console.log("dinnerFood" + dinnerFood);
 				})
 
 				.catch((error) => {
@@ -110,7 +146,6 @@ const MealPlan = () => {
 			mealTypeId: 1,
 		};
 
-		console.log(formattedDate);
 		const urlEncodedState = encodeURIComponent(JSON.stringify(state));
 		navigate(`/addmeal?state=${urlEncodedState}`);
 	};
@@ -129,7 +164,6 @@ const MealPlan = () => {
 			mealTypeId: 2,
 		};
 
-		console.log(formattedDate);
 		const urlEncodedState = encodeURIComponent(JSON.stringify(state));
 		navigate(`/addmeal?state=${urlEncodedState}`);
 	};
@@ -148,7 +182,6 @@ const MealPlan = () => {
 			mealTypeId: 3,
 		};
 
-		console.log(formattedDate);
 		const urlEncodedState = encodeURIComponent(JSON.stringify(state));
 		navigate(`/addmeal?state=${urlEncodedState}`);
 	};
@@ -266,7 +299,7 @@ const MealPlan = () => {
 						style={{
 							textAlign: "center",
 							alignItems: "flex-start",
-							borderStyle: "solid" 
+							borderStyle: "solid",
 						}}
 						sx={{
 							display: "flex",
@@ -282,12 +315,23 @@ const MealPlan = () => {
 						<div className="item-row">
 							{breakfastFood.map((item) => {
 								return (
-									<div className="item" style={{ margin:"30px"}}>
+									<div className="item" style={{ margin: "30px" }}>
 										<Paper
 											id={item.id}
 											className="item-box-meal"
 											onClick={() => handleClick(item)}
 										>
+											<IconButton
+												aria-label="delete"
+												size="large"
+												onClick={(e) => {
+													e.stopPropagation();
+													handleDeleteClick(item, 1);
+												}}
+												sx={{ position: "absolute", top: 0, right: 0 }}
+											>
+												<DeleteIcon />
+											</IconButton>
 											<h3>{item.name}</h3>
 											<p>100g</p>
 											<p>Proteins: {item.proteinsPer100g}</p>
@@ -303,7 +347,7 @@ const MealPlan = () => {
 						style={{
 							textAlign: "center",
 							alignItems: "flex-start",
-							borderStyle: "solid" 
+							borderStyle: "solid",
 						}}
 						sx={{
 							display: "flex",
@@ -319,11 +363,22 @@ const MealPlan = () => {
 						<div className="item-row">
 							{lunchFood.map((item) => {
 								return (
-									<div className="item" style={{ margin:"30px" }}>
+									<div className="item" style={{ margin: "30px" }}>
 										<Paper
 											className="item-box-meal"
 											onClick={() => handleClick(item)}
 										>
+											<IconButton
+												aria-label="delete"
+												size="large"
+												onClick={(e) => {
+													e.stopPropagation();
+													handleDeleteClick(item, 2);
+												}}
+												sx={{ position: "absolute", top: 0, right: 0 }}
+											>
+												<DeleteIcon />
+											</IconButton>
 											<h3>{item.name}</h3>
 											<p>100g</p>
 											<p>Proteins: {item.proteinsPer100g}</p>
@@ -339,7 +394,7 @@ const MealPlan = () => {
 						style={{
 							textAlign: "center",
 							alignItems: "flex-start",
-							borderStyle: "solid" 
+							borderStyle: "solid",
 						}}
 						sx={{
 							display: "flex",
@@ -355,11 +410,22 @@ const MealPlan = () => {
 						<div className="item-row">
 							{dinnerFood.map((item) => {
 								return (
-									<div className="item-meal" style={{ margin:"30px" }}>
+									<div className="item-meal" style={{ margin: "30px" }}>
 										<Paper
 											className="item-box-meal"
 											onClick={() => handleClick(item)}
 										>
+											<IconButton
+												aria-label="delete"
+												size="large"
+												onClick={(e) => {
+													e.stopPropagation();
+													handleDeleteClick(item, 3);
+												}}
+												sx={{ position: "absolute", top: 0, right: 0 }}
+											>
+												<DeleteIcon />
+											</IconButton>
 											<h3>{item.name}</h3>
 											<p>100g</p>
 											<p>Proteins: {item.proteinsPer100g}</p>
