@@ -22,6 +22,7 @@
     "@testing-library/react-native": "^12.1.2",
     "date-fns": "^2.29.3",
     "dotenv": "^16.1.0",
+    "eas-cli": "^3.13.2",
     "expo": "~48.0.10",
     "expo-auth-session": "~4.0.3",
     "expo-crypto": "~12.2.1",
