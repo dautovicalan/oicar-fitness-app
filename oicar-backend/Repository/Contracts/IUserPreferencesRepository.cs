@@ -1,4 +1,4 @@
-﻿using Domain.Migrations;
+﻿
 using Domain.Model;
 using FitPal_Models.JsonModels;
 

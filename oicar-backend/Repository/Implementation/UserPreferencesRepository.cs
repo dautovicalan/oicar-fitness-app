@@ -1,5 +1,4 @@
-﻿using Domain.Migrations;
-using Domain.Model;
+﻿using Domain.Model;
 using Domain.Models;
 using FitPal_Models.JsonModels;
 using Microsoft.EntityFrameworkCore;
