@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitPal-Models", "FitPal-Mod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{9DF6E302-DD81-4E12-A58C-A3EEDD77854F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestApiServices", "RestApiServices\RestApiServices.csproj", "{4C79462B-229E-4F0D-9783-75014BB72B74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestApiServices", "RestApiServices\RestApiServices.csproj", "{4C79462B-229E-4F0D-9783-75014BB72B74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CronJobs", "CronJobs\CronJobs.csproj", "{766405AB-8C97-40F0-AC2D-2B80F2E1CF56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronJobs", "CronJobs\CronJobs.csproj", "{766405AB-8C97-40F0-AC2D-2B80F2E1CF56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{878CF5A1-0ADC-4FBF-92DE-91CE8A2868DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{766405AB-8C97-40F0-AC2D-2B80F2E1CF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{766405AB-8C97-40F0-AC2D-2B80F2E1CF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{766405AB-8C97-40F0-AC2D-2B80F2E1CF56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{878CF5A1-0ADC-4FBF-92DE-91CE8A2868DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{878CF5A1-0ADC-4FBF-92DE-91CE8A2868DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{878CF5A1-0ADC-4FBF-92DE-91CE8A2868DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{878CF5A1-0ADC-4FBF-92DE-91CE8A2868DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
