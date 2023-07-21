@@ -1,4 +1,5 @@
 import {
+  aboutYouValidationSchema,
   loginValidationSchema,
   userValidationSchema,
 } from "../schema/ValidationSchemas";
@@ -55,6 +56,28 @@ export const validateLoginForm = async (data) => {
         password: data.email,
       },
       { abortEarly: false }
+    );
+    return { isValid: true, errors: {} };
+  } catch (err) {
+    const errors = {};
+    err.inner.forEach((e) => {
+      errors[e.path] = e.message;
+    });
+    return { isValid: false, errors };
+  }
+};
+
+export const validateAboutYouForm = async (data) => {
+  try {
+    await aboutYouValidationSchema.validate(
+      {
+        birthday: data.birthday,
+        weight: data.weight,
+        height: data.height,
+      },
+      {
+        abortEarly: false,
+      }
     );
     return { isValid: true, errors: {} };
   } catch (err) {

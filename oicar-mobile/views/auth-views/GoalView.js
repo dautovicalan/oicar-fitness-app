@@ -1,8 +1,8 @@
 import { View, StyleSheet, Pressable, Alert } from "react-native";
 import React, { useState } from "react";
 import { Text, Button } from "react-native-paper";
-import { useRegistrationProcess } from "../context/RegistrationProcessContext";
-import { fitnessGoals } from "../data/FitnessData";
+import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
+import { fitnessGoals } from "../../data/FitnessData";
 
 export default function GoalView({ navigation }) {
   const { setGoal } = useRegistrationProcess();

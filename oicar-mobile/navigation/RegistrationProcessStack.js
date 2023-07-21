@@ -1,11 +1,10 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AboutYouView from "../views/AboutYouView";
-import GoalView from "../views/GoalView";
-import UserInformationView from "../views/UserInformationView";
-import WorkoutPerWeekSelectionView from "../views/WorkoutPerWeekSelectionView";
-import NewsletterView from "../views/NewsletterView";
+import AboutYouView from "../views/auth-views/AboutYouView";
+import GoalView from "../views/auth-views/GoalView";
+import UserInformationView from "../views/auth-views/UserInformationView";
+import WorkoutPerWeekSelectionView from "../views/auth-views/WorkoutPerWeekSelectionView";
+import NewsletterView from "../views/auth-views/NewsletterView";
 import MainAppStack from "./MainAppStack";
 import CustomBackButton from "../components/CustomBackButton";
 

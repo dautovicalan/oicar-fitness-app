@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 
-export default function HomeView() {
+export default function WorkoutView() {
   return (
     <View style={style.container}>
-      <Text>Welcome Home</Text>
+      <Text>WorkoutView</Text>
     </View>
   );
 }

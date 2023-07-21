@@ -1,11 +1,10 @@
 import * as reactNative from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
-import { useRegistrationProcess } from "../context/RegistrationProcessContext";
+import { useRegistrationProcess } from "../../context/RegistrationProcessContext";
 import { Text } from "react-native-paper";
-import GoogleLogin from "../components/GoogleLogin";
-import { userValidationSchema } from "../schema/ValidationSchemas";
-import { validateUserRegistration } from "../utils/FormValidatonUtils";
+import GoogleLogin from "../../components/GoogleLogin";
+import { validateUserRegistration } from "../../utils/FormValidatonUtils";
 
 export default function UserInformationView({ navigation }) {
   const { setBasicInfo } = useRegistrationProcess();

@@ -23,6 +23,8 @@ public partial class User
 
     public int? RoleId { get; set; }
     public bool IsRegister { get; set; }
+    public string? ForgotPasswordCode { get; set; }
+    public DateTime? ForgotPasswordCreateDate { get; set; }
 
     public virtual Role? Role { get; set; }
 }

@@ -19,9 +19,9 @@ namespace Repository.Implementation
         public async Task<bool> CheckLogin(string email, string password) => await Any(u => u.Email.Equals(email) && u.Password.Equals(password.SHA512Hash()) && u.Deleted == false);
         public Task<User?> GetUser(int id) => _repositoryContext.Users.FirstOrDefaultAsync(u => u.Id == id);
 
-        public async Task<User?> GetUserByEmail(string email) => await _repositoryContext.Users.FirstOrDefaultAsync(u=> u.Email.Equals(email));
+        public async Task<User?> GetUserByEmail(string email) => await _repositoryContext.Users.FirstOrDefaultAsync(u=> u.Email.Equals(email) && u.Deleted != true);
 
-        public async Task<bool> IsEmailExist(string email) => await Any(u=> u.Email.Equals(email));
+        public async Task<bool> IsEmailExist(string email) => await Any(u=> u.Email.Equals(email) && u.Deleted != true);
 
         public async Task<User> RegisterUser(UserRegisterInput user)
         {
@@ -41,6 +41,35 @@ namespace Repository.Implementation
             await _repositoryContext.SaveChangesAsync();
 
             return newUser;
+        }
+
+        public async Task SaveResetPasswordCode(string email, string resetCode)
+        {
+            User? user = await GetUserByEmail(email);
+
+            if (user is not null)
+            {
+                user.ForgotPasswordCode = resetCode;
+                user.ForgotPasswordCreateDate = DateTime.UtcNow;
+            }
+
+            await _repositoryContext.SaveChangesAsync();
+        }
+
+
+        public async Task<User?> ChangePassword(string email, string code, string password)
+        {
+            User? user = await GetUserByEmail(email);
+
+            if (user is null || user.ForgotPasswordCode != code)
+                return null;
+            
+            user.Password = password.SHA512Hash();
+            user.ForgotPasswordCode = string.Empty;
+            user.ForgotPasswordCreateDate = null;
+
+            await _repositoryContext.SaveChangesAsync();
+            return user;
         }
     }
 }
