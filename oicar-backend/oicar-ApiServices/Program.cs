@@ -4,8 +4,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuration sql
 builder.Services.ConfigureSqlContext(builder.Configuration);
-
-
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
+// Add services to the container.
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
+    });
 builder.Services.AddControllers();
 builder.Services.ConfigureSwagger();
 builder.Services.AddEndpointsApiExplorer();

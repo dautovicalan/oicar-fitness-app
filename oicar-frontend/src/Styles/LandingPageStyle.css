@@ -1,0 +1,49 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  padding: 16px;
+}
+
+.svgs {
+  width: 500px; /* Adjust the width and height according to your needs */
+  height: 500px;
+  border-radius: 20%;
+}
+
+.button {
+  background-color: darkgray;
+  color: #333;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+
+#google-icon {
+  height: 15px;
+}
+
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.image {
+  max-width: 80%;
+  max-height: 100%;
+  filter: grayscale();
+}

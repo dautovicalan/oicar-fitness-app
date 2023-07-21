@@ -1,0 +1,39 @@
+{
+    "workouts": [
+      {
+        "name": "Bench press",
+        "sets": 3,
+        "id": 1,
+        "reps": 5,
+        "weight": 100
+      },
+      {
+        "name": "Rows",
+        "sets": 5,
+        "id": 2,
+        "reps": 2,
+        "weight": 60
+      },
+      {
+        "name": "Cable pulls",
+        "sets": 4,
+        "id": 3,
+        "reps": 5,
+        "weight": 100
+      },
+      {
+        "name": "Leg press",
+        "sets": 3,
+        "id": 4,
+        "reps": 5,
+        "weight": 100
+      },
+      {
+        "name": "Curls",
+        "sets": 3,
+        "id": 5,
+        "reps": 5,
+        "weight": 100
+      }
+    ]
+  }
