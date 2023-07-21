@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.yarn
 dist
 dist-ssr
 *.local
@@ -20,8 +21,10 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
+*.vs
+*.cache
+*.dll
 package-lock.json
 
 # From .NET Core 3.0 you can use the command: `dotnet new gitignore` to generate a customizable .gitignore file
@@ -50,8 +53,10 @@ x64/
 x86/
 build/
 bld/
-[Bb]in/
-[Oo]bj/
+bin/
+bin/Debug/net7.0
+obj/
+obj/Debug/net7.0
 msbuild.log
 msbuild.err
 msbuild.wrn
