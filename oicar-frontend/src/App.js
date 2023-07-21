@@ -18,6 +18,7 @@ import "./Styles/App.css";
 import NavbarLoggedIn from "./Components/NavbarLoggedIn.jsx";
 import AddMeal from "./Components/AddMeal.jsx";
 import Gdpr from "./Components/Gdpr.jsx";
+import WorkoutType from "./Components/WorkoutType.jsx";
 
 function App() {
   // const [userData, setUserData] = useState({});
@@ -78,6 +79,7 @@ function App() {
               <Route path="/addmeal" element={<AddMeal />} />
               <Route path="/workoutdetails" element={<WorkoutDetails />} />
               <Route path="/useragreement" element={<Gdpr />} />
+              <Route path="/workouttype" element={<WorkoutType />} />
             </Routes>
             <Footer />
           {/* </UserPreferencesContext.Provider>
