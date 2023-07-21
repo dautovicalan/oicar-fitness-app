@@ -24,14 +24,25 @@ namespace oicar_ApiServices.AppSettings
 
         public async Task<GoogleJsonWebSignature.Payload?> GoogleAuthentication(string accessToken)
         {
-            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            try
             {
-                Audience = new List<string>() { _config.Value.SocialLoginConfiguration.GoogleConfiguration.GoogleClientId }
-            };
-            GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(accessToken, settings);
+                var settings = new GoogleJsonWebSignature.ValidationSettings()
+                {
+                    Audience = new List<string>()
+                    {
+                    _config.Value.SocialLoginConfiguration.GoogleConfiguration.IOSClientId,
+                    _config.Value.SocialLoginConfiguration.GoogleConfiguration.WebClientId
+                    }
+                };
+                GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(accessToken, settings);
 
-            var test = payload;
-            return payload;
+                return payload;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
         }
     }
 }

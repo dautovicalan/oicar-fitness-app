@@ -24,3 +24,28 @@ export const aboutYouValidationSchema = Yup.object().shape({
     .required("Height is required")
     .positive("Height must be positive number"),
 });
+
+export const workoutValidationSchema = Yup.object().shape({
+  workoutName: Yup.string().required("Workout name is required"),
+  workoutSets: Yup.string().required("Workout sets is required"),
+  workoutReps: Yup.string().required("Workout reps is required"),
+  workoutWeight: Yup.string().required("Workout weight is required"),
+});
+
+export const addPRValidationSchema = Yup.object().shape({
+  workoutDate: Yup.date().required("Workout date is required"),
+  workoutName: Yup.string().required("Workout name is required"),
+  workoutWeight: Yup.number().required("Workout weight is required"),
+});
+
+export const editExerciseValidationSchema = Yup.object().shape({
+  sets: Yup.number()
+    .required("Exercise sets is required")
+    .positive("Exercise sets must be positive number"),
+  repetition: Yup.number()
+    .required("Exercise reps is required")
+    .positive("Exercise reps must be positive number"),
+  weight: Yup.number()
+    .required("Exercise weight is required")
+    .positive("Exercise weight must be positive number"),
+});

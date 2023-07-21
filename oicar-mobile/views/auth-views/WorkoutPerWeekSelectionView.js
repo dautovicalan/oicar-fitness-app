@@ -11,7 +11,9 @@ export default function WorkoutPerWeekSelectionView({ navigation }) {
       return Alert.alert("Please select one workout");
     }
 
-    return navigation.navigate("Newsletter");
+    return navigation.navigate("Newsletter", {
+      workoutNumberPerWeek: selectedWorkout,
+    });
   };
 
   return (

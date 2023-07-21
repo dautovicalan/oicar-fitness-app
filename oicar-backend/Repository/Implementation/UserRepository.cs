@@ -16,8 +16,8 @@ namespace Repository.Implementation
             _repositoryContext = repositoryContext;
         }
 
-        public async Task<bool> CheckLogin(string email, string password) => await Any(u => u.Email.Equals(email) && u.Password.Equals(password.SHA512Hash()) && u.Deleted == false);
-        public Task<User?> GetUser(int id) => _repositoryContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+        public async Task<bool> CheckLogin(string email, string password) => await Any(u => u.Email.Equals(email) && u.Password != null && u.Password.Equals(password.SHA512Hash()) && u.Deleted != true);
+        public Task<User?> GetUser(int id) => _repositoryContext.Users.FirstOrDefaultAsync(u => u.Id == id && u.Deleted != true );
 
         public async Task<User?> GetUserByEmail(string email) => await _repositoryContext.Users.FirstOrDefaultAsync(u=> u.Email.Equals(email) && u.Deleted != true);
 
@@ -30,7 +30,7 @@ namespace Repository.Implementation
             User newUser = new User
             {
                 Email = user.Email,
-                Password = user.Password.SHA512Hash(),
+                Password = string.IsNullOrEmpty(user.Password) ? null :  user.Password.SHA512Hash(),
                 Name = user.Name,
                 Surname = user.Surname,
                 RoleId = role.Id,
@@ -57,11 +57,11 @@ namespace Repository.Implementation
         }
 
 
-        public async Task<User?> ChangePassword(string email, string code, string password)
+        public async Task<User?> ChangePassword(string email, string password)
         {
             User? user = await GetUserByEmail(email);
 
-            if (user is null || user.ForgotPasswordCode != code)
+            if (user is null)
                 return null;
             
             user.Password = password.SHA512Hash();
@@ -70,6 +70,17 @@ namespace Repository.Implementation
 
             await _repositoryContext.SaveChangesAsync();
             return user;
+        }
+
+        public async Task DeleteUser(int id)
+        {
+            User? user = await GetUser(id);
+
+            if (user is not null)
+            {
+                user.Deleted = true;
+                await _repositoryContext.SaveChangesAsync();
+            }
         }
     }
 }

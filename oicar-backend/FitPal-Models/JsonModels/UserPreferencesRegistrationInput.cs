@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FitPal_Models.JsonModels
 {
-    public class UserPreferencesRegistrationInput
+    public class UserPreferencesInput
     {
         public int Height { get; set; }
         public int Weight { get; set; }

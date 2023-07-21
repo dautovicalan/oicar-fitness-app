@@ -7,6 +7,46 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20230401092235_initialcreate.cs" />
+    <Compile Remove="Migrations\20230401092235_initialcreate.Designer.cs" />
+    <Compile Remove="Migrations\20230401094416_test.cs" />
+    <Compile Remove="Migrations\20230401094416_test.Designer.cs" />
+    <Compile Remove="Migrations\20230404111513_isRegister.cs" />
+    <Compile Remove="Migrations\20230404111513_isRegister.Designer.cs" />
+    <Compile Remove="Migrations\20230404131040_UserPreferences.cs" />
+    <Compile Remove="Migrations\20230404131040_UserPreferences.Designer.cs" />
+    <Compile Remove="Migrations\20230404131651_updateUserPreferences.cs" />
+    <Compile Remove="Migrations\20230404131651_updateUserPreferences.Designer.cs" />
+    <Compile Remove="Migrations\20230412193359_passwordCodeReset.cs" />
+    <Compile Remove="Migrations\20230412193359_passwordCodeReset.Designer.cs" />
+    <Compile Remove="Migrations\20230416093804_workoutModels.cs" />
+    <Compile Remove="Migrations\20230416093804_workoutModels.Designer.cs" />
+    <Compile Remove="Migrations\20230422092912_Workouts.cs" />
+    <Compile Remove="Migrations\20230422092912_Workouts.Designer.cs" />
+    <Compile Remove="Migrations\20230422145442_WorkoutProgressMigration.cs" />
+    <Compile Remove="Migrations\20230422145442_WorkoutProgressMigration.Designer.cs" />
+    <Compile Remove="Migrations\20230422150209_WorkoutFix.cs" />
+    <Compile Remove="Migrations\20230422150209_WorkoutFix.Designer.cs" />
+    <Compile Remove="Migrations\20230422151040_WorkoutScheduleChange.cs" />
+    <Compile Remove="Migrations\20230422151040_WorkoutScheduleChange.Designer.cs" />
+    <Compile Remove="Migrations\20230423090846_FixWorkoutTables.cs" />
+    <Compile Remove="Migrations\20230423090846_FixWorkoutTables.Designer.cs" />
+    <Compile Remove="Migrations\20230423124730_ExerciseProgressNewColumns.cs" />
+    <Compile Remove="Migrations\20230423124730_ExerciseProgressNewColumns.Designer.cs" />
+    <Compile Remove="Migrations\20230524165049_WorkoutDelete.cs" />
+    <Compile Remove="Migrations\20230524165049_WorkoutDelete.Designer.cs" />
+    <Compile Remove="Migrations\20230524182137_DateCustomWorkout.cs" />
+    <Compile Remove="Migrations\20230524182137_DateCustomWorkout.Designer.cs" />
+    <Compile Remove="Migrations\20230524182309_WorkoutScheduleDelete.cs" />
+    <Compile Remove="Migrations\20230524182309_WorkoutScheduleDelete.Designer.cs" />
+    <Compile Remove="Migrations\20230527183038_meals.cs" />
+    <Compile Remove="Migrations\20230527183038_meals.Designer.cs" />
+    <Compile Remove="Migrations\20230530173009_passwordNull.cs" />
+    <Compile Remove="Migrations\20230530173009_passwordNull.Designer.cs" />
+    <Compile Remove="Migrations\RepositoryContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,6 +56,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

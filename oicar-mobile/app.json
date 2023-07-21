@@ -1,31 +1,38 @@
 {
   "expo": {
-    "name": "oicar-mobile",
-    "slug": "oicar-mobile",
+    "name": "Fitpal",
+    "slug": "Fitpal",
     "version": "1.0.0",
     "schema": "oicar-mobile",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/fitpal.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/fitpal.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.oicar.fitness"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/fitpal.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.oicar.fitness"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "06028c04-30e3-4da7-99df-0d0c24cd4c52"
+      }
     }
   }
 }

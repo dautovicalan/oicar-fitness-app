@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useFetch = (url, options = {}) => {
   const [data, setData] = useState(null);
@@ -32,7 +32,7 @@ const useFetch = (url, options = {}) => {
     return () => {
       abortController.abort();
     };
-  }, [resource]);
+  }, [url]);
 
   return { data, isPending, error };
 };

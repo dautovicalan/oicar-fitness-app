@@ -1,39 +1,64 @@
-import { View, Text, Pressable, Image } from "react-native";
-import React, { useEffect, useState } from "react";
+import { Pressable, Image } from "react-native";
+import React, { useEffect } from "react";
 import * as Google from "expo-auth-session/providers/google";
+import { useUserContext } from "../context/UserContext";
+import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 
-export default function GoogleLogin() {
-  const [token, setToken] = useState("");
+export default function GoogleLogin({ navigation }) {
+  const { setBasicInfo } = useRegistrationProcess();
+  const { setUserInfo } = useUserContext();
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
-      "609881614284-dqc1n38lufdbudbga094di5ag2clufg9.apps.googleusercontent.com",
+      "971150090379-ckoc4re0ltkd2v6qli5nse34e0hcbsjk.apps.googleusercontent.com",
   });
 
   useEffect(() => {
-    if (response?.type === "success") {
-      setToken(response.authentication.accessToken);
-      getUserInfo();
-    }
-  }, [response, token]);
+    const getUserInfo = async (token) => {
+      try {
+        const request = await fetch(
+          "http://localhost:5280/api/Account/LoginGoogle?accessToken=" + token,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            method: "POST",
+          }
+        );
 
-  const getUserInfo = async () => {
-    // authenticate token to our REST APi
-    try {
-      const resposne = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
-        {
-          headers: { Authorization: `Bearer ${token}` },
+        console.log("OVO JE " + request.status);
+        if (request.status !== 200) {
+          throw new Error("Something went wrong");
         }
-      );
+        const result = await request.json();
+        if (result?.isRegister && result.isRegister === true) {
+          setUserInfo({
+            id: result.idUser,
+            accessToken: result.accessToken,
+          });
+          return navigation.reset({
+            index: 0,
+            routes: [{ name: "MainApp" }],
+          });
+        }
 
-      const user = await resposne.json();
+        setBasicInfo({
+          id: result.idUser,
+          isRegister: result.isRegister,
+        });
 
-      console.log(user);
-    } catch (error) {
-      console.log(error);
+        navigation.navigate("Register", {
+          screen: "About You",
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (response?.type === "success") {
+      getUserInfo(response.authentication.idToken);
     }
-  };
+  }, [response]);
 
   return (
     <Pressable style={style.singlePicture} onPress={() => promptAsync()}>

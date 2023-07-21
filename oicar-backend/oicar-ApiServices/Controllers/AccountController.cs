@@ -19,12 +19,14 @@ namespace oicar_ApiServices.Controllers
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
         private readonly ISocialLoginManager _socialLoginManager;
+        private readonly IJwtAuthManager _jwtAuthManager;
 
-        public AccountController(IRepositoryManager repositoryManager, IMapper mapper, ISocialLoginManager socialLoginManager)
+        public AccountController(IRepositoryManager repositoryManager, IMapper mapper, ISocialLoginManager socialLoginManager, IJwtAuthManager jwtAuthManager)
         {
             _repository = repositoryManager;
             _mapper = mapper;
             _socialLoginManager = socialLoginManager;
+            _jwtAuthManager = jwtAuthManager;
         }
 
         [HttpPost("Login")]
@@ -34,10 +36,10 @@ namespace oicar_ApiServices.Controllers
             if (await _repository.User.CheckLogin(userLogin.Email, userLogin.Password))
             {
                 User? user = await _repository.User.GetUserByEmail(userLogin.Email);
-                return Ok(_mapper.Map<UserDto>(user));
+                return Ok(await _jwtAuthManager.GenerateToken(user!.Id));
             }
 
-            return Forbid();
+            return BadRequest();
         }
 
         [HttpPost("LoginGoogle")]
@@ -48,11 +50,24 @@ namespace oicar_ApiServices.Controllers
             if (payload is null)
                 return BadRequest(new HttpError("Error while login with google"));
 
-            return Ok();
+            var user = await _repository.User.GetUserByEmail(payload.Email);
+
+            if (user is not null)
+                return Ok(await _jwtAuthManager.GenerateToken(user!.Id));
+
+            UserRegisterInput userForInsert = new UserRegisterInput
+            {
+                Email = payload.Email,
+                Surname = payload.FamilyName,
+                Name = payload.GivenName
+            };
+            var newUser = await _repository.User.RegisterUser(userForInsert);
+
+            return Ok(await _jwtAuthManager.GenerateToken(newUser!.Id));
         }
 
-
         [HttpGet("GetUser")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUser(int id)
         {
             User? user = await _repository.User.GetUser(id);
@@ -60,7 +75,7 @@ namespace oicar_ApiServices.Controllers
             if (user is null)
                 return NotFound(new HttpError("User does not exist"));
 
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
         [HttpPost("Register")]
@@ -90,23 +105,29 @@ namespace oicar_ApiServices.Controllers
         }
 
         [HttpPost("ChangePassword")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword(ChangePasswordInput changePassword)
+        public async Task<IActionResult> ChangePassword(ChangePasswordInput changePassword)
         {
             // Get references
             string email = changePassword.Email;
-            string code = changePassword.Code;
             string password = changePassword.Password;
 
             if (!await _repository.User.IsEmailExist(email))
                 return BadRequest(new HttpError("User doesn't exist"));
 
-            User? user = await _repository.User.ChangePassword(email, code, password);
+            User? user = await _repository.User.ChangePassword(email, password);
 
             if (user == null)
                 return BadRequest(new HttpError("Wrong code"));
 
             return Ok();
         }
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteUser(int idUser)
+        {
+            await _repository.User.DeleteUser(idUser);
+            return Ok();
+        }
+
     }
 }
