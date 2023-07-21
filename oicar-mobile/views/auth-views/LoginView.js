@@ -114,7 +114,7 @@ export default function LoginView({ navigation }) {
               Or login with...
             </Text>
             <View style={styles.pictureContainer}>
-              <GoogleLogin />
+              <GoogleLogin navigation={navigation} />
             </View>
           </View>
           <View>

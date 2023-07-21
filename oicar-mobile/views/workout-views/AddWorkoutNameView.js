@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { textInputStyles } from "../../styles/TextInputStyles";

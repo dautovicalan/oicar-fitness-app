@@ -31,7 +31,7 @@ export default function ShowExerciseDetailsView({ route }) {
   const { user } = useUserContext();
   const { exerciseId } = route.params;
 
-  const [chartData, setChartData] = useState(null);
+  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
   const [sets, setSets] = useState("");
   const [repetition, setRepetition] = useState("");
   const [weight, setWeight] = useState("");
@@ -57,7 +57,7 @@ export default function ShowExerciseDetailsView({ route }) {
     }
   }, [data]);
 
-  console.log(data);
+  console.log(chartData);
 
   const handleSubmit = async () => {
     setErrors(null);
@@ -90,18 +90,40 @@ export default function ShowExerciseDetailsView({ route }) {
       );
 
       if (request.status === 200) {
-        Alert.alert("Success", "Data saved successfully");
+        if (chartData.labels.length === 0) {
+          Alert.alert(
+            "Success",
+            "Data saved successfully, please refresh the page to see the changes"
+          );
+          return;
+        }
+
+        if (chartData.labels.length === 4) {
+          const newLabels = chartData.labels.slice(1);
+          const newDatasets = chartData.datasets.map((dataset) => ({
+            ...dataset,
+            data: dataset.data.slice(1),
+          }));
+          setChartData({ labels: newLabels, datasets: newDatasets });
+        }
         setChartData((prevVal) => {
+          const newLabel = format(new Date(), "dd/MM/yyyy");
           const newData = {
-            labels: [...prevVal.labels, format(new Date(), "dd/MM/yyyy")],
-            datasets: [
-              {
-                data: [...prevVal.datasets[0].data, weight],
-              },
-            ],
+            labels: [...prevVal.labels, newLabel],
+            datasets: [],
           };
+
+          if (prevVal.datasets && prevVal.datasets.length > 0) {
+            const firstDataset = prevVal.datasets[0];
+            const newDataPoint = [...firstDataset.data, weight];
+            newData.datasets.push({ data: newDataPoint });
+          } else {
+            newData.datasets.push({ data: [weight] });
+          }
+
           return newData;
         });
+        Alert.alert("Success", "Data saved successfully");
       } else {
         throw new Error("Something went wrong");
       }
@@ -126,7 +148,7 @@ export default function ShowExerciseDetailsView({ route }) {
           <ActivityIndicator animating={true} />
         ) : (
           <View style={style.innerContainer}>
-            {chartData ? (
+            {chartData.labels.length > 0 ? (
               <LineChart
                 style={{ marginHorizontal: 20 }}
                 data={chartData}

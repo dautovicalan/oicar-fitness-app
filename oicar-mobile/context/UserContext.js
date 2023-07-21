@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import useFetch from "../hooks/useFetch";
 
 export const UserContext = React.createContext({
   id: 0,

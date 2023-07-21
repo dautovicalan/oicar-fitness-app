@@ -1,12 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
 
-export default function AddedFoodBox({ food, calories }) {
+export default function AddedFoodBox({ food, calories, deleteFood }) {
   return (
-    <View style={style.container}>
+    <Pressable onLongPress={deleteFood} style={style.container}>
       <Text>{food}</Text>
       <Text>{calories}</Text>
-    </View>
+    </Pressable>
   );
 }
 

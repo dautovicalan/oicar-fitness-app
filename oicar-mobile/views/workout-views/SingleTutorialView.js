@@ -1,7 +1,6 @@
-import { View, StyleSheet, ScrollView, Image } from "react-native";
+import { StyleSheet, ScrollView, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Text } from "react-native-paper";
-import useFetch from "../../hooks/useFetch";
 import { OpenAIApi } from "openai";
 import configuration from "../../config/openai.config";
 import { useUserContext } from "../../context/UserContext";

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View } from "react-native";
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import TabSelector from "./TabSelector";
@@ -22,6 +22,7 @@ export default function WeightPicker({
       </View>
       <View>
         <Picker
+          testID="weight-picker"
           selectedValue={selectedWeight}
           onValueChange={(itemValue, itemIndex) => onWeightChange(itemValue)}
         >

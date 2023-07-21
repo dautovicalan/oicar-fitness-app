@@ -1,8 +1,7 @@
-import { View, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import React, { useState } from "react";
-import { Avatar, Button, List, Switch, TextInput } from "react-native-paper";
+import { Avatar, Button } from "react-native-paper";
 import { Text } from "react-native-paper";
-import AnimatedAccordion from "../../components/boxes/AnimatedAccordion";
 import EditProfile from "../../components/profile/EditProfile";
 import ChangePasswordDialog from "../../components/profile/ChangePasswordDialog";
 import { useUserContext } from "../../context/UserContext";

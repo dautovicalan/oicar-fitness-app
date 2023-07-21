@@ -2,22 +2,11 @@ import React, { useState } from "react";
 import {
   Alert,
   StyleSheet,
-  View,
   TouchableWithoutFeedback,
   Keyboard,
-  Pressable,
-  KeyboardAvoidingView,
 } from "react-native";
-import {
-  Button,
-  Dialog,
-  Portal,
-  Provider,
-  Text,
-  TextInput,
-} from "react-native-paper";
+import { Button, Dialog, Portal, TextInput } from "react-native-paper";
 import { useUserContext } from "../../context/UserContext";
-import { useFocusEffect } from "@react-navigation/native";
 
 const ChangePasswordDialog = ({ visible, setVisible }) => {
   const { user } = useUserContext();
@@ -50,18 +39,16 @@ const ChangePasswordDialog = ({ visible, setVisible }) => {
           body: JSON.stringify({
             email: user.email,
             password: newPassword,
-            code: "",
           }),
         }
       );
-      if (!request.ok) {
-        return Alert.alert("Something went wrong");
-      }
       if (request.status === 200) {
         setNewPassword("");
         setRepeatNewPassword("");
         setVisible();
-        return Alert.alert("Password changed");
+        Alert.alert("Password changed");
+      } else {
+        throw new Error("Something went wrong");
       }
     } catch (error) {
       console.error(error);

@@ -143,7 +143,7 @@ export default function UserInformationView({ navigation }) {
           </View>
           <View style={style.oauthConatiner}>
             <Text variant="titleMedium">Or Register With...</Text>
-            <GoogleLogin />
+            <GoogleLogin navigation={navigation} />
           </View>
           <Button
             mode="contained"

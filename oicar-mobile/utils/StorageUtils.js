@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Utility function to read data from storage
 export const readFromStorage = async (userId) => {
   try {
     const value = await AsyncStorage.getItem(userId);
@@ -12,7 +11,6 @@ export const readFromStorage = async (userId) => {
   }
 };
 
-// Utility function to write data to storage
 export const writeToStorage = async (userId, value) => {
   try {
     await AsyncStorage.setItem(userId, JSON.stringify(value));

@@ -1,13 +1,9 @@
-import { View, StyleSheet, Image, ScrollView, Pressable } from "react-native";
+import { View, StyleSheet, Image, Pressable } from "react-native";
 import React from "react";
 import { Text } from "react-native-paper";
 import { IconButton } from "react-native-paper";
 
-export default function ExerciseMuscleBox({
-  muscleId,
-  muscleName,
-  navigation,
-}) {
+export default function ExerciseMuscleBox({ muscleName, navigation }) {
   return (
     <Pressable onPress={navigation}>
       <View style={styles.container}>

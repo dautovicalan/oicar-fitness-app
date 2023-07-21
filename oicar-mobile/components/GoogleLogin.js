@@ -1,9 +1,12 @@
-import { View, Text, Pressable, Image, Alert } from "react-native";
-import React, { useEffect, useState } from "react";
+import { Pressable, Image } from "react-native";
+import React, { useEffect } from "react";
 import * as Google from "expo-auth-session/providers/google";
+import { useUserContext } from "../context/UserContext";
+import { useRegistrationProcess } from "../context/RegistrationProcessContext";
 
-export default function GoogleLogin() {
-  const [token, setToken] = useState("");
+export default function GoogleLogin({ navigation }) {
+  const { setBasicInfo } = useRegistrationProcess();
+  const { setUserInfo } = useUserContext();
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
@@ -11,7 +14,7 @@ export default function GoogleLogin() {
   });
 
   useEffect(() => {
-    const getUserInfo = async () => {
+    const getUserInfo = async (token) => {
       try {
         const request = await fetch(
           "http://localhost:5280/api/Account/LoginGoogle?accessToken=" + token,
@@ -23,21 +26,39 @@ export default function GoogleLogin() {
           }
         );
 
+        console.log("OVO JE " + request.status);
         if (request.status !== 200) {
-          return Alert.alert("Something went wrong");
+          throw new Error("Something went wrong");
         }
-        const response = await request.json();
-        console.log("POZDRAV " + response);
+        const result = await request.json();
+        if (result?.isRegister && result.isRegister === true) {
+          setUserInfo({
+            id: result.idUser,
+            accessToken: result.accessToken,
+          });
+          return navigation.reset({
+            index: 0,
+            routes: [{ name: "MainApp" }],
+          });
+        }
+
+        setBasicInfo({
+          id: result.idUser,
+          isRegister: result.isRegister,
+        });
+
+        navigation.navigate("Register", {
+          screen: "About You",
+        });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
     if (response?.type === "success") {
-      setToken(response.authentication.idToken);
-      getUserInfo();
+      getUserInfo(response.authentication.idToken);
     }
-  }, [response, token]);
+  }, [response]);
 
   return (
     <Pressable style={style.singlePicture} onPress={() => promptAsync()}>

@@ -36,7 +36,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     height: 0,
     weight: 0,
     goal: "",
-    workoutsNumber: 0,
+    workoutNumberPerWeek: 0,
     newsletter: true,
   });
 
@@ -73,7 +73,7 @@ export const RegistrationProcessContextProvider = ({ children }) => {
     setCurrentNewUser((prevVal) => {
       return {
         ...prevVal,
-        workoutsNumber: workoutsInfo,
+        workoutNumberPerWeek: workoutsInfo,
       };
     });
   };

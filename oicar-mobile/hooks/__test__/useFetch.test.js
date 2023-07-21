@@ -6,10 +6,10 @@ global.fetch = jest.fn();
 describe("useFetch", () => {
   it("should return the initial values for data, error and loading", async () => {
     const { result } = renderHook(() => useFetch());
-    const { data, error, loading } = result.current;
+    const { data, isPending, error } = result.current;
 
     expect(data).toBe(null);
     expect(error).toBe(null);
-    expect(loading).toBe(true);
+    expect(isPending).toBe(true);
   });
 });

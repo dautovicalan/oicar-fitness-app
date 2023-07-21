@@ -1,7 +1,7 @@
 import { View, StyleSheet, Alert, ScrollView } from "react-native";
 import React from "react";
 import { Button } from "react-native-paper";
-import { UserContext, useUserContext } from "../../context/UserContext";
+import { useUserContext } from "../../context/UserContext";
 import { Text } from "react-native-paper";
 
 export default function SettingsView({ navigation }) {
